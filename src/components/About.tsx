@@ -7,18 +7,18 @@ const About = () => {
   const features = [
     {
       icon: Scissors,
-      title: t('language') === 'en' ? 'Expert Barber' : t('language') === 'he' ? 'ספר מומחה' : 'حلاق خبير',
-      description: t('language') === 'en' ? 'Professional techniques' : t('language') === 'he' ? 'טכניקות מקצועיות' : 'تقنيات احترافية',
+      title: t('expertBarber'),
+      description: t('expertBarberDesc'),
     },
     {
       icon: Award,
-      title: t('language') === 'en' ? 'Quality Service' : t('language') === 'he' ? 'שירות איכותי' : 'خدمة عالية الجودة',
-      description: t('language') === 'en' ? 'Attention to detail' : t('language') === 'he' ? 'תשומת לב לפרטים' : 'اهتمام بالتفاصيل',
+      title: t('qualityService'),
+      description: t('qualityServiceDesc'),
     },
     {
       icon: Users,
-      title: t('language') === 'en' ? 'Customer Focus' : t('language') === 'he' ? 'מיקוד בלקוח' : 'التركيز على العميل',
-      description: t('language') === 'en' ? 'Your satisfaction first' : t('language') === 'he' ? 'שביעות רצונך קודם כל' : 'رضاك أولاً',
+      title: t('customerFocus'),
+      description: t('customerFocusDesc'),
     },
   ];
 

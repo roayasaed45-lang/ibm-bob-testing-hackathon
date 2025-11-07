@@ -46,6 +46,14 @@ const translations = {
     location: 'Location',
     openWhatsApp: 'Chat on WhatsApp',
     call: 'Call Now',
+    
+    // Features
+    expertBarber: 'Expert Barber',
+    expertBarberDesc: 'Professional techniques',
+    qualityService: 'Quality Service',
+    qualityServiceDesc: 'Attention to detail',
+    customerFocus: 'Customer Focus',
+    customerFocusDesc: 'Your satisfaction first',
   },
   he: {
     // Navigation
@@ -84,6 +92,14 @@ const translations = {
     location: 'מיקום',
     openWhatsApp: 'שלח הודעה בוואטסאפ',
     call: 'התקשר עכשיו',
+    
+    // Features
+    expertBarber: 'ספר מומחה',
+    expertBarberDesc: 'טכניקות מקצועיות',
+    qualityService: 'שירות איכותי',
+    qualityServiceDesc: 'תשומת לב לפרטים',
+    customerFocus: 'התמקדות בלקוח',
+    customerFocusDesc: 'שביעות רצונך קודם כל',
   },
   ar: {
     // Navigation
@@ -122,6 +138,14 @@ const translations = {
     location: 'الموقع',
     openWhatsApp: 'دردش على واتساب',
     call: 'اتصل الآن',
+    
+    // Features
+    expertBarber: 'حلاق خبير',
+    expertBarberDesc: 'تقنيات احترافية',
+    qualityService: 'خدمة عالية الجودة',
+    qualityServiceDesc: 'اهتمام بالتفاصيل',
+    customerFocus: 'التركيز على العميل',
+    customerFocusDesc: 'رضاك أولاً',
   },
 };
 
