@@ -59,6 +59,11 @@ const translations = {
     chatWithAli: 'Chat with Ali',
     visitLocation: 'Visit us at our location',
     mapComingSoon: 'Map Coming Soon',
+    
+    // Service Features
+    washStyle: 'Wash & Style',
+    professionalTools: 'Professional Tools',
+    expertAdvice: 'Expert Advice',
   },
   he: {
     // Navigation
@@ -110,6 +115,11 @@ const translations = {
     chatWithAli: 'שוחח עם עלי',
     visitLocation: 'בקר אותנו במיקום שלנו',
     mapComingSoon: 'מפה בקרוב',
+    
+    // Service Features
+    washStyle: 'שטיפה ועיצוב',
+    professionalTools: 'כלים מקצועיים',
+    expertAdvice: 'ייעוץ מקצועי',
   },
   ar: {
     // Navigation
@@ -161,6 +171,11 @@ const translations = {
     chatWithAli: 'دردش مع علي',
     visitLocation: 'قم بزيارتنا في موقعنا',
     mapComingSoon: 'الخريطة قريباً',
+    
+    // Service Features
+    washStyle: 'غسيل وتصفيف',
+    professionalTools: 'أدوات احترافية',
+    expertAdvice: 'نصيحة خبيرة',
   },
 };
 

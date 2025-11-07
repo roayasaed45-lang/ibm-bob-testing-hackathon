@@ -30,15 +30,15 @@ const Services = () => {
                 <div className="flex flex-wrap gap-2 justify-center md:justify-start pt-2">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-primary" />
-                    <span>{t('language') === 'en' ? 'Wash & Style' : t('language') === 'he' ? 'שטיפה ועיצוב' : 'غسيل وتصفيف'}</span>
+                    <span>{t('washStyle')}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-primary" />
-                    <span>{t('language') === 'en' ? 'Professional Tools' : t('language') === 'he' ? 'כלים מקצועיים' : 'أدوات احترافية'}</span>
+                    <span>{t('professionalTools')}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <CheckCircle className="w-4 h-4 text-primary" />
-                    <span>{t('language') === 'en' ? 'Expert Advice' : t('language') === 'he' ? 'ייעוץ מקצועי' : 'نصيحة خبيرة'}</span>
+                    <span>{t('expertAdvice')}</span>
                   </div>
                 </div>
               </div>
