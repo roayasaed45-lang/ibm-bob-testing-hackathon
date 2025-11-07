@@ -1,16 +1,38 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Phone, MapPin, MessageCircle } from 'lucide-react';
+import { Phone, MapPin, MessageCircle, Copy } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { useToast } from '@/hooks/use-toast';
 
 const Contact = () => {
   const { t } = useLanguage();
+  const { toast } = useToast();
 
   const phoneNumber = '+972543462259';
-  const whatsappNumber = phoneNumber.replace(/[^0-9]/g, '');
-  const whatsappMessage = encodeURIComponent('היי, אני רוצה לקבוע תור');
-  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
+  const whatsappNumber = '972543462259';
   const telLink = `tel:${phoneNumber}`;
+
+  const handleWhatsAppClick = () => {
+    // Try to open WhatsApp directly without going through their API
+    const message = 'היי, אני רוצה לקבוע תור';
+    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
+  };
+
+  const copyPhoneNumber = async () => {
+    try {
+      await navigator.clipboard.writeText(phoneNumber);
+      toast({
+        title: t('success'),
+        description: 'מספר הטלפון הועתק ללוח',
+      });
+    } catch (err) {
+      toast({
+        variant: 'destructive',
+        title: t('error'),
+        description: 'לא ניתן להעתיק את המספר',
+      });
+    }
+  };
 
   return (
     <section id="contact" className="py-20 bg-background">
@@ -65,17 +87,24 @@ const Contact = () => {
                     {t('whatsapp')}
                   </h3>
                   <p className="text-muted-foreground mb-3">
-                    {t('chatWithAli')}
+                    {phoneNumber}
                   </p>
-                  <Button
-                    asChild
-                    className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
-                  >
-                    <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={handleWhatsAppClick}
+                      className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                    >
                       <MessageCircle className="w-4 h-4 me-2" />
                       {t('openWhatsApp')}
-                    </a>
-                  </Button>
+                    </Button>
+                    <Button
+                      onClick={copyPhoneNumber}
+                      variant="outline"
+                      size="icon"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>
