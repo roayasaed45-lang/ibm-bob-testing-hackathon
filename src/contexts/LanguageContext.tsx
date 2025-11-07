@@ -54,6 +54,11 @@ const translations = {
     qualityServiceDesc: 'Attention to detail',
     customerFocus: 'Customer Focus',
     customerFocusDesc: 'Your satisfaction first',
+    
+    // Contact Details
+    chatWithAli: 'Chat with Ali',
+    visitLocation: 'Visit us at our location',
+    mapComingSoon: 'Map Coming Soon',
   },
   he: {
     // Navigation
@@ -100,6 +105,11 @@ const translations = {
     qualityServiceDesc: 'תשומת לב לפרטים',
     customerFocus: 'התמקדות בלקוח',
     customerFocusDesc: 'שביעות רצונך קודם כל',
+    
+    // Contact Details
+    chatWithAli: 'שוחח עם עלי',
+    visitLocation: 'בקר אותנו במיקום שלנו',
+    mapComingSoon: 'מפה בקרוב',
   },
   ar: {
     // Navigation
@@ -146,6 +156,11 @@ const translations = {
     qualityServiceDesc: 'اهتمام بالتفاصيل',
     customerFocus: 'التركيز على العميل',
     customerFocusDesc: 'رضاك أولاً',
+    
+    // Contact Details
+    chatWithAli: 'دردش مع علي',
+    visitLocation: 'قم بزيارتنا في موقعنا',
+    mapComingSoon: 'الخريطة قريباً',
   },
 };
 

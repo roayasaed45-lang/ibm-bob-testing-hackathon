@@ -63,7 +63,7 @@ const Contact = () => {
                     {t('whatsapp')}
                   </h3>
                   <p className="text-muted-foreground mb-3">
-                    {t('language') === 'en' ? 'Chat with Ali' : t('language') === 'he' ? 'שוחח עם עלי' : 'دردش مع علي'}
+                    {t('chatWithAli')}
                   </p>
                   <Button
                     asChild
@@ -89,14 +89,14 @@ const Contact = () => {
                     {t('location')}
                   </h3>
                   <p className="text-muted-foreground">
-                    {t('language') === 'en' ? 'Visit us at our location' : t('language') === 'he' ? 'בקר אותנו במיקום שלנו' : 'قم بزيارتنا في موقعنا'}
+                    {t('visitLocation')}
                   </p>
                 </div>
               </div>
               <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center">
                 <div className="text-center text-muted-foreground">
                   <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>{t('language') === 'en' ? 'Map Coming Soon' : t('language') === 'he' ? 'מפה בקרוב' : 'الخريطة قريباً'}</p>
+                  <p>{t('mapComingSoon')}</p>
                 </div>
               </div>
             </Card>
