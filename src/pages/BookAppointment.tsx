@@ -201,6 +201,17 @@ const BookAppointment = () => {
                 />
               </div>
 
+              {serviceType && (
+                <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-semibold text-foreground">{t('totalPrice')}</span>
+                    <span className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+                      {serviceType === 'haircut' ? t('haircutPrice') : t('childHaircutPrice')}
+                    </span>
+                  </div>
+                </div>
+              )}
+
               <Button
                 type="submit"
                 className="w-full bg-primary text-primary-foreground hover:bg-primary/90"

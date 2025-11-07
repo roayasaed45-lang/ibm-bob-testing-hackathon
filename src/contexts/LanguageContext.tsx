@@ -123,6 +123,7 @@ const translations = {
     confirmed: 'Confirmed',
     completed: 'Completed',
     cancelled: 'Cancelled',
+    totalPrice: 'Total Price',
   },
   he: {
     // Navigation
@@ -238,6 +239,7 @@ const translations = {
     confirmed: 'מאושר',
     completed: 'הושלם',
     cancelled: 'בוטל',
+    totalPrice: 'סה"כ מחיר',
   },
   ar: {
     // Navigation
@@ -353,6 +355,7 @@ const translations = {
     confirmed: 'مؤكد',
     completed: 'مكتمل',
     cancelled: 'ملغى',
+    totalPrice: 'السعر الإجمالي',
   },
 };
 
