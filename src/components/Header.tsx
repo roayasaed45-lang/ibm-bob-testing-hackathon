@@ -32,7 +32,7 @@ const Header = () => {
           >
             <Scissors className="w-6 h-6 text-primary" />
             <span className="text-xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-              Ale Barber
+              {t('shopName')}
             </span>
           </button>
 

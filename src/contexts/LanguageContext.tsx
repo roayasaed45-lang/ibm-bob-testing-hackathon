@@ -11,6 +11,7 @@ interface LanguageContextType {
 const translations = {
   en: {
     // Navigation
+    shopName: 'Ale Barber',
     home: 'Home',
     about: 'About',
     services: 'Services',
@@ -48,6 +49,7 @@ const translations = {
   },
   he: {
     // Navigation
+    shopName: 'מספרת עלי',
     home: 'בית',
     about: 'אודות',
     services: 'שירותים',
@@ -85,6 +87,7 @@ const translations = {
   },
   ar: {
     // Navigation
+    shopName: 'صالون علي للحلاقة',
     home: 'الرئيسية',
     about: 'من نحن',
     services: 'الخدمات',
