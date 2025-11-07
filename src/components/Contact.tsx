@@ -7,7 +7,9 @@ const Contact = () => {
   const { t } = useLanguage();
 
   const phoneNumber = '+972543462259';
-  const whatsappLink = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}`;
+  const whatsappNumber = phoneNumber.replace(/[^0-9]/g, '');
+  const whatsappMessage = encodeURIComponent('היי, אני רוצה לקבוע תור');
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
   const telLink = `tel:${phoneNumber}`;
 
   return (
