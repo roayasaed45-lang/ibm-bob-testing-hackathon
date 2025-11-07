@@ -44,16 +44,36 @@ const Auth = () => {
       : await signUp(email, password);
 
     if (error) {
+      let errorMessage = error.message;
+      
+      // Provide more helpful error messages
+      if (error.message.includes('Invalid login credentials')) {
+        errorMessage = isLogin 
+          ? t('invalidCredentials')
+          : error.message;
+      } else if (error.message.includes('User already registered')) {
+        errorMessage = t('userExists');
+      }
+      
       toast({
         variant: 'destructive',
         title: t('error'),
-        description: error.message,
+        description: errorMessage,
       });
     } else {
       toast({
         title: t('success'),
         description: isLogin ? t('welcomeBack') : t('accountCreated'),
       });
+      
+      if (!isLogin) {
+        // Show additional message for new signups
+        toast({
+          title: t('accountCreated'),
+          description: t('canLoginNow'),
+        });
+      }
+      
       navigate('/');
     }
     setLoading(false);

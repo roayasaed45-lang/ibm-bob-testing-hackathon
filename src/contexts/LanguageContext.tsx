@@ -82,6 +82,9 @@ const translations = {
     haveAccount: 'Already have an account? Login',
     welcomeBack: 'Welcome back!',
     accountCreated: 'Account created successfully!',
+    invalidCredentials: 'Email or password is incorrect. Please try again or create a new account.',
+    userExists: 'This email is already registered. Please login instead.',
+    canLoginNow: 'You can now login with your credentials.',
     
     // Appointments
     bookAppointment: 'Book Appointment',
@@ -194,6 +197,9 @@ const translations = {
     haveAccount: 'יש לך חשבון? התחבר',
     welcomeBack: 'ברוך שובך!',
     accountCreated: 'החשבון נוצר בהצלחה!',
+    invalidCredentials: 'האימייל או הסיסמה שגויים. נסה שוב או צור חשבון חדש.',
+    userExists: 'האימייל הזה כבר רשום. אנא התחבר במקום.',
+    canLoginNow: 'כעת תוכל להתחבר עם הפרטים שלך.',
     
     // Appointments
     bookAppointment: 'קביעת תור',
@@ -306,6 +312,9 @@ const translations = {
     haveAccount: 'لديك حساب؟ سجل الدخول',
     welcomeBack: 'مرحباً بعودتك!',
     accountCreated: 'تم إنشاء الحساب بنجاح!',
+    invalidCredentials: 'البريد الإلكتروني أو كلمة المرور غير صحيحة. حاول مرة أخرى أو أنشئ حساباً جديداً.',
+    userExists: 'هذا البريد الإلكتروني مسجل بالفعل. يرجى تسجيل الدخول بدلاً من ذلك.',
+    canLoginNow: 'يمكنك الآن تسجيل الدخول باستخدام بيانات الاعتماد الخاصة بك.',
     
     // Appointments
     bookAppointment: 'حجز موعد',
