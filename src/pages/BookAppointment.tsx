@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -27,6 +27,8 @@ const BookAppointment = () => {
   const [time, setTime] = useState('');
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
+  const [bookedSlots, setBookedSlots] = useState<string[]>([]);
+  const [loadingSlots, setLoadingSlots] = useState(false);
 
   // Generate time slots (10:00 - 21:00, every 30 minutes)
   const generateTimeSlots = () => {
@@ -38,7 +40,40 @@ const BookAppointment = () => {
     return slots;
   };
 
-  const timeSlots = generateTimeSlots();
+  const allTimeSlots = generateTimeSlots();
+
+  // Fetch booked slots when date changes
+  useEffect(() => {
+    if (date) {
+      fetchBookedSlots();
+    } else {
+      setBookedSlots([]);
+    }
+  }, [date]);
+
+  const fetchBookedSlots = async () => {
+    if (!date) return;
+    
+    setLoadingSlots(true);
+    const { data, error } = await supabase
+      .from('appointments')
+      .select('appointment_time')
+      .eq('appointment_date', format(date, 'yyyy-MM-dd'));
+
+    if (!error && data) {
+      // Extract just the time part (HH:MM) from the time strings
+      const slots = data.map(app => {
+        const timeStr = app.appointment_time;
+        // Handle both "HH:MM:SS" and "HH:MM" formats
+        return timeStr.substring(0, 5);
+      });
+      setBookedSlots(slots);
+    }
+    setLoadingSlots(false);
+  };
+
+  // Filter available time slots
+  const availableTimeSlots = allTimeSlots.filter(slot => !bookedSlots.includes(slot));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -164,21 +199,40 @@ const BookAppointment = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="time">{t('appointmentTime')}</Label>
-                <Select value={time} onValueChange={setTime} required>
+                <Select value={time} onValueChange={setTime} required disabled={!date || loadingSlots}>
                   <SelectTrigger>
-                    <SelectValue placeholder={t('selectTime')} />
+                    <SelectValue placeholder={
+                      !date 
+                        ? t('pickDate') 
+                        : loadingSlots 
+                          ? t('loading') 
+                          : availableTimeSlots.length === 0 
+                            ? t('noAvailableSlots') || 'אין שעות פנויות'
+                            : t('selectTime')
+                    } />
                   </SelectTrigger>
                   <SelectContent>
-                    {timeSlots.map((slot) => (
-                      <SelectItem key={slot} value={slot}>
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4" />
-                          {slot}
-                        </div>
-                      </SelectItem>
-                    ))}
+                    {availableTimeSlots.length === 0 ? (
+                      <div className="p-4 text-center text-muted-foreground text-sm">
+                        {t('noAvailableSlots') || 'אין שעות פנויות ביום זה'}
+                      </div>
+                    ) : (
+                      availableTimeSlots.map((slot) => (
+                        <SelectItem key={slot} value={slot}>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4" />
+                            {slot}
+                          </div>
+                        </SelectItem>
+                      ))
+                    )}
                   </SelectContent>
                 </Select>
+                {date && availableTimeSlots.length > 0 && (
+                  <p className="text-xs text-muted-foreground">
+                    {availableTimeSlots.length} {t('availableSlots') || 'שעות פנויות'}
+                  </p>
+                )}
               </div>
 
               <div className="space-y-2">
