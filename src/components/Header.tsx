@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import { Menu, X, Scissors } from 'lucide-react';
+import { Menu, X, Scissors, LogIn, LogOut, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -69,6 +73,38 @@ const Header = () => {
               {t('contact')}
             </button>
 
+            {/* Book Appointment Button */}
+            {user && (
+              <Button
+                onClick={() => navigate('/appointments')}
+                variant="outline"
+                className="flex items-center gap-2"
+              >
+                <Calendar className="w-4 h-4" />
+                {t('myAppointments')}
+              </Button>
+            )}
+
+            {/* Auth Button */}
+            {user ? (
+              <Button
+                onClick={signOut}
+                variant="ghost"
+                className="flex items-center gap-2"
+              >
+                <LogOut className="w-4 h-4" />
+                {t('logout')}
+              </Button>
+            ) : (
+              <Button
+                onClick={() => navigate('/auth')}
+                className="bg-primary text-primary-foreground hover:bg-primary/90 flex items-center gap-2"
+              >
+                <LogIn className="w-4 h-4" />
+                {t('login')}
+              </Button>
+            )}
+
             {/* Language Switcher */}
             <div className="flex items-center gap-1 border border-border rounded-lg p-1">
               {languages.map((lang) => (
@@ -130,6 +166,47 @@ const Header = () => {
               >
                 {t('contact')}
               </button>
+
+              {/* Mobile Auth Buttons */}
+              <div className="pt-2 border-t border-border space-y-2">
+                {user ? (
+                  <>
+                    <Button
+                      onClick={() => {
+                        navigate('/appointments');
+                        setIsOpen(false);
+                      }}
+                      variant="outline"
+                      className="w-full"
+                    >
+                      <Calendar className="w-4 h-4 me-2" />
+                      {t('myAppointments')}
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        signOut();
+                        setIsOpen(false);
+                      }}
+                      variant="ghost"
+                      className="w-full"
+                    >
+                      <LogOut className="w-4 h-4 me-2" />
+                      {t('logout')}
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      navigate('/auth');
+                      setIsOpen(false);
+                    }}
+                    className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                  >
+                    <LogIn className="w-4 h-4 me-2" />
+                    {t('login')}
+                  </Button>
+                )}
+              </div>
 
               {/* Mobile Language Switcher */}
               <div className="flex items-center gap-2 pt-2 border-t border-border">
