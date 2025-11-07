@@ -55,7 +55,7 @@ const translations = {
     contact: 'צור קשר',
     
     // Hero
-    heroTitle: 'אלה ברבר שופ',
+    heroTitle: 'מספרת עלי',
     heroSubtitle: 'טיפוח מקצועי לגברים',
     heroDescription: 'חווה את אמנות הספרות המסורתית עם סטייל מודרני',
     bookNow: 'קבע תור',
