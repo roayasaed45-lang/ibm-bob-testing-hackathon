@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -32,50 +33,32 @@ interface Appointment {
 }
 
 const Appointments = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t } = useLanguage();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
-
-  // Redirect if not logged in
-  if (!user) {
-    navigate('/auth');
-    return null;
-  }
-
-  useEffect(() => {
-    fetchAppointments();
-
-    // Set up realtime subscription
-    const channel = supabase
-      .channel('appointments-changes')
-      .on(
-        'postgres_changes',
-        {
-          event: '*',
-          schema: 'public',
-          table: 'appointments',
-          filter: `user_id=eq.${user.id}`,
-        },
-        () => {
-          fetchAppointments();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [user.id]);
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [searchAttempted, setSearchAttempted] = useState(false);
 
   const fetchAppointments = async () => {
+    if (!phoneNumber.trim()) {
+      toast({
+        variant: 'destructive',
+        title: t('error'),
+        description: t('enterPhone'),
+      });
+      return;
+    }
+
+    setLoading(true);
+    setSearchAttempted(true);
+    
     const { data, error } = await supabase
       .from('appointments')
       .select('*')
-      .eq('user_id', user.id)
+      .eq('customer_phone', phoneNumber.trim())
       .order('appointment_date', { ascending: true })
       .order('appointment_time', { ascending: true });
 
@@ -129,17 +112,6 @@ const Appointments = () => {
     );
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <Scissors className="w-12 h-12 text-primary animate-pulse mx-auto mb-2" />
-          <p className="text-muted-foreground">{t('loading')}</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-background py-20">
       <div className="container mx-auto px-4">
@@ -158,7 +130,31 @@ const Appointments = () => {
             </Button>
           </div>
 
-          {appointments.length === 0 ? (
+          {/* Phone Number Search */}
+          <Card className="p-6 mb-8">
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="search-phone">{t('phoneNumber')}</Label>
+                <Input
+                  id="search-phone"
+                  type="tel"
+                  placeholder={t('enterPhone')}
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && fetchAppointments()}
+                />
+              </div>
+              <Button
+                onClick={fetchAppointments}
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                disabled={loading}
+              >
+                {loading ? t('loading') : t('searchAppointments') || 'חפש תורים'}
+              </Button>
+            </div>
+          </Card>
+
+          {searchAttempted && appointments.length === 0 ? (
             <Card className="p-12 text-center">
               <Scissors className="w-16 h-16 text-muted-foreground mx-auto mb-4 opacity-50" />
               <h3 className="text-xl font-semibold text-card-foreground mb-2">

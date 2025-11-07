@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -17,7 +16,6 @@ import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 
 const BookAppointment = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -29,12 +27,6 @@ const BookAppointment = () => {
   const [time, setTime] = useState('');
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // Redirect if not logged in
-  if (!user) {
-    navigate('/auth');
-    return null;
-  }
 
   // Generate time slots (10:00 - 21:00, every 30 minutes)
   const generateTimeSlots = () => {
@@ -63,7 +55,6 @@ const BookAppointment = () => {
     }
 
     const { error } = await supabase.from('appointments').insert({
-      user_id: user.id,
       customer_name: customerName,
       customer_phone: customerPhone,
       service_type: serviceType,
