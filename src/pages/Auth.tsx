@@ -11,7 +11,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { signIn, signUp, user } = useAuth();
@@ -29,7 +29,7 @@ const Auth = () => {
     e.preventDefault();
     setLoading(true);
 
-    if (!email || !password) {
+    if (!phone || !password) {
       toast({
         variant: 'destructive',
         title: t('error'),
@@ -40,8 +40,8 @@ const Auth = () => {
     }
 
     const { error } = isLogin 
-      ? await signIn(email, password)
-      : await signUp(email, password);
+      ? await signIn(phone, password)
+      : await signUp(phone, password);
 
     if (error) {
       let errorMessage = error.message;
@@ -94,13 +94,13 @@ const Auth = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">{t('email')}</Label>
+            <Label htmlFor="phone">{t('phoneNumber')}</Label>
             <Input
-              id="email"
-              type="email"
-              placeholder={t('enterEmail')}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="phone"
+              type="tel"
+              placeholder={t('enterPhone')}
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               required
             />
           </div>

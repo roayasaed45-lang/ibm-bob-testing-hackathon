@@ -72,9 +72,7 @@ const translations = {
     login: 'Login',
     logout: 'Logout',
     signup: 'Sign Up',
-    email: 'Email',
     password: 'Password',
-    enterEmail: 'Enter your email',
     enterPassword: 'Enter your password',
     loginToAccount: 'Login to your account',
     createAccount: 'Create a new account',
@@ -82,8 +80,8 @@ const translations = {
     haveAccount: 'Already have an account? Login',
     welcomeBack: 'Welcome back!',
     accountCreated: 'Account created successfully!',
-    invalidCredentials: 'Email or password is incorrect. Please try again or create a new account.',
-    userExists: 'This email is already registered. Please login instead.',
+    invalidCredentials: 'Phone or password is incorrect. Please try again or create a new account.',
+    userExists: 'This phone is already registered. Please login instead.',
     canLoginNow: 'You can now login with your credentials.',
     
     // Appointments
@@ -188,9 +186,7 @@ const translations = {
     login: 'התחברות',
     logout: 'התנתקות',
     signup: 'הרשמה',
-    email: 'אימייל',
     password: 'סיסמה',
-    enterEmail: 'הזן אימייל',
     enterPassword: 'הזן סיסמה',
     loginToAccount: 'התחבר לחשבון שלך',
     createAccount: 'צור חשבון חדש',
@@ -198,8 +194,8 @@ const translations = {
     haveAccount: 'יש לך חשבון? התחבר',
     welcomeBack: 'ברוך שובך!',
     accountCreated: 'החשבון נוצר בהצלחה!',
-    invalidCredentials: 'האימייל או הסיסמה שגויים. נסה שוב או צור חשבון חדש.',
-    userExists: 'האימייל הזה כבר רשום. אנא התחבר במקום.',
+    invalidCredentials: 'מספר הטלפון או הסיסמה שגויים. נסה שוב או צור חשבון חדש.',
+    userExists: 'מספר הטלפון הזה כבר רשום. אנא התחבר במקום.',
     canLoginNow: 'כעת תוכל להתחבר עם הפרטים שלך.',
     
     // Appointments
@@ -304,9 +300,7 @@ const translations = {
     login: 'تسجيل الدخول',
     logout: 'تسجيل الخروج',
     signup: 'إنشاء حساب',
-    email: 'البريد الإلكتروني',
     password: 'كلمة المرور',
-    enterEmail: 'أدخل بريدك الإلكتروني',
     enterPassword: 'أدخل كلمة المرور',
     loginToAccount: 'تسجيل الدخول إلى حسابك',
     createAccount: 'إنشاء حساب جديد',
@@ -314,8 +308,8 @@ const translations = {
     haveAccount: 'لديك حساب؟ سجل الدخول',
     welcomeBack: 'مرحباً بعودتك!',
     accountCreated: 'تم إنشاء الحساب بنجاح!',
-    invalidCredentials: 'البريد الإلكتروني أو كلمة المرور غير صحيحة. حاول مرة أخرى أو أنشئ حساباً جديداً.',
-    userExists: 'هذا البريد الإلكتروني مسجل بالفعل. يرجى تسجيل الدخول بدلاً من ذلك.',
+    invalidCredentials: 'رقم الهاتف أو كلمة المرور غير صحيحة. حاول مرة أخرى أو أنشئ حساباً جديداً.',
+    userExists: 'رقم الهاتف هذا مسجل بالفعل. يرجى تسجيل الدخول بدلاً من ذلك.',
     canLoginNow: 'يمكنك الآن تسجيل الدخول باستخدام بيانات الاعتماد الخاصة بك.',
     
     // Appointments
