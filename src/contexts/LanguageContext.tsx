@@ -34,7 +34,7 @@ const translations = {
     haircutPrice: '50 ₪',
     haircutDesc: 'Professional men\'s haircut with styling',
     childHaircut: 'Child Haircut',
-    childHaircutPrice: '30 ₪',
+    childHaircutPrice: '40 ₪',
     childHaircutDesc: 'Haircut for small children',
     
     // Gallery
@@ -148,7 +148,7 @@ const translations = {
     haircutPrice: '50 ₪',
     haircutDesc: 'תספורת מקצועית לגברים עם עיצוב',
     childHaircut: 'תספורת לילד',
-    childHaircutPrice: '30 ₪',
+    childHaircutPrice: '40 ₪',
     childHaircutDesc: 'תספורת לילדים קטנים',
     
     // Gallery
@@ -262,7 +262,7 @@ const translations = {
     haircutPrice: '50 ₪',
     haircutDesc: 'قص شعر احترافي للرجال مع التصفيف',
     childHaircut: 'قص شعر للأطفال',
-    childHaircutPrice: '30 ₪',
+    childHaircutPrice: '40 ₪',
     childHaircutDesc: 'قص شعر للأطفال الصغار',
     
     // Gallery
