@@ -2,7 +2,8 @@ import { MessageCircle } from 'lucide-react';
 
 const WhatsAppFloat = () => {
   const handleClick = () => {
-    window.open('https://wa.me/972543462259', '_blank');
+    const message = 'שלום רוצה לתאם תור ב-Ale Barber';
+    window.open(`https://wa.me/972543462259?text=${encodeURIComponent(message)}`, '_blank');
   };
 
   return (

@@ -13,8 +13,7 @@ const Contact = () => {
   const telLink = `tel:${phoneNumber}`;
 
   const handleWhatsAppClick = () => {
-    // Try to open WhatsApp directly without going through their API
-    const message = 'היי, אני רוצה לקבוע תור';
+    const message = 'שלום רוצה לתאם תור ב-Ale Barber';
     window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
   };
 
