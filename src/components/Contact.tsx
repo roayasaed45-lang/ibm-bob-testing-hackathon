@@ -13,8 +13,7 @@ const Contact = () => {
   const telLink = `tel:${phoneNumber}`;
 
   const handleWhatsAppClick = () => {
-    const message = 'שלום רוצה לתאם תור ב-Ale Barber';
-    window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`, '_blank');
+    window.open(`https://wa.me/${whatsappNumber}`, '_blank');
   };
 
   const copyPhoneNumber = async () => {
