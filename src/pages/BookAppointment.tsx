@@ -164,6 +164,7 @@ const BookAppointment = () => {
                     <SelectItem value="haircut">{t('haircut')}</SelectItem>
                     <SelectItem value="child-haircut">{t('childHaircut')}</SelectItem>
                     <SelectItem value="straightening">{t('straightening')}</SelectItem>
+                    <SelectItem value="facial-mask">{t('facialMask')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -256,7 +257,9 @@ const BookAppointment = () => {
                         ? t('haircutPrice') 
                         : serviceType === 'child-haircut' 
                           ? t('childHaircutPrice')
-                          : t('straighteningPrice')}
+                          : serviceType === 'straightening'
+                            ? t('straighteningPrice')
+                            : t('facialMaskPrice')}
                     </span>
                   </div>
                 </div>

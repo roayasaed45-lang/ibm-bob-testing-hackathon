@@ -39,6 +39,9 @@ const translations = {
     straightening: 'Hair Straightening',
     straighteningPrice: '100 ₪',
     straighteningDesc: 'Professional hair straightening treatment',
+    facialMask: 'Facial Mask',
+    facialMaskPrice: '100 ₪',
+    facialMaskDesc: 'Deep cleansing facial mask treatment',
     
     // Gallery
     galleryTitle: 'Gallery',
@@ -156,6 +159,9 @@ const translations = {
     straightening: 'החלקה',
     straighteningPrice: '100 ₪',
     straighteningDesc: 'טיפול החלקה מקצועי לשיער',
+    facialMask: 'מסיכת פנים',
+    facialMaskPrice: '100 ₪',
+    facialMaskDesc: 'טיפול מסיכת פנים מנקה לעומק',
     
     // Gallery
     galleryTitle: 'גלריה',
@@ -273,6 +279,9 @@ const translations = {
     straightening: 'تمليس الشعر',
     straighteningPrice: '100 ₪',
     straighteningDesc: 'علاج تمليس الشعر الاحترافي',
+    facialMask: 'قناع الوجه',
+    facialMaskPrice: '100 ₪',
+    facialMaskDesc: 'علاج قناع الوجه للتنظيف العميق',
     
     // Gallery
     galleryTitle: 'المعرض',
