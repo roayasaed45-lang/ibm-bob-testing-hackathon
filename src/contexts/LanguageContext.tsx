@@ -36,6 +36,9 @@ const translations = {
     childHaircut: 'Child Haircut',
     childHaircutPrice: '40 ₪',
     childHaircutDesc: 'Haircut for small children',
+    straightening: 'Hair Straightening',
+    straighteningPrice: '100 ₪',
+    straighteningDesc: 'Professional hair straightening treatment',
     
     // Gallery
     galleryTitle: 'Gallery',
@@ -150,6 +153,9 @@ const translations = {
     childHaircut: 'תספורת לילד',
     childHaircutPrice: '40 ₪',
     childHaircutDesc: 'תספורת לילדים קטנים',
+    straightening: 'החלקה',
+    straighteningPrice: '100 ₪',
+    straighteningDesc: 'טיפול החלקה מקצועי לשיער',
     
     // Gallery
     galleryTitle: 'גלריה',
@@ -264,6 +270,9 @@ const translations = {
     childHaircut: 'قص شعر للأطفال',
     childHaircutPrice: '40 ₪',
     childHaircutDesc: 'قص شعر للأطفال الصغار',
+    straightening: 'تمليس الشعر',
+    straighteningPrice: '100 ₪',
+    straighteningDesc: 'علاج تمليس الشعر الاحترافي',
     
     // Gallery
     galleryTitle: 'المعرض',

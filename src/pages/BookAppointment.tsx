@@ -163,6 +163,7 @@ const BookAppointment = () => {
                   <SelectContent>
                     <SelectItem value="haircut">{t('haircut')}</SelectItem>
                     <SelectItem value="child-haircut">{t('childHaircut')}</SelectItem>
+                    <SelectItem value="straightening">{t('straightening')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -251,7 +252,11 @@ const BookAppointment = () => {
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-foreground">{t('totalPrice')}</span>
                     <span className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-                      {serviceType === 'haircut' ? t('haircutPrice') : t('childHaircutPrice')}
+                      {serviceType === 'haircut' 
+                        ? t('haircutPrice') 
+                        : serviceType === 'child-haircut' 
+                          ? t('childHaircutPrice')
+                          : t('straighteningPrice')}
                     </span>
                   </div>
                 </div>
