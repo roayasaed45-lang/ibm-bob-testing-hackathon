@@ -34,6 +34,22 @@ const Contact = () => {
     }
   };
 
+  const copyInstagram = async () => {
+    try {
+      await navigator.clipboard.writeText('@ale_shnaa');
+      toast({
+        title: t('success'),
+        description: 'שם המשתמש הועתק ללוח',
+      });
+    } catch (err) {
+      toast({
+        variant: 'destructive',
+        title: t('error'),
+        description: 'לא ניתן להעתיק',
+      });
+    }
+  };
+
   return (
     <section id="contact" className="py-20 bg-background">
       <div className="container mx-auto px-4">
@@ -64,15 +80,22 @@ const Contact = () => {
                   >
                     {phoneNumber}
                   </a>
-                  <div className="mt-3">
+                  <div className="mt-3 flex gap-2">
                     <Button
                       asChild
-                      className="w-full bg-[#34C759] text-white hover:bg-[#2DB84D]"
+                      className="flex-1 bg-[#34C759] text-white hover:bg-[#2DB84D]"
                     >
                       <a href={telLink}>
                         <img src={phoneIcon} alt="" className="w-4 h-4 me-2" />
                         {t('call')}
                       </a>
+                    </Button>
+                    <Button
+                      onClick={copyPhoneNumber}
+                      variant="outline"
+                      size="icon"
+                    >
+                      <Copy className="w-4 h-4" />
                     </Button>
                   </div>
                 </div>
@@ -117,19 +140,28 @@ const Contact = () => {
                     Instagram
                   </h3>
                   <p className="text-muted-foreground mb-3">@ale_shnaa</p>
-                  <Button
-                    asChild
-                    className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white hover:opacity-90"
-                  >
-                    <a
-                      href="https://www.instagram.com/ale_shnaa"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                  <div className="flex gap-2">
+                    <Button
+                      asChild
+                      className="flex-1 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white hover:opacity-90"
                     >
-                      <Instagram className="w-4 h-4 me-2" />
-                      {t('openInstagram')}
-                    </a>
-                  </Button>
+                      <a
+                        href="https://www.instagram.com/ale_shnaa"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Instagram className="w-4 h-4 me-2" />
+                        {t('openInstagram')}
+                      </a>
+                    </Button>
+                    <Button
+                      onClick={copyInstagram}
+                      variant="outline"
+                      size="icon"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>
