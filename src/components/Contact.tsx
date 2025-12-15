@@ -107,7 +107,7 @@ const Contact = () => {
               </div>
             </Card>
 
-            {/* Map Placeholder */}
+            {/* Map */}
             <Card className="p-6 shadow-card">
               <div className="flex items-start gap-4 mb-4">
                 <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
@@ -122,12 +122,31 @@ const Contact = () => {
                   </p>
                 </div>
               </div>
-              <div className="w-full h-64 bg-muted rounded-lg flex items-center justify-center">
-                <div className="text-center text-muted-foreground">
-                  <MapPin className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                  <p>{t('mapComingSoon')}</p>
-                </div>
+              <div className="w-full h-64 rounded-lg overflow-hidden mb-4">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3340.7!2d35.3166!3d32.9399!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMzLCsDU2JzIzLjkiTiAzNcKwMTgnNTkuOCJF!5e0!3m2!1sen!2s!4v1"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Ale Barber Shop Location"
+                />
               </div>
+              <Button
+                asChild
+                className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
+              >
+                <a
+                  href="https://maps.app.goo.gl/F4FXMa5MMYzpdE44A"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MapPin className="w-4 h-4 me-2" />
+                  {t('openInMaps')}
+                </a>
+              </Button>
             </Card>
           </div>
         </div>

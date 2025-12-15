@@ -66,7 +66,8 @@ const translations = {
     
     // Contact Details
     chatWithAli: 'Chat with Ali',
-    visitLocation: 'Visit us at our location',
+    visitLocation: 'Nahf, Israel',
+    openInMaps: 'Open in Google Maps',
     mapComingSoon: 'Map Coming Soon',
     
     // Service Features
@@ -186,7 +187,8 @@ const translations = {
     
     // Contact Details
     chatWithAli: 'שוחח עם עלי',
-    visitLocation: 'בקר אותנו במיקום שלנו',
+    visitLocation: 'נחף, ישראל',
+    openInMaps: 'פתח בגוגל מפות',
     mapComingSoon: 'מפה בקרוב',
     
     // Service Features
@@ -306,7 +308,8 @@ const translations = {
     
     // Contact Details
     chatWithAli: 'دردش مع علي',
-    visitLocation: 'قم بزيارتنا في موقعنا',
+    visitLocation: 'نحف، إسرائيل',
+    openInMaps: 'افتح في خرائط جوجل',
     mapComingSoon: 'الخريطة قريباً',
     
     // Service Features
