@@ -134,19 +134,35 @@ const Contact = () => {
                   title="Ale Barber Shop Location"
                 />
               </div>
-              <Button
-                asChild
-                className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
-              >
-                <a
-                  href="https://maps.app.goo.gl/F4FXMa5MMYzpdE44A"
-                  target="_blank"
-                  rel="noopener noreferrer"
+              <div className="flex gap-2">
+                <Button
+                  asChild
+                  className="flex-1 bg-accent text-accent-foreground hover:bg-accent/90"
                 >
-                  <MapPin className="w-4 h-4 me-2" />
-                  {t('openInMaps')}
-                </a>
-              </Button>
+                  <a
+                    href="https://maps.app.goo.gl/F4FXMa5MMYzpdE44A"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <MapPin className="w-4 h-4 me-2" />
+                    Google Maps
+                  </a>
+                </Button>
+                <Button
+                  asChild
+                  variant="outline"
+                  className="flex-1"
+                >
+                  <a
+                    href="https://waze.com/ul?ll=32.9399,35.3166&navigate=yes"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <MapPin className="w-4 h-4 me-2" />
+                    Waze
+                  </a>
+                </Button>
+              </div>
             </Card>
           </div>
         </div>
