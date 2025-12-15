@@ -2,14 +2,18 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import gallery1 from '@/assets/gallery-1.jpg';
 import gallery2 from '@/assets/gallery-2.jpg';
 import gallery3 from '@/assets/gallery-3.jpg';
+import gallery4 from '@/assets/gallery-4.jpg';
+import gallery5 from '@/assets/gallery-5.jpg';
 
 const Gallery = () => {
   const { t } = useLanguage();
 
   const images = [
-    { src: gallery1, alt: 'Professional Haircut' },
-    { src: gallery2, alt: 'Barber Tools' },
-    { src: gallery3, alt: 'Shop Interior' },
+    { src: gallery1, alt: 'Fade Haircut Style' },
+    { src: gallery2, alt: 'Textured Fade Cut' },
+    { src: gallery3, alt: 'Design Line Cut' },
+    { src: gallery4, alt: 'Classic Fade' },
+    { src: gallery5, alt: 'Modern Fade Style' },
   ];
 
   return (
