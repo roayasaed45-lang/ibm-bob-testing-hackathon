@@ -105,6 +105,31 @@ const Contact = () => {
                   </div>
                 </div>
               </div>
+
+              <div className="flex items-start gap-4">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 flex items-center justify-center flex-shrink-0">
+                  <Instagram className="w-6 h-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-card-foreground mb-2">
+                    Instagram
+                  </h3>
+                  <p className="text-muted-foreground mb-3">@ale_shnaa</p>
+                  <Button
+                    asChild
+                    className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white hover:opacity-90"
+                  >
+                    <a
+                      href="https://www.instagram.com/ale_shnaa"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Instagram className="w-4 h-4 me-2" />
+                      {t('openInstagram')}
+                    </a>
+                  </Button>
+                </div>
+              </div>
             </Card>
 
             {/* Map */}
@@ -163,19 +188,6 @@ const Contact = () => {
                   </a>
                 </Button>
               </div>
-              <Button
-                asChild
-                className="w-full mt-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white hover:opacity-90"
-              >
-                <a
-                  href="https://www.instagram.com/ale_shnaa"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Instagram className="w-4 h-4 me-2" />
-                  Instagram
-                </a>
-              </Button>
             </Card>
           </div>
         </div>
