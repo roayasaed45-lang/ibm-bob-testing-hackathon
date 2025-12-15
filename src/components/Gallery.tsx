@@ -4,6 +4,7 @@ import gallery2 from '@/assets/gallery-2.jpg';
 import gallery3 from '@/assets/gallery-3.jpg';
 import gallery4 from '@/assets/gallery-4.jpg';
 import gallery5 from '@/assets/gallery-5.jpg';
+import gallery6 from '@/assets/gallery-6.jpg';
 
 const Gallery = () => {
   const { t } = useLanguage();
@@ -14,6 +15,7 @@ const Gallery = () => {
     { src: gallery3, alt: 'Design Line Cut' },
     { src: gallery4, alt: 'Classic Fade' },
     { src: gallery5, alt: 'Modern Fade Style' },
+    { src: gallery6, alt: 'Clean Fade Cut' },
   ];
 
   return (
