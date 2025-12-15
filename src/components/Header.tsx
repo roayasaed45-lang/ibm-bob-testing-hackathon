@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { Menu, X, Scissors, Calendar } from 'lucide-react';
+import { Menu, X, Scissors, Calendar, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useNavigate } from 'react-router-dom';
+import { useTheme } from 'next-themes';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -80,6 +82,20 @@ const Header = () => {
             <Calendar className="w-4 h-4" />
             {t('myAppointments')}
           </Button>
+
+          {/* Theme Toggle */}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="rounded-lg"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
+              )}
+            </Button>
 
           {/* Language Switcher */}
             <div className="flex items-center gap-1 border border-border rounded-lg p-1">
@@ -158,21 +174,34 @@ const Header = () => {
             </Button>
           </div>
 
-          {/* Mobile Language Switcher */}
-              <div className="flex items-center gap-2 pt-2 border-t border-border">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => setLanguage(lang.code as any)}
-                    className={`px-4 py-2 rounded text-sm transition-all ${
-                      language === lang.code
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground'
-                    }`}
-                  >
-                    {lang.label}
-                  </button>
-                ))}
+          {/* Mobile Theme Toggle & Language Switcher */}
+              <div className="flex items-center justify-between gap-2 pt-2 border-t border-border">
+                <div className="flex items-center gap-2">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => setLanguage(lang.code as any)}
+                      className={`px-4 py-2 rounded text-sm transition-all ${
+                        language === lang.code
+                          ? 'bg-primary text-primary-foreground'
+                          : 'bg-muted text-muted-foreground'
+                      }`}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                >
+                  {theme === 'dark' ? (
+                    <Sun className="w-5 h-5" />
+                  ) : (
+                    <Moon className="w-5 h-5" />
+                  )}
+                </Button>
               </div>
             </div>
           </nav>
