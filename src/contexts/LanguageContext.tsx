@@ -54,6 +54,7 @@ const translations = {
     whatsapp: 'WhatsApp',
     location: 'Location',
     openWhatsApp: 'Chat on WhatsApp',
+    openInstagram: 'Follow on Instagram',
     call: 'Call Now',
     
     // Features
@@ -175,6 +176,7 @@ const translations = {
     whatsapp: 'וואטסאפ',
     location: 'מיקום',
     openWhatsApp: 'שלח הודעה בוואטסאפ',
+    openInstagram: 'עקבו אחרינו באינסטגרם',
     call: 'התקשר עכשיו',
     
     // Features
@@ -296,6 +298,7 @@ const translations = {
     whatsapp: 'واتساب',
     location: 'الموقع',
     openWhatsApp: 'دردش على واتساب',
+    openInstagram: 'تابعنا على انستغرام',
     call: 'اتصل الآن',
     
     // Features
