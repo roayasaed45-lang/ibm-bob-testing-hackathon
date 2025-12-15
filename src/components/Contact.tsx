@@ -1,5 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Phone, MapPin, MessageCircle, Copy } from 'lucide-react';
+import { Phone, MapPin, MessageCircle, Copy, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
@@ -163,6 +163,19 @@ const Contact = () => {
                   </a>
                 </Button>
               </div>
+              <Button
+                asChild
+                className="w-full mt-2 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white hover:opacity-90"
+              >
+                <a
+                  href="https://www.instagram.com/ale_shnaa"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Instagram className="w-4 h-4 me-2" />
+                  Instagram
+                </a>
+              </Button>
             </Card>
           </div>
         </div>
