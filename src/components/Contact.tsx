@@ -1,9 +1,10 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Phone, MapPin, Copy, Instagram } from 'lucide-react';
+import { MapPin, Copy, Instagram } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import whatsappIcon from '@/assets/whatsapp-icon.png';
+import phoneIcon from '@/assets/phone-icon.png';
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -50,8 +51,8 @@ const Contact = () => {
             {/* Contact Cards */}
             <Card className="p-6 space-y-6 shadow-card">
               <div className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-6 h-6 text-primary" />
+                <div className="w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden">
+                  <img src={phoneIcon} alt="Phone" className="w-12 h-12" />
                 </div>
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-card-foreground mb-2">
@@ -66,10 +67,10 @@ const Contact = () => {
                   <div className="mt-3">
                     <Button
                       asChild
-                      className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+                      className="w-full bg-[#34C759] text-white hover:bg-[#2DB84D]"
                     >
                       <a href={telLink}>
-                        <Phone className="w-4 h-4 me-2" />
+                        <img src={phoneIcon} alt="" className="w-4 h-4 me-2" />
                         {t('call')}
                       </a>
                     </Button>
