@@ -42,6 +42,9 @@ const translations = {
     facialMask: 'Facial Mask',
     facialMaskPrice: '100 ₪',
     facialMaskDesc: 'Deep cleansing facial mask treatment',
+    barberAtHome: 'Barber at Home',
+    barberAtHomePrice: '150 ₪',
+    barberAtHomeDesc: 'Professional haircut service at your home',
     
     // Gallery
     galleryTitle: 'Gallery',
@@ -164,6 +167,9 @@ const translations = {
     facialMask: 'מסיכת פנים',
     facialMaskPrice: '100 ₪',
     facialMaskDesc: 'טיפול מסיכת פנים מנקה לעומק',
+    barberAtHome: 'ספר עד הבית',
+    barberAtHomePrice: '150 ₪',
+    barberAtHomeDesc: 'שירות תספורת מקצועי בבית שלך',
     
     // Gallery
     galleryTitle: 'גלריה',
@@ -286,6 +292,9 @@ const translations = {
     facialMask: 'قناع الوجه',
     facialMaskPrice: '100 ₪',
     facialMaskDesc: 'علاج قناع الوجه للتنظيف العميق',
+    barberAtHome: 'حلاق في المنزل',
+    barberAtHomePrice: '150 ₪',
+    barberAtHomeDesc: 'خدمة قص شعر احترافية في منزلك',
     
     // Gallery
     galleryTitle: 'المعرض',
