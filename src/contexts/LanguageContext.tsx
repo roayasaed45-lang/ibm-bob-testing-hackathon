@@ -60,6 +60,7 @@ const translations = {
     location: 'Location',
     openWhatsApp: 'Chat on WhatsApp',
     openInstagram: 'Follow on Instagram',
+    openTikTok: 'Follow on TikTok',
     call: 'Call Now',
     
     // Features
@@ -200,6 +201,7 @@ const translations = {
     location: 'מיקום',
     openWhatsApp: 'שלח הודעה בוואטסאפ',
     openInstagram: 'עקבו אחרינו באינסטגרם',
+    openTikTok: 'עקבו אחרינו בטיקטוק',
     call: 'התקשר עכשיו',
     
     // Features
@@ -340,6 +342,7 @@ const translations = {
     location: 'الموقع',
     openWhatsApp: 'دردش على واتساب',
     openInstagram: 'تابعنا على انستغرام',
+    openTikTok: 'تابعنا على تيك توك',
     call: 'اتصل الآن',
     
     // Features
