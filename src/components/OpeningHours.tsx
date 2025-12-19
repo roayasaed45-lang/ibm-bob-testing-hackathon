@@ -6,13 +6,13 @@ const OpeningHours = () => {
   const { t, language } = useLanguage();
 
   const hours = [
+    { day: t('sunday'), time: t('closed'), isOpen: false },
     { day: t('monday'), time: '09:00 - 22:00', isOpen: true },
     { day: t('tuesday'), time: '09:00 - 22:00', isOpen: true },
     { day: t('wednesday'), time: '09:00 - 22:00', isOpen: true },
     { day: t('thursday'), time: '09:00 - 22:00', isOpen: true },
     { day: t('friday'), time: '09:00 - 22:00', isOpen: true },
     { day: t('saturday'), time: '09:00 - 22:00', isOpen: true },
-    { day: t('sunday'), time: t('closed'), isOpen: false },
   ];
 
   return (
