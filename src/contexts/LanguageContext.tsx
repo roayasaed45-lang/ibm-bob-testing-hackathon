@@ -299,7 +299,7 @@ const translations = {
     barberAtHome: 'حلاق في المنزل',
     barberAtHomePrice: '150 ₪',
     barberAtHomeDesc: 'خدمة قص شعر احترافية في منزلك',
-    groomHaircut: 'حلاقة العرسان',
+    groomHaircut: 'حلاقة العريس',
     groomHaircutDesc: 'يتطلب حجز مسبق',
     
     // Gallery
