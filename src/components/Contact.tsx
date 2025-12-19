@@ -34,9 +34,25 @@ const Contact = () => {
     }
   };
 
-  const copyInstagram = async () => {
+const copyInstagram = async () => {
     try {
       await navigator.clipboard.writeText('@ale_shnaa');
+      toast({
+        title: t('success'),
+        description: 'שם המשתמש הועתק ללוח',
+      });
+    } catch (err) {
+      toast({
+        variant: 'destructive',
+        title: t('error'),
+        description: 'לא ניתן להעתיק',
+      });
+    }
+  };
+
+  const copyTikTok = async () => {
+    try {
+      await navigator.clipboard.writeText('@ali_barber_shop1');
       toast({
         title: t('success'),
         description: 'שם המשתמש הועתק ללוח',
@@ -175,22 +191,31 @@ const Contact = () => {
                   <h3 className="text-lg font-semibold text-card-foreground mb-2">
                     TikTok
                   </h3>
-                  <p className="text-muted-foreground mb-3">@ali_barber_shop1</p>
-                  <Button
-                    asChild
-                    className="w-full bg-black text-white hover:bg-black/80"
-                  >
-                    <a
-                      href="https://www.tiktok.com/@ali_barber_shop1"
-                      target="_blank"
-                      rel="noopener noreferrer"
+                <p className="text-muted-foreground mb-3">@ali_barber_shop1</p>
+                  <div className="flex gap-2">
+                    <Button
+                      asChild
+                      className="flex-1 bg-black text-white hover:bg-black/80"
                     >
-                      <svg className="w-4 h-4 me-2" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
-                      </svg>
-                      {t('openTikTok')}
-                    </a>
-                  </Button>
+                      <a
+                        href="https://www.tiktok.com/@ali_barber_shop1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <svg className="w-4 h-4 me-2" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                        </svg>
+                        {t('openTikTok')}
+                      </a>
+                    </Button>
+                    <Button
+                      onClick={copyTikTok}
+                      variant="outline"
+                      size="icon"
+                    >
+                      <Copy className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
               </div>
             </Card>
