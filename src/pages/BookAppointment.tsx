@@ -163,6 +163,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                       { value: 'child-haircut', label: t('childHaircut'), price: 40 },
                       { value: 'straightening', label: t('straightening'), price: 100 },
                       { value: 'facial-mask', label: t('facialMask'), price: 100 },
+                      { value: 'barber-at-home', label: t('barberAtHome'), price: 150 },
+                      { value: 'groom-haircut', label: t('groomHaircut'), price: null },
                     ].map((service) => {
                       const isSelected = selectedServices.includes(service.value);
                       const toggleService = () => {
@@ -186,10 +188,14 @@ const handleSubmit = async (e: React.FormEvent) => {
                             checked={isSelected}
                             onCheckedChange={toggleService}
                           />
-                          <div className="flex-1">
+                        <div className="flex-1">
                             <span className="font-medium">{service.label}</span>
                           </div>
-                          <span className="text-primary font-semibold">{service.price} ₪</span>
+                          {service.price !== null ? (
+                            <span className="text-primary font-semibold">{service.price} ₪</span>
+                          ) : (
+                            <span className="text-muted-foreground text-sm">{t('groomHaircutDesc')}</span>
+                          )}
                         </label>
                       );
                     })}
@@ -281,11 +287,13 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <span className="text-lg font-semibold text-foreground">{t('totalPrice')}</span>
                     <span className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
                       {(() => {
-                        const prices: { [key: string]: number } = {
+                      const prices: { [key: string]: number } = {
                           'haircut': 50,
                           'child-haircut': 40,
                           'straightening': 100,
                           'facial-mask': 100,
+                          'barber-at-home': 150,
+                          'groom-haircut': 0,
                         };
                         const total = selectedServices.reduce((sum, service) => sum + (prices[service] || 0), 0);
                         return `${total} ₪`;
