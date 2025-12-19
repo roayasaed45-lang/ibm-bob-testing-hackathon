@@ -70,6 +70,19 @@ const translations = {
     customerFocus: 'Customer Focus',
     customerFocusDesc: 'Your satisfaction first',
     
+    // Opening Hours
+    openingHoursTitle: 'Opening Hours',
+    openingHoursSubtitle: 'When you can visit us',
+    workingHours: 'Working Hours',
+    monday: 'Monday',
+    tuesday: 'Tuesday',
+    wednesday: 'Wednesday',
+    thursday: 'Thursday',
+    friday: 'Friday',
+    saturday: 'Saturday',
+    sunday: 'Sunday',
+    closed: 'Closed',
+    
     // Contact Details
     chatWithAli: 'Chat with Ali',
     visitLocation: 'Nahf, Israel',
@@ -197,6 +210,19 @@ const translations = {
     customerFocus: 'התמקדות בלקוח',
     customerFocusDesc: 'שביעות רצונך קודם כל',
     
+    // Opening Hours
+    openingHoursTitle: 'שעות פתיחה',
+    openingHoursSubtitle: 'מתי אפשר לבקר אותנו',
+    workingHours: 'שעות עבודה',
+    monday: 'יום שני',
+    tuesday: 'יום שלישי',
+    wednesday: 'יום רביעי',
+    thursday: 'יום חמישי',
+    friday: 'יום שישי',
+    saturday: 'יום שבת',
+    sunday: 'יום ראשון',
+    closed: 'סגור',
+    
     // Contact Details
     chatWithAli: 'שוחח עם עלי',
     visitLocation: 'נחף, ישראל',
@@ -323,6 +349,19 @@ const translations = {
     qualityServiceDesc: 'اهتمام بالتفاصيل',
     customerFocus: 'التركيز على العميل',
     customerFocusDesc: 'رضاك أولاً',
+    
+    // Opening Hours
+    openingHoursTitle: 'ساعات العمل',
+    openingHoursSubtitle: 'متى يمكنك زيارتنا',
+    workingHours: 'أوقات العمل',
+    monday: 'الإثنين',
+    tuesday: 'الثلاثاء',
+    wednesday: 'الأربعاء',
+    thursday: 'الخميس',
+    friday: 'الجمعة',
+    saturday: 'السبت',
+    sunday: 'الأحد',
+    closed: 'مغلق',
     
     // Contact Details
     chatWithAli: 'دردش مع علي',
