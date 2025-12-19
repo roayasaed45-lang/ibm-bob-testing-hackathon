@@ -9,7 +9,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CalendarIcon, Clock, Scissors } from 'lucide-react';
+import { CalendarIcon, Clock, Scissors, Check } from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { format } from 'date-fns';
@@ -20,9 +21,9 @@ const BookAppointment = () => {
   const { toast } = useToast();
   const { t } = useLanguage();
 
-  const [customerName, setCustomerName] = useState('');
+const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
-  const [serviceType, setServiceType] = useState('');
+  const [selectedServices, setSelectedServices] = useState<string[]>([]);
   const [date, setDate] = useState<Date>();
   const [time, setTime] = useState('');
   const [notes, setNotes] = useState('');
@@ -75,11 +76,11 @@ const BookAppointment = () => {
   // Filter available time slots
   const availableTimeSlots = allTimeSlots.filter(slot => !bookedSlots.includes(slot));
 
-  const handleSubmit = async (e: React.FormEvent) => {
+const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    if (!customerName || !customerPhone || !serviceType || !date || !time) {
+    if (!customerName || !customerPhone || selectedServices.length === 0 || !date || !time) {
       toast({
         variant: 'destructive',
         title: t('error'),
@@ -92,7 +93,7 @@ const BookAppointment = () => {
     const { error } = await supabase.from('appointments').insert({
       customer_name: customerName,
       customer_phone: customerPhone,
-      service_type: serviceType,
+      service_type: selectedServices.join(', '),
       appointment_date: format(date, 'yyyy-MM-dd'),
       appointment_time: time,
       notes: notes || null,
@@ -154,19 +155,48 @@ const BookAppointment = () => {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="service">{t('serviceType')}</Label>
-                <Select value={serviceType} onValueChange={setServiceType} required>
-                  <SelectTrigger>
-                    <SelectValue placeholder={t('selectService')} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="haircut">{t('haircut')}</SelectItem>
-                    <SelectItem value="child-haircut">{t('childHaircut')}</SelectItem>
-                    <SelectItem value="straightening">{t('straightening')}</SelectItem>
-                    <SelectItem value="facial-mask">{t('facialMask')}</SelectItem>
-                  </SelectContent>
-                </Select>
+            <div className="space-y-3">
+                <Label>{t('serviceType')}</Label>
+                <div className="grid grid-cols-1 gap-3">
+                  {[
+                    { value: 'haircut', label: t('haircut'), price: 50 },
+                    { value: 'child-haircut', label: t('childHaircut'), price: 40 },
+                    { value: 'straightening', label: t('straightening'), price: 100 },
+                    { value: 'facial-mask', label: t('facialMask'), price: 100 },
+                  ].map((service) => (
+                    <div
+                      key={service.value}
+                      className={cn(
+                        "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
+                        selectedServices.includes(service.value)
+                          ? "border-primary bg-primary/5"
+                          : "border-border hover:border-primary/50"
+                      )}
+                      onClick={() => {
+                        if (selectedServices.includes(service.value)) {
+                          setSelectedServices(selectedServices.filter(s => s !== service.value));
+                        } else {
+                          setSelectedServices([...selectedServices, service.value]);
+                        }
+                      }}
+                    >
+                      <Checkbox
+                        checked={selectedServices.includes(service.value)}
+                        onCheckedChange={(checked) => {
+                          if (checked) {
+                            setSelectedServices([...selectedServices, service.value]);
+                          } else {
+                            setSelectedServices(selectedServices.filter(s => s !== service.value));
+                          }
+                        }}
+                      />
+                      <div className="flex-1">
+                        <span className="font-medium">{service.label}</span>
+                      </div>
+                      <span className="text-primary font-semibold">{service.price} ₪</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="space-y-2">
@@ -248,18 +278,21 @@ const BookAppointment = () => {
                 />
               </div>
 
-              {serviceType && (
+            {selectedServices.length > 0 && (
                 <div className="p-4 rounded-lg bg-primary/5 border border-primary/20">
                   <div className="flex justify-between items-center">
                     <span className="text-lg font-semibold text-foreground">{t('totalPrice')}</span>
                     <span className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-                      {serviceType === 'haircut' 
-                        ? t('haircutPrice') 
-                        : serviceType === 'child-haircut' 
-                          ? t('childHaircutPrice')
-                          : serviceType === 'straightening'
-                            ? t('straighteningPrice')
-                            : t('facialMaskPrice')}
+                      {(() => {
+                        const prices: { [key: string]: number } = {
+                          'haircut': 50,
+                          'child-haircut': 40,
+                          'straightening': 100,
+                          'facial-mask': 100,
+                        };
+                        const total = selectedServices.reduce((sum, service) => sum + (prices[service] || 0), 0);
+                        return `${total} ₪`;
+                      })()}
                     </span>
                   </div>
                 </div>
