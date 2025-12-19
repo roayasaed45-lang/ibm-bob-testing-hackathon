@@ -159,43 +159,40 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <Label>{t('serviceType')}</Label>
                 <div className="grid grid-cols-1 gap-3">
                   {[
-                    { value: 'haircut', label: t('haircut'), price: 50 },
-                    { value: 'child-haircut', label: t('childHaircut'), price: 40 },
-                    { value: 'straightening', label: t('straightening'), price: 100 },
-                    { value: 'facial-mask', label: t('facialMask'), price: 100 },
-                  ].map((service) => (
-                    <div
-                      key={service.value}
-                      className={cn(
-                        "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
-                        selectedServices.includes(service.value)
-                          ? "border-primary bg-primary/5"
-                          : "border-border hover:border-primary/50"
-                      )}
-                      onClick={() => {
-                        if (selectedServices.includes(service.value)) {
-                          setSelectedServices(selectedServices.filter(s => s !== service.value));
+                      { value: 'haircut', label: t('haircut'), price: 50 },
+                      { value: 'child-haircut', label: t('childHaircut'), price: 40 },
+                      { value: 'straightening', label: t('straightening'), price: 100 },
+                      { value: 'facial-mask', label: t('facialMask'), price: 100 },
+                    ].map((service) => {
+                      const isSelected = selectedServices.includes(service.value);
+                      const toggleService = () => {
+                        if (isSelected) {
+                          setSelectedServices(prev => prev.filter(s => s !== service.value));
                         } else {
-                          setSelectedServices([...selectedServices, service.value]);
+                          setSelectedServices(prev => [...prev, service.value]);
                         }
-                      }}
-                    >
-                      <Checkbox
-                        checked={selectedServices.includes(service.value)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            setSelectedServices([...selectedServices, service.value]);
-                          } else {
-                            setSelectedServices(selectedServices.filter(s => s !== service.value));
-                          }
-                        }}
-                      />
-                      <div className="flex-1">
-                        <span className="font-medium">{service.label}</span>
-                      </div>
-                      <span className="text-primary font-semibold">{service.price} ₪</span>
-                    </div>
-                  ))}
+                      };
+                      return (
+                        <label
+                          key={service.value}
+                          className={cn(
+                            "flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all",
+                            isSelected
+                              ? "border-primary bg-primary/5"
+                              : "border-border hover:border-primary/50"
+                          )}
+                        >
+                          <Checkbox
+                            checked={isSelected}
+                            onCheckedChange={toggleService}
+                          />
+                          <div className="flex-1">
+                            <span className="font-medium">{service.label}</span>
+                          </div>
+                          <span className="text-primary font-semibold">{service.price} ₪</span>
+                        </label>
+                      );
+                    })}
                 </div>
               </div>
 
