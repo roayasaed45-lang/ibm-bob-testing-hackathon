@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import heroImage from '@/assets/hero-barber.jpg';
+import heroImage from '@/assets/hero-barber-alt.jpg';
 
 const Hero = () => {
   const { t } = useLanguage();
