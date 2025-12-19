@@ -30,7 +30,7 @@ All colors MUST be HSL.
     --secondary-light: 220 14% 88%;
 
     --muted: 220 14% 92%;
-    --muted-foreground: 220 9% 30%;
+    --muted-foreground: 0 0% 10%;
 
     --accent: 43 64% 52%;
     --accent-foreground: 0 0% 100%;
