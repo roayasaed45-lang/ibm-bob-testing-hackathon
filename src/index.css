@@ -19,10 +19,10 @@ All colors MUST be HSL.
     --popover-foreground: 222 47% 11%;
 
     /* Gold - Brand Color */
-    --primary: 43 64% 52%;
+    --primary: 43 64% 42%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 43 64% 62%;
-    --primary-dark: 40 74% 42%;
+    --primary-light: 43 64% 52%;
+    --primary-dark: 40 74% 32%;
 
     /* Secondary */
     --secondary: 220 14% 92%;
@@ -30,7 +30,7 @@ All colors MUST be HSL.
     --secondary-light: 220 14% 88%;
 
     --muted: 220 14% 92%;
-    --muted-foreground: 220 9% 46%;
+    --muted-foreground: 220 9% 30%;
 
     --accent: 43 64% 52%;
     --accent-foreground: 0 0% 100%;
