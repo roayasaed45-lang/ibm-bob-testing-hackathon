@@ -8,78 +8,79 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 215 25% 15%;
+    /* Luxurious Dark Palette */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 15%;
+    --card: 222 41% 12%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 215 25% 15%;
+    --popover: 222 41% 12%;
+    --popover-foreground: 210 40% 98%;
 
-    /* Barber Blue - Professional & Trust */
-    --primary: 215 90% 45%;
-    --primary-foreground: 0 0% 100%;
-    --primary-light: 215 85% 65%;
-    --primary-dark: 215 95% 35%;
+    /* Gold - Brand Color */
+    --primary: 43 64% 52%;
+    --primary-foreground: 222 47% 11%;
+    --primary-light: 43 64% 62%;
+    --primary-dark: 40 74% 42%;
 
-    /* Barber Red - Energy & Classic */
-    --secondary: 0 85% 55%;
-    --secondary-foreground: 0 0% 100%;
-    --secondary-light: 0 80% 70%;
+    /* Secondary */
+    --secondary: 222 41% 18%;
+    --secondary-foreground: 210 40% 98%;
+    --secondary-light: 222 35% 25%;
 
-    --muted: 215 20% 96%;
-    --muted-foreground: 215 15% 45%;
+    --muted: 222 35% 20%;
+    --muted-foreground: 215 25% 84%;
 
-    --accent: 0 85% 55%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 43 64% 52%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 215 20% 90%;
-    --input: 215 20% 90%;
-    --ring: 215 90% 45%;
+    --border: 222 30% 22%;
+    --input: 222 30% 22%;
+    --ring: 43 64% 52%;
 
     --radius: 0.5rem;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(215 90% 45%), hsl(0 85% 55%));
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(215 20% 98%));
+    --gradient-hero: linear-gradient(135deg, hsl(43 64% 52%), hsl(40 74% 42%));
+    --gradient-subtle: linear-gradient(180deg, hsl(222 47% 11%), hsl(222 41% 14%));
     
     /* Shadows */
-    --shadow-elegant: 0 10px 30px -10px hsl(215 90% 45% / 0.2);
-    --shadow-card: 0 4px 20px -4px hsl(215 30% 25% / 0.1);
+    --shadow-elegant: 0 10px 30px -10px hsl(43 64% 52% / 0.3);
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
   }
 
   .dark {
-    --background: 215 30% 10%;
-    --foreground: 0 0% 98%;
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 215 25% 15%;
-    --card-foreground: 0 0% 98%;
+    --card: 222 41% 12%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 215 25% 15%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 222 41% 12%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 215 85% 55%;
-    --primary-foreground: 215 30% 10%;
+    --primary: 43 64% 52%;
+    --primary-foreground: 222 47% 11%;
 
-    --secondary: 0 80% 60%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 222 41% 18%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 215 25% 20%;
-    --muted-foreground: 215 15% 65%;
+    --muted: 222 35% 20%;
+    --muted-foreground: 215 25% 84%;
 
-    --accent: 0 80% 60%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 43 64% 52%;
+    --accent-foreground: 222 47% 11%;
 
     --destructive: 0 75% 55%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 215 25% 25%;
-    --input: 215 25% 25%;
-    --ring: 215 85% 55%;
+    --border: 222 30% 22%;
+    --input: 222 30% 22%;
+    --ring: 43 64% 52%;
   }
 }
 
