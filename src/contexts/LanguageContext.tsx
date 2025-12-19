@@ -45,6 +45,8 @@ const translations = {
     barberAtHome: 'Barber at Home',
     barberAtHomePrice: '150 ₪',
     barberAtHomeDesc: 'Professional haircut service at your home',
+    groomHaircut: 'Groom Haircut',
+    groomHaircutDesc: 'Advance booking required',
     
     // Gallery
     galleryTitle: 'Gallery',
@@ -170,6 +172,8 @@ const translations = {
     barberAtHome: 'ספר עד הבית',
     barberAtHomePrice: '150 ₪',
     barberAtHomeDesc: 'שירות תספורת מקצועי בבית שלך',
+    groomHaircut: 'תספורת חתנים',
+    groomHaircutDesc: 'נדרשת קביעת תור מראש',
     
     // Gallery
     galleryTitle: 'גלריה',
@@ -295,6 +299,8 @@ const translations = {
     barberAtHome: 'حلاق في المنزل',
     barberAtHomePrice: '150 ₪',
     barberAtHomeDesc: 'خدمة قص شعر احترافية في منزلك',
+    groomHaircut: 'حلاقة العرسان',
+    groomHaircutDesc: 'يتطلب حجز مسبق',
     
     // Gallery
     galleryTitle: 'المعرض',
