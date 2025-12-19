@@ -134,6 +134,22 @@ const Services = () => {
                 </div>
               </div>
             </Card>
+
+            <Card className="p-8 shadow-elegant hover:shadow-card transition-all">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
+                  <Scissors className="w-10 h-10 text-primary-foreground" />
+                </div>
+                <div className="flex-1 text-center md:text-start space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-card-foreground">
+                    {t('groomHaircut')}
+                  </h3>
+                  <p className="text-lg text-muted-foreground">
+                    {t('groomHaircutDesc')}
+                  </p>
+                </div>
+              </div>
+            </Card>
           </div>
         </div>
       </div>
