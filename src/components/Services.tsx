@@ -1,9 +1,12 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Scissors, CheckCircle } from 'lucide-react';
+import { Scissors, CheckCircle, Calendar } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 
 const Services = () => {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   return (
     <section id="services" className="py-20 bg-background">
@@ -150,6 +153,18 @@ const Services = () => {
                 </div>
               </div>
             </Card>
+          </div>
+
+          {/* Book Now Button */}
+          <div className="mt-12 text-center">
+            <Button
+              onClick={() => navigate('/book')}
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6"
+            >
+              <Calendar className="w-5 h-5 me-2" />
+              {t('bookNow')}
+            </Button>
           </div>
         </div>
       </div>

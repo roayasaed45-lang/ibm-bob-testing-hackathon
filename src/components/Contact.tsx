@@ -1,14 +1,16 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { MapPin, Copy, Instagram } from 'lucide-react';
+import { MapPin, Copy, Instagram, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { useNavigate } from 'react-router-dom';
 import whatsappIcon from '@/assets/whatsapp-icon.png';
 import phoneIcon from '@/assets/phone-icon.png';
 
 const Contact = () => {
   const { t } = useLanguage();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const phoneNumber = '+972543462259';
   const whatsappNumber = '972543462259';
@@ -277,6 +279,18 @@ const copyInstagram = async () => {
                 </Button>
               </div>
             </Card>
+          </div>
+
+          {/* Book Now Button */}
+          <div className="mt-12 text-center">
+            <Button
+              onClick={() => navigate('/book')}
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6"
+            >
+              <Calendar className="w-5 h-5 me-2" />
+              {t('bookNow')}
+            </Button>
           </div>
         </div>
       </div>
