@@ -166,6 +166,13 @@ const translations = {
     noPermission: 'You do not have permission to access this page',
     noAppointmentsDesc: 'No appointments have been booked yet',
     searchAppointments: 'Search by name or phone...',
+    today: 'Today',
+    tomorrow: 'Tomorrow',
+    selectDate: 'Select Date',
+    status: 'Status',
+    allStatuses: 'All Statuses',
+    clearFilters: 'Clear Filters',
+    showingResults: 'Showing',
   },
   he: {
     // Navigation
@@ -324,6 +331,13 @@ const translations = {
     noPermission: 'אין לך הרשאה לגשת לעמוד זה',
     noAppointmentsDesc: 'עדיין לא נקבעו תורים',
     searchAppointments: 'חפש לפי שם או טלפון...',
+    today: 'היום',
+    tomorrow: 'מחר',
+    selectDate: 'בחר תאריך',
+    status: 'סטטוס',
+    allStatuses: 'כל הסטטוסים',
+    clearFilters: 'נקה סינון',
+    showingResults: 'מציג',
   },
   ar: {
     // Navigation
@@ -482,6 +496,13 @@ const translations = {
     noPermission: 'ليس لديك إذن للوصول إلى هذه الصفحة',
     noAppointmentsDesc: 'لم يتم حجز أي مواعيد بعد',
     searchAppointments: 'البحث بالاسم أو الهاتف...',
+    today: 'اليوم',
+    tomorrow: 'غداً',
+    selectDate: 'اختر تاريخ',
+    status: 'الحالة',
+    allStatuses: 'جميع الحالات',
+    clearFilters: 'مسح الفلاتر',
+    showingResults: 'عرض',
   },
 };
 
