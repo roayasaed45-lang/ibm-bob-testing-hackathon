@@ -1,5 +1,6 @@
-import { Scissors } from 'lucide-react';
+import { Scissors, Lock } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -18,6 +19,13 @@ const Footer = () => {
           <p className="text-sm text-muted-foreground">
             © {currentYear} {t('language') === 'en' ? 'All rights reserved' : t('language') === 'he' ? 'כל הזכויות שמורות' : 'جميع الحقوق محفوظة'}
           </p>
+          <Link 
+            to="/admin" 
+            className="text-xs text-muted-foreground/50 hover:text-muted-foreground transition-colors flex items-center gap-1"
+          >
+            <Lock className="w-3 h-3" />
+            {t('adminLogin')}
+          </Link>
         </div>
       </div>
     </footer>
