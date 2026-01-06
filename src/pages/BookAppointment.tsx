@@ -22,6 +22,7 @@ interface BookedAppointment {
   services: string[];
   date: Date;
   time: string;
+  totalPrice: number;
 }
 
 const BookAppointment = () => {
@@ -119,12 +120,24 @@ const handleSubmit = async (e: React.FormEvent) => {
           : error.message,
       });
     } else {
+      // Calculate total price
+      const prices: { [key: string]: number } = {
+        'haircut': 50,
+        'child-haircut': 40,
+        'straightening': 100,
+        'facial-mask': 100,
+        'barber-at-home': 150,
+        'groom-haircut': 0,
+      };
+      const totalPrice = selectedServices.reduce((sum, service) => sum + (prices[service] || 0), 0);
+      
       // Store appointment details for WhatsApp message
       setBookedAppointment({
         customerName,
         services: selectedServices,
         date: date,
         time,
+        totalPrice,
       });
       setShowConfirmDialog(true);
     }
@@ -153,7 +166,8 @@ const handleSubmit = async (e: React.FormEvent) => {
 📅 ${dateText}
 ⏰ ${bookedAppointment.time}
 ✂️ ${servicesText}
-👤 ${bookedAppointment.customerName}`;
+👤 ${bookedAppointment.customerName}
+💰 ${bookedAppointment.totalPrice} ₪`;
 
     const whatsappUrl = `https://wa.me/972543462259?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
@@ -397,6 +411,10 @@ const handleSubmit = async (e: React.FormEvent) => {
               <div className="flex justify-between">
                 <span className="text-muted-foreground">✂️ {t('serviceType')}:</span>
                 <span className="font-medium">{bookedAppointment.services.map(s => getServiceLabel(s)).join(', ')}</span>
+              </div>
+              <div className="flex justify-between border-t pt-2 mt-2">
+                <span className="text-muted-foreground">💰 {t('totalPrice')}:</span>
+                <span className="font-bold text-primary">{bookedAppointment.totalPrice} ₪</span>
               </div>
             </div>
           )}
