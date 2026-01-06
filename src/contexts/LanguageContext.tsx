@@ -155,6 +155,17 @@ const translations = {
     whatsAppConfirmationText: 'Hi Ali! I just booked an appointment:',
     confirmationDialogTitle: 'Your appointment has been booked successfully!',
     confirmationDialogDesc: 'Would you like to send a WhatsApp message to the business owner to confirm your appointment?',
+    
+    // Admin
+    adminLogin: 'Admin Login',
+    adminLoginDesc: 'Login to manage appointments',
+    email: 'Email',
+    enterEmail: 'Enter your email',
+    backToHome: 'Back to Home',
+    appointmentsManagement: 'Appointments Management',
+    noPermission: 'You do not have permission to access this page',
+    noAppointmentsDesc: 'No appointments have been booked yet',
+    searchAppointments: 'Search by name or phone...',
   },
   he: {
     // Navigation
@@ -302,6 +313,17 @@ const translations = {
     whatsAppConfirmationText: 'היי עלי! הזמנתי תור:',
     confirmationDialogTitle: 'התור שלך נקבע בהצלחה!',
     confirmationDialogDesc: 'האם תרצה לשלוח הודעת וואטסאפ לבעל העסק כדי לאשר את התור?',
+    
+    // Admin
+    adminLogin: 'כניסת מנהל',
+    adminLoginDesc: 'התחבר לניהול תורים',
+    email: 'אימייל',
+    enterEmail: 'הזן אימייל',
+    backToHome: 'חזרה לדף הבית',
+    appointmentsManagement: 'ניהול תורים',
+    noPermission: 'אין לך הרשאה לגשת לעמוד זה',
+    noAppointmentsDesc: 'עדיין לא נקבעו תורים',
+    searchAppointments: 'חפש לפי שם או טלפון...',
   },
   ar: {
     // Navigation
@@ -449,6 +471,17 @@ const translations = {
     whatsAppConfirmationText: 'مرحباً علي! لقد حجزت موعداً:',
     confirmationDialogTitle: 'تم حجز موعدك بنجاح!',
     confirmationDialogDesc: 'هل تريد إرسال رسالة واتساب لصاحب العمل لتأكيد موعدك؟',
+    
+    // Admin
+    adminLogin: 'تسجيل دخول المدير',
+    adminLoginDesc: 'تسجيل الدخول لإدارة المواعيد',
+    email: 'البريد الإلكتروني',
+    enterEmail: 'أدخل بريدك الإلكتروني',
+    backToHome: 'العودة إلى الرئيسية',
+    appointmentsManagement: 'إدارة المواعيد',
+    noPermission: 'ليس لديك إذن للوصول إلى هذه الصفحة',
+    noAppointmentsDesc: 'لم يتم حجز أي مواعيد بعد',
+    searchAppointments: 'البحث بالاسم أو الهاتف...',
   },
 };
 
