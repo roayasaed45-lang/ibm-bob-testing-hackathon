@@ -1,13 +1,15 @@
 import { useState } from 'react';
-import { Menu, X, Scissors, Sun, Moon } from 'lucide-react';
+import { Menu, X, Scissors, Sun, Moon, Calendar, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from 'next-themes';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const { theme, setTheme } = useTheme();
+  const navigate = useNavigate();
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -39,7 +41,7 @@ const Header = () => {
           </button>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-6">
             <button
               onClick={() => scrollToSection('home')}
               className="text-foreground hover:text-primary transition-colors"
@@ -68,10 +70,30 @@ const Header = () => {
               onClick={() => scrollToSection('contact')}
               className="text-foreground hover:text-primary transition-colors"
             >
-            {t('contact')}
-          </button>
+              {t('contact')}
+            </button>
 
-          {/* Theme Toggle */}
+            {/* Book Appointment Button */}
+            <Button
+              onClick={() => navigate('/book')}
+              size="sm"
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              <Calendar className="w-4 h-4 me-1" />
+              {t('bookNow')}
+            </Button>
+
+            {/* Admin Login Button */}
+            <Button
+              onClick={() => navigate('/admin')}
+              variant="outline"
+              size="sm"
+            >
+              <Lock className="w-4 h-4 me-1" />
+              {t('adminLogin')}
+            </Button>
+
+            {/* Theme Toggle */}
             <Button
               variant="ghost"
               size="icon"
@@ -85,7 +107,7 @@ const Header = () => {
               )}
             </Button>
 
-          {/* Language Switcher */}
+            {/* Language Switcher */}
             <div className="flex items-center gap-1 border border-border rounded-lg p-1">
               {languages.map((lang) => (
                 <button
@@ -144,41 +166,68 @@ const Header = () => {
                 onClick={() => scrollToSection('contact')}
                 className="text-foreground hover:text-primary transition-colors text-left"
               >
-            {t('contact')}
-          </button>
+              {t('contact')}
+            </button>
 
-          {/* Mobile Theme Toggle & Language Switcher */}
-              <div className="flex items-center justify-between gap-2 pt-2 border-t border-border">
-                <div className="flex items-center gap-2">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => setLanguage(lang.code as any)}
-                      className={`px-4 py-2 rounded text-sm transition-all ${
-                        language === lang.code
-                          ? 'bg-primary text-primary-foreground'
-                          : 'bg-muted text-muted-foreground'
-                      }`}
-                    >
-                      {lang.label}
-                    </button>
-                  ))}
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                >
-                  {theme === 'dark' ? (
-                    <Sun className="w-5 h-5" />
-                  ) : (
-                    <Moon className="w-5 h-5" />
-                  )}
-                </Button>
-              </div>
+            {/* Mobile Action Buttons */}
+            <div className="flex gap-2 pt-2">
+              <Button
+                onClick={() => {
+                  navigate('/book');
+                  setIsOpen(false);
+                }}
+                size="sm"
+                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
+              >
+                <Calendar className="w-4 h-4 me-1" />
+                {t('bookNow')}
+              </Button>
+              <Button
+                onClick={() => {
+                  navigate('/admin');
+                  setIsOpen(false);
+                }}
+                variant="outline"
+                size="sm"
+                className="flex-1"
+              >
+                <Lock className="w-4 h-4 me-1" />
+                {t('adminLogin')}
+              </Button>
             </div>
-          </nav>
-        )}
+
+            {/* Mobile Theme Toggle & Language Switcher */}
+            <div className="flex items-center justify-between gap-2 pt-2 border-t border-border">
+              <div className="flex items-center gap-2">
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => setLanguage(lang.code as any)}
+                    className={`px-4 py-2 rounded text-sm transition-all ${
+                      language === lang.code
+                        ? 'bg-primary text-primary-foreground'
+                        : 'bg-muted text-muted-foreground'
+                    }`}
+                  >
+                    {lang.label}
+                  </button>
+                ))}
+              </div>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              >
+                {theme === 'dark' ? (
+                  <Sun className="w-5 h-5" />
+                ) : (
+                  <Moon className="w-5 h-5" />
+                )}
+              </Button>
+            </div>
+          </div>
+        </nav>
+      )}
       </div>
     </header>
   );
