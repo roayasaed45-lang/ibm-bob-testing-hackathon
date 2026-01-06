@@ -203,7 +203,7 @@ const handleSubmit = async (e: React.FormEvent) => {
           <Card className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="name">{t('fullName')}</Label>
+                <Label htmlFor="name">{t('fullName')} <span className="text-destructive">*</span></Label>
                 <Input
                   id="name"
                   value={customerName}
@@ -214,7 +214,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="phone">{t('phoneNumber')}</Label>
+                <Label htmlFor="phone">{t('phoneNumber')} <span className="text-destructive">*</span></Label>
                 <Input
                   id="phone"
                   type="tel"
@@ -226,7 +226,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
 
             <div className="space-y-3">
-                <Label>{t('serviceType')}</Label>
+                <Label>{t('serviceType')} <span className="text-destructive">*</span></Label>
                 <div className="grid grid-cols-1 gap-3">
                   {[
                       { value: 'haircut', label: t('haircut'), price: 50 },
@@ -273,7 +273,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
 
               <div className="space-y-2">
-                <Label>{t('appointmentDate')}</Label>
+                <Label>{t('appointmentDate')} <span className="text-destructive">*</span></Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -303,7 +303,7 @@ const handleSubmit = async (e: React.FormEvent) => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="time">{t('appointmentTime')}</Label>
+                <Label htmlFor="time">{t('appointmentTime')} <span className="text-destructive">*</span></Label>
                 <Select value={time} onValueChange={setTime} required disabled={!date || loadingSlots}>
                   <SelectTrigger>
                     <SelectValue placeholder={
