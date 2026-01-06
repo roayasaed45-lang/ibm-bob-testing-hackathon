@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { Menu, X, Scissors, Calendar, Sun, Moon } from 'lucide-react';
+import { Menu, X, Scissors, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useNavigate } from 'react-router-dom';
 import { useTheme } from 'next-themes';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
-  const navigate = useNavigate();
   const { theme, setTheme } = useTheme();
 
   const scrollToSection = (id: string) => {
@@ -72,16 +70,6 @@ const Header = () => {
             >
             {t('contact')}
           </button>
-
-          {/* View Appointments Button */}
-          <Button
-            onClick={() => navigate('/appointments')}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            <Calendar className="w-4 h-4" />
-            {t('myAppointments')}
-          </Button>
 
           {/* Theme Toggle */}
             <Button
@@ -158,21 +146,6 @@ const Header = () => {
               >
             {t('contact')}
           </button>
-
-          {/* Mobile View Appointments Button */}
-          <div className="pt-2 border-t border-border">
-            <Button
-              onClick={() => {
-                navigate('/appointments');
-                setIsOpen(false);
-              }}
-              variant="outline"
-              className="w-full"
-            >
-              <Calendar className="w-4 h-4 me-2" />
-              {t('myAppointments')}
-            </Button>
-          </div>
 
           {/* Mobile Theme Toggle & Language Switcher */}
               <div className="flex items-center justify-between gap-2 pt-2 border-t border-border">
