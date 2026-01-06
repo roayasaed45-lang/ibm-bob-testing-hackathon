@@ -5,10 +5,14 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Clock, Scissors, Phone, Trash2, Plus, LogOut, User } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Scissors, Phone, Trash2, Plus, LogOut, User, Filter, X } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { format } from 'date-fns';
+import { format, isToday, isTomorrow, startOfDay, endOfDay, parseISO } from 'date-fns';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { cn } from '@/lib/utils';
 import { User as SupabaseUser, Session } from '@supabase/supabase-js';
 import {
   AlertDialog,
@@ -44,6 +48,9 @@ const Appointments = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined);
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [dayFilter, setDayFilter] = useState<string>('all');
 
   useEffect(() => {
     // Set up auth state listener FIRST
@@ -178,11 +185,42 @@ const Appointments = () => {
     );
   };
 
-  // Filter appointments based on search query
-  const filteredAppointments = appointments.filter(appointment => 
-    appointment.customer_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    appointment.customer_phone.includes(searchQuery)
-  );
+  // Filter appointments based on search query, date, status, and day
+  const filteredAppointments = appointments.filter(appointment => {
+    // Text search filter
+    const matchesSearch = 
+      appointment.customer_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      appointment.customer_phone.includes(searchQuery);
+    
+    // Date filter
+    let matchesDate = true;
+    if (dateFilter) {
+      const appointmentDate = parseISO(appointment.appointment_date);
+      matchesDate = format(appointmentDate, 'yyyy-MM-dd') === format(dateFilter, 'yyyy-MM-dd');
+    }
+    
+    // Status filter
+    const matchesStatus = statusFilter === 'all' || appointment.status === statusFilter;
+    
+    // Day filter (today, tomorrow)
+    let matchesDay = true;
+    if (dayFilter === 'today') {
+      matchesDay = isToday(parseISO(appointment.appointment_date));
+    } else if (dayFilter === 'tomorrow') {
+      matchesDay = isTomorrow(parseISO(appointment.appointment_date));
+    }
+    
+    return matchesSearch && matchesDate && matchesStatus && matchesDay;
+  });
+
+  const clearFilters = () => {
+    setDateFilter(undefined);
+    setStatusFilter('all');
+    setDayFilter('all');
+    setSearchQuery('');
+  };
+
+  const hasActiveFilters = dateFilter || statusFilter !== 'all' || dayFilter !== 'all' || searchQuery;
 
   if (checkingAuth) {
     return (
@@ -227,14 +265,101 @@ const Appointments = () => {
             </div>
           </div>
 
-          {/* Search */}
+          {/* Filters */}
           <Card className="p-6 mb-8">
-            <Input
-              type="text"
-              placeholder={t('searchAppointments')}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <div className="flex flex-col gap-4">
+              {/* Search */}
+              <Input
+                type="text"
+                placeholder={t('searchAppointments')}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              
+              {/* Filter row */}
+              <div className="flex flex-wrap gap-3 items-center">
+                <Filter className="w-4 h-4 text-muted-foreground" />
+                
+                {/* Day filter buttons */}
+                <div className="flex gap-2">
+                  <Button
+                    variant={dayFilter === 'today' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setDayFilter(dayFilter === 'today' ? 'all' : 'today')}
+                  >
+                    {t('today')}
+                  </Button>
+                  <Button
+                    variant={dayFilter === 'tomorrow' ? 'default' : 'outline'}
+                    size="sm"
+                    onClick={() => setDayFilter(dayFilter === 'tomorrow' ? 'all' : 'tomorrow')}
+                  >
+                    {t('tomorrow')}
+                  </Button>
+                </div>
+                
+                {/* Date picker */}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className={cn(
+                        "justify-start text-left font-normal",
+                        dateFilter && "bg-primary text-primary-foreground"
+                      )}
+                    >
+                      <CalendarIcon className="w-4 h-4 me-2" />
+                      {dateFilter ? format(dateFilter, 'dd/MM/yyyy') : t('selectDate')}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <Calendar
+                      mode="single"
+                      selected={dateFilter}
+                      onSelect={(date) => {
+                        setDateFilter(date);
+                        setDayFilter('all');
+                      }}
+                      initialFocus
+                      className={cn("p-3 pointer-events-auto")}
+                    />
+                  </PopoverContent>
+                </Popover>
+                
+                {/* Status filter */}
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger className="w-[150px]">
+                    <SelectValue placeholder={t('status')} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">{t('allStatuses')}</SelectItem>
+                    <SelectItem value="pending">{t('pending')}</SelectItem>
+                    <SelectItem value="confirmed">{t('confirmed')}</SelectItem>
+                    <SelectItem value="completed">{t('completed')}</SelectItem>
+                    <SelectItem value="cancelled">{t('cancelled')}</SelectItem>
+                  </SelectContent>
+                </Select>
+                
+                {/* Clear filters */}
+                {hasActiveFilters && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearFilters}
+                    className="text-muted-foreground"
+                  >
+                    <X className="w-4 h-4 me-1" />
+                    {t('clearFilters')}
+                  </Button>
+                )}
+              </div>
+              
+              {/* Results count */}
+              <p className="text-sm text-muted-foreground">
+                {t('showingResults')}: {filteredAppointments.length} / {appointments.length}
+              </p>
+            </div>
           </Card>
 
           {loading ? (
@@ -274,7 +399,7 @@ const Appointments = () => {
                           <span>{t(appointment.service_type)}</span>
                         </div>
                         <div className="flex items-center gap-2 text-muted-foreground">
-                          <Calendar className="w-4 h-4 text-primary" />
+                          <CalendarIcon className="w-4 h-4 text-primary" />
                           <span>{format(new Date(appointment.appointment_date), 'PPP')}</span>
                         </div>
                         <div className="flex items-center gap-2 text-muted-foreground">
