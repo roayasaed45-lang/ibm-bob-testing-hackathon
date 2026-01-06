@@ -173,6 +173,7 @@ const translations = {
     allStatuses: 'All Statuses',
     clearFilters: 'Clear Filters',
     showingResults: 'Showing',
+    statusUpdated: 'Status updated successfully',
   },
   he: {
     // Navigation
@@ -338,6 +339,7 @@ const translations = {
     allStatuses: 'כל הסטטוסים',
     clearFilters: 'נקה סינון',
     showingResults: 'מציג',
+    statusUpdated: 'הסטטוס עודכן בהצלחה',
   },
   ar: {
     // Navigation
@@ -503,6 +505,7 @@ const translations = {
     allStatuses: 'جميع الحالات',
     clearFilters: 'مسح الفلاتر',
     showingResults: 'عرض',
+    statusUpdated: 'تم تحديث الحالة بنجاح',
   },
 };
 

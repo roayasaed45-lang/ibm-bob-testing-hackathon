@@ -171,6 +171,27 @@ const Appointments = () => {
     navigate('/');
   };
 
+  const handleStatusUpdate = async (appointmentId: string, newStatus: string) => {
+    const { error } = await supabase
+      .from('appointments')
+      .update({ status: newStatus })
+      .eq('id', appointmentId);
+
+    if (error) {
+      toast({
+        variant: 'destructive',
+        title: t('error'),
+        description: error.message,
+      });
+    } else {
+      toast({
+        title: t('success'),
+        description: t('statusUpdated'),
+      });
+      fetchAppointments();
+    }
+  };
+
   const getStatusBadge = (status: string) => {
     const variants: Record<string, 'default' | 'secondary' | 'destructive'> = {
       pending: 'default',
@@ -380,7 +401,7 @@ const Appointments = () => {
                 <Card key={appointment.id} className="p-6">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div className="space-y-3 flex-1">
-                      <div className="flex items-start justify-between">
+                      <div className="flex items-start justify-between gap-4">
                         <div>
                           <h3 className="text-xl font-bold text-card-foreground">
                             {appointment.customer_name}
@@ -390,7 +411,40 @@ const Appointments = () => {
                             <span>{appointment.customer_phone}</span>
                           </div>
                         </div>
-                        {getStatusBadge(appointment.status)}
+                        <Select
+                          value={appointment.status}
+                          onValueChange={(value) => handleStatusUpdate(appointment.id, value)}
+                        >
+                          <SelectTrigger className="w-[130px]">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="pending">
+                              <span className="flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+                                {t('pending')}
+                              </span>
+                            </SelectItem>
+                            <SelectItem value="confirmed">
+                              <span className="flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                                {t('confirmed')}
+                              </span>
+                            </SelectItem>
+                            <SelectItem value="completed">
+                              <span className="flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                                {t('completed')}
+                              </span>
+                            </SelectItem>
+                            <SelectItem value="cancelled">
+                              <span className="flex items-center gap-2">
+                                <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                                {t('cancelled')}
+                              </span>
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
                       </div>
 
                       <div className="flex flex-wrap gap-4 text-sm">
