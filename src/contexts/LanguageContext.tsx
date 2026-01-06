@@ -149,6 +149,12 @@ const translations = {
     completed: 'Completed',
     cancelled: 'Cancelled',
     totalPrice: 'Total Price',
+    appointmentConfirmed: 'Appointment Confirmed!',
+    sendWhatsAppConfirmation: 'Send WhatsApp Confirmation',
+    skipWhatsApp: 'Skip',
+    whatsAppConfirmationText: 'Hi Ali! I just booked an appointment:',
+    confirmationDialogTitle: 'Your appointment has been booked successfully!',
+    confirmationDialogDesc: 'Would you like to send a WhatsApp message to the business owner to confirm your appointment?',
   },
   he: {
     // Navigation
@@ -290,6 +296,12 @@ const translations = {
     completed: 'הושלם',
     cancelled: 'בוטל',
     totalPrice: 'סה"כ מחיר',
+    appointmentConfirmed: 'התור אושר!',
+    sendWhatsAppConfirmation: 'שלח אישור בוואטסאפ',
+    skipWhatsApp: 'דלג',
+    whatsAppConfirmationText: 'היי עלי! הזמנתי תור:',
+    confirmationDialogTitle: 'התור שלך נקבע בהצלחה!',
+    confirmationDialogDesc: 'האם תרצה לשלוח הודעת וואטסאפ לבעל העסק כדי לאשר את התור?',
   },
   ar: {
     // Navigation
@@ -431,6 +443,12 @@ const translations = {
     completed: 'مكتمل',
     cancelled: 'ملغى',
     totalPrice: 'السعر الإجمالي',
+    appointmentConfirmed: 'تم تأكيد الموعد!',
+    sendWhatsAppConfirmation: 'إرسال تأكيد عبر واتساب',
+    skipWhatsApp: 'تخطي',
+    whatsAppConfirmationText: 'مرحباً علي! لقد حجزت موعداً:',
+    confirmationDialogTitle: 'تم حجز موعدك بنجاح!',
+    confirmationDialogDesc: 'هل تريد إرسال رسالة واتساب لصاحب العمل لتأكيد موعدك؟',
   },
 };
 

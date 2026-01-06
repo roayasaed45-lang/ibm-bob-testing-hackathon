@@ -9,12 +9,20 @@ import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CalendarIcon, Clock, Scissors, Check } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { CalendarIcon, Clock, Scissors, Check, MessageCircle } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+
+interface BookedAppointment {
+  customerName: string;
+  services: string[];
+  date: Date;
+  time: string;
+}
 
 const BookAppointment = () => {
   const navigate = useNavigate();
@@ -30,6 +38,8 @@ const [customerName, setCustomerName] = useState('');
   const [loading, setLoading] = useState(false);
   const [bookedSlots, setBookedSlots] = useState<string[]>([]);
   const [loadingSlots, setLoadingSlots] = useState(false);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
 
   // Generate time slots (10:00 - 21:00, every 30 minutes)
   const generateTimeSlots = () => {
@@ -109,13 +119,59 @@ const handleSubmit = async (e: React.FormEvent) => {
           : error.message,
       });
     } else {
-      toast({
-        title: t('success'),
-        description: t('appointmentBooked'),
+      // Store appointment details for WhatsApp message
+      setBookedAppointment({
+        customerName,
+        services: selectedServices,
+        date: date,
+        time,
       });
-      navigate('/appointments');
+      setShowConfirmDialog(true);
     }
     setLoading(false);
+  };
+
+  const getServiceLabel = (serviceValue: string) => {
+    const serviceMap: { [key: string]: string } = {
+      'haircut': t('haircut'),
+      'child-haircut': t('childHaircut'),
+      'straightening': t('straightening'),
+      'facial-mask': t('facialMask'),
+      'barber-at-home': t('barberAtHome'),
+      'groom-haircut': t('groomHaircut'),
+    };
+    return serviceMap[serviceValue] || serviceValue;
+  };
+
+  const handleWhatsAppConfirmation = () => {
+    if (!bookedAppointment) return;
+    
+    const servicesText = bookedAppointment.services.map(s => getServiceLabel(s)).join(', ');
+    const dateText = format(bookedAppointment.date, 'dd/MM/yyyy');
+    
+    const message = `${t('whatsAppConfirmationText')}
+📅 ${dateText}
+⏰ ${bookedAppointment.time}
+✂️ ${servicesText}
+👤 ${bookedAppointment.customerName}`;
+
+    const whatsappUrl = `https://wa.me/972543462259?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+    
+    toast({
+      title: t('success'),
+      description: t('appointmentBooked'),
+    });
+    navigate('/appointments');
+  };
+
+  const handleSkipWhatsApp = () => {
+    toast({
+      title: t('success'),
+      description: t('appointmentBooked'),
+    });
+    setShowConfirmDialog(false);
+    navigate('/appointments');
   };
 
   return (
@@ -314,6 +370,48 @@ const handleSubmit = async (e: React.FormEvent) => {
           </Card>
         </div>
       </div>
+
+      {/* WhatsApp Confirmation Dialog */}
+      <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2 text-center justify-center">
+              <Check className="w-6 h-6 text-green-500" />
+              {t('appointmentConfirmed')}
+            </DialogTitle>
+            <DialogDescription className="text-center">
+              {t('confirmationDialogDesc')}
+            </DialogDescription>
+          </DialogHeader>
+          
+          {bookedAppointment && (
+            <div className="p-4 rounded-lg bg-muted/50 space-y-2 text-sm">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">📅 {t('appointmentDate')}:</span>
+                <span className="font-medium">{format(bookedAppointment.date, 'dd/MM/yyyy')}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">⏰ {t('appointmentTime')}:</span>
+                <span className="font-medium">{bookedAppointment.time}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">✂️ {t('serviceType')}:</span>
+                <span className="font-medium">{bookedAppointment.services.map(s => getServiceLabel(s)).join(', ')}</span>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter className="flex flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={handleSkipWhatsApp} className="w-full sm:w-auto">
+              {t('skipWhatsApp')}
+            </Button>
+            <Button onClick={handleWhatsAppConfirmation} className="w-full sm:w-auto bg-green-600 hover:bg-green-700">
+              <MessageCircle className="w-4 h-4 mr-2" />
+              {t('sendWhatsAppConfirmation')}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
