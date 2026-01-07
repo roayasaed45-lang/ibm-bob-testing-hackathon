@@ -131,10 +131,11 @@ const Appointments = () => {
       .order('appointment_time', { ascending: true });
 
     if (error) {
+      console.error('Error fetching appointments:', error);
       toast({
         variant: 'destructive',
         title: t('error'),
-        description: error.message,
+        description: t('fetchError') || 'לא ניתן לטעון את התורים. נסה שוב.',
       });
     } else {
       setAppointments(data || []);
@@ -151,10 +152,11 @@ const Appointments = () => {
       .eq('id', deleteId);
 
     if (error) {
+      console.error('Error deleting appointment:', error);
       toast({
         variant: 'destructive',
         title: t('error'),
-        description: error.message,
+        description: t('deleteError') || 'לא ניתן למחוק את התור. נסה שוב.',
       });
     } else {
       toast({
@@ -178,10 +180,11 @@ const Appointments = () => {
       .eq('id', appointmentId);
 
     if (error) {
+      console.error('Error updating appointment status:', error);
       toast({
         variant: 'destructive',
         title: t('error'),
-        description: error.message,
+        description: t('updateError') || 'לא ניתן לעדכן את הסטטוס. נסה שוב.',
       });
     } else {
       toast({

@@ -113,12 +113,21 @@ const handleSubmit = async (e: React.FormEvent) => {
     });
 
     if (error) {
+      // Map database errors to user-friendly messages
+      let errorMessage = t('bookingError') || 'לא ניתן לבצע את ההזמנה. נסה שוב.';
+      if (error.message.includes('unique') || error.message.includes('duplicate')) {
+        errorMessage = t('timeSlotTaken');
+      } else if (error.message.includes('appointments_customer_phone_format')) {
+        errorMessage = t('invalidPhoneFormat') || 'מספר טלפון לא תקין';
+      } else if (error.message.includes('appointments_customer_name_length')) {
+        errorMessage = t('nameTooLong') || 'השם ארוך מדי';
+      } else if (error.message.includes('appointments_notes_length')) {
+        errorMessage = t('notesTooLong') || 'ההערות ארוכות מדי';
+      }
       toast({
         variant: 'destructive',
         title: t('error'),
-        description: error.message.includes('unique') 
-          ? t('timeSlotTaken') 
-          : error.message,
+        description: errorMessage,
       });
     } else {
       // Calculate total price
