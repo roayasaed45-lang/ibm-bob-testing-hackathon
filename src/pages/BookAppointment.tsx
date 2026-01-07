@@ -70,7 +70,8 @@ const [customerName, setCustomerName] = useState('');
     const { data, error } = await supabase
       .from('appointments')
       .select('appointment_time')
-      .eq('appointment_date', format(date, 'yyyy-MM-dd'));
+      .eq('appointment_date', format(date, 'yyyy-MM-dd'))
+      .neq('status', 'cancelled'); // Don't count cancelled appointments
 
     if (!error && data) {
       // Extract just the time part (HH:MM) from the time strings
