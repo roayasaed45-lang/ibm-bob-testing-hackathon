@@ -5,7 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Calendar as CalendarIcon, Clock, Scissors, Phone, Trash2, Plus, LogOut, User, Filter, X } from 'lucide-react';
+import { Calendar as CalendarIcon, Clock, Scissors, Phone, Trash2, Plus, LogOut, User, Filter, X, LayoutGrid, TableIcon } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { format, isToday, isTomorrow, startOfDay, endOfDay, parseISO } from 'date-fns';
@@ -24,6 +24,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 
 interface Appointment {
   id: string;
@@ -51,6 +59,7 @@ const Appointments = () => {
   const [dateFilter, setDateFilter] = useState<Date | undefined>(undefined);
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [dayFilter, setDayFilter] = useState<string>('all');
+  const [viewMode, setViewMode] = useState<'cards' | 'table'>('cards');
 
   useEffect(() => {
     // Set up auth state listener FIRST
@@ -379,10 +388,30 @@ const Appointments = () => {
                 )}
               </div>
               
-              {/* Results count */}
-              <p className="text-sm text-muted-foreground">
-                {t('showingResults')}: {filteredAppointments.length} / {appointments.length}
-              </p>
+              {/* View toggle and results count */}
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-muted-foreground">
+                  {t('showingResults')}: {filteredAppointments.length} / {appointments.length}
+                </p>
+                <div className="flex gap-1 border rounded-lg p-1">
+                  <Button
+                    variant={viewMode === 'cards' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setViewMode('cards')}
+                    className="px-3"
+                  >
+                    <LayoutGrid className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant={viewMode === 'table' ? 'default' : 'ghost'}
+                    size="sm"
+                    onClick={() => setViewMode('table')}
+                    className="px-3"
+                  >
+                    <TableIcon className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
             </div>
           </Card>
 
@@ -398,7 +427,89 @@ const Appointments = () => {
               </h3>
               <p className="text-muted-foreground mb-4">{t('noAppointmentsDesc')}</p>
             </Card>
+          ) : viewMode === 'table' ? (
+            /* Table View */
+            <Card className="overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{t('customerName')}</TableHead>
+                      <TableHead>{t('phoneNumber')}</TableHead>
+                      <TableHead>{t('serviceType')}</TableHead>
+                      <TableHead>{t('appointmentDate')}</TableHead>
+                      <TableHead>{t('appointmentTime')}</TableHead>
+                      <TableHead>{t('status')}</TableHead>
+                      <TableHead className="text-center">{t('actions')}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredAppointments.map((appointment) => (
+                      <TableRow key={appointment.id}>
+                        <TableCell className="font-medium">{appointment.customer_name}</TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <Phone className="w-3 h-3 text-muted-foreground" />
+                            {appointment.customer_phone}
+                          </div>
+                        </TableCell>
+                        <TableCell>{t(appointment.service_type)}</TableCell>
+                        <TableCell>{format(new Date(appointment.appointment_date), 'dd/MM/yyyy')}</TableCell>
+                        <TableCell>{appointment.appointment_time}</TableCell>
+                        <TableCell>
+                          <Select
+                            value={appointment.status}
+                            onValueChange={(value) => handleStatusUpdate(appointment.id, value)}
+                          >
+                            <SelectTrigger className="w-[120px] h-8">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pending">
+                                <span className="flex items-center gap-2">
+                                  <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+                                  {t('pending')}
+                                </span>
+                              </SelectItem>
+                              <SelectItem value="confirmed">
+                                <span className="flex items-center gap-2">
+                                  <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                                  {t('confirmed')}
+                                </span>
+                              </SelectItem>
+                              <SelectItem value="completed">
+                                <span className="flex items-center gap-2">
+                                  <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                                  {t('completed')}
+                                </span>
+                              </SelectItem>
+                              <SelectItem value="cancelled">
+                                <span className="flex items-center gap-2">
+                                  <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                                  {t('cancelled')}
+                                </span>
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <Button
+                            variant="destructive"
+                            size="icon"
+                            className="h-8 w-8"
+                            onClick={() => setDeleteId(appointment.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </Card>
           ) : (
+            /* Cards View */
             <div className="space-y-4">
               {filteredAppointments.map((appointment) => (
                 <Card key={appointment.id} className="p-6">
