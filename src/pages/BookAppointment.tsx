@@ -70,15 +70,15 @@ const [customerName, setCustomerName] = useState('');
     if (!date) return;
     
     setLoadingSlots(true);
+    // Use the secure booked_slots view that only exposes date/time (not customer info)
     const { data, error } = await supabase
-      .from('appointments')
+      .from('booked_slots' as any)
       .select('appointment_time')
-      .eq('appointment_date', format(date, 'yyyy-MM-dd'))
-      .neq('status', 'cancelled'); // Don't count cancelled appointments
+      .eq('appointment_date', format(date, 'yyyy-MM-dd'));
 
     if (!error && data) {
       // Extract just the time part (HH:MM) from the time strings
-      const slots = data.map(app => {
+      const slots = (data as unknown as { appointment_time: string }[]).map(app => {
         const timeStr = app.appointment_time;
         // Handle both "HH:MM:SS" and "HH:MM" formats
         return timeStr.substring(0, 5);
