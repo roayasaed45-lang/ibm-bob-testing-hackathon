@@ -54,12 +54,14 @@ const [customerName, setCustomerName] = useState('');
 
   const allTimeSlots = generateTimeSlots();
 
-  // Fetch booked slots when date changes
+  // Fetch booked slots when date changes and reset time selection
   useEffect(() => {
     if (date) {
+      setTime(''); // Reset time when date changes
       fetchBookedSlots();
     } else {
       setBookedSlots([]);
+      setTime('');
     }
   }, [date]);
 
@@ -106,6 +108,13 @@ const [customerName, setCustomerName] = useState('');
     
     return true;
   });
+
+  // Clear time if it becomes unavailable (e.g., someone else booked it)
+  useEffect(() => {
+    if (time && availableTimeSlots.length > 0 && !availableTimeSlots.includes(time)) {
+      setTime('');
+    }
+  }, [bookedSlots]);
 
 const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
