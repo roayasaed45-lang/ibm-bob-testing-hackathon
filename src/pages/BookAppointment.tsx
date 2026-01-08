@@ -85,8 +85,27 @@ const [customerName, setCustomerName] = useState('');
     setLoadingSlots(false);
   };
 
-  // Filter available time slots
-  const availableTimeSlots = allTimeSlots.filter(slot => !bookedSlots.includes(slot));
+  // Filter available time slots (also filter out past times if booking for today)
+  const availableTimeSlots = allTimeSlots.filter(slot => {
+    // First check if slot is already booked
+    if (bookedSlots.includes(slot)) return false;
+    
+    // If booking for today, filter out times that have already passed
+    if (date) {
+      const today = new Date();
+      const isToday = date.toDateString() === today.toDateString();
+      if (isToday) {
+        const [hours, minutes] = slot.split(':').map(Number);
+        const slotTime = new Date();
+        slotTime.setHours(hours, minutes, 0, 0);
+        // Only show slots that are at least 30 minutes in the future
+        const bufferTime = new Date(today.getTime() + 30 * 60 * 1000);
+        return slotTime >= bufferTime;
+      }
+    }
+    
+    return true;
+  });
 
 const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -302,11 +321,14 @@ const handleSubmit = async (e: React.FormEvent) => {
                       mode="single"
                       selected={date}
                       onSelect={setDate}
-                      disabled={(date) => {
-                        const day = date.getDay();
-                        return date < new Date() || day === 0; // Disable past dates and Sundays
+                      disabled={(calDate) => {
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        const day = calDate.getDay();
+                        return calDate < today || day === 0; // Disable past dates (but allow today) and Sundays
                       }}
                       initialFocus
+                      className={cn("p-3 pointer-events-auto")}
                     />
                   </PopoverContent>
                 </Popover>
