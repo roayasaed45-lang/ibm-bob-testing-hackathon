@@ -364,7 +364,16 @@ const handleSubmit = async (e: React.FormEvent) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
                         const day = calDate.getDay();
-                        return calDate < today || day === 0; // Disable past dates (but allow today) and Sundays
+                        // Blocked dates (closed days)
+                        const blockedDates = [
+                          new Date(2026, 0, 28), // January 28, 2026
+                        ];
+                        const isBlocked = blockedDates.some(blocked => 
+                          calDate.getFullYear() === blocked.getFullYear() &&
+                          calDate.getMonth() === blocked.getMonth() &&
+                          calDate.getDate() === blocked.getDate()
+                        );
+                        return calDate < today || day === 0 || isBlocked; // Disable past dates, Sundays, and blocked dates
                       }}
                       initialFocus
                       className={cn("p-3 pointer-events-auto")}
