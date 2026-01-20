@@ -131,6 +131,35 @@ const handleSubmit = async (e: React.FormEvent) => {
       return;
     }
 
+    // Check if this phone number already has an appointment on this date
+    const { data: existingAppointment, error: checkError } = await supabase
+      .from('appointments')
+      .select('id')
+      .eq('customer_phone', customerPhone)
+      .eq('appointment_date', format(date, 'yyyy-MM-dd'))
+      .neq('status', 'cancelled')
+      .maybeSingle();
+
+    if (checkError) {
+      toast({
+        variant: 'destructive',
+        title: t('error'),
+        description: t('bookingError') || 'לא ניתן לבצע את ההזמנה. נסה שוב.',
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (existingAppointment) {
+      toast({
+        variant: 'destructive',
+        title: t('error'),
+        description: t('alreadyBookedToday') || 'כבר יש לך תור ביום זה. ניתן לקבוע תור אחד בלבד ליום.',
+      });
+      setLoading(false);
+      return;
+    }
+
     const { error } = await supabase.from('appointments').insert({
       customer_name: customerName,
       customer_phone: customerPhone,
