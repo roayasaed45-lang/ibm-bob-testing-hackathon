@@ -96,12 +96,14 @@ const [customerName, setCustomerName] = useState('');
       const today = new Date();
       const isToday = date.toDateString() === today.toDateString();
       if (isToday) {
-        const [hours, minutes] = slot.split(':').map(Number);
-        const slotTime = new Date();
-        slotTime.setHours(hours, minutes, 0, 0);
-        // Only show slots that are at least 30 minutes in the future
-        const bufferTime = new Date(today.getTime() + 30 * 60 * 1000);
-        return slotTime >= bufferTime;
+        const [hours] = slot.split(':').map(Number);
+        const currentHour = today.getHours();
+        const currentMinutes = today.getMinutes();
+        // Only show slots that are at least 1 hour in the future
+        // If current time is 17:30, allow 19:00 and later (current hour + 2 when past 30 min mark)
+        // If current time is 17:00, allow 18:00 and later (current hour + 1)
+        const minHour = currentMinutes >= 30 ? currentHour + 2 : currentHour + 1;
+        return hours >= minHour;
       }
     }
     
