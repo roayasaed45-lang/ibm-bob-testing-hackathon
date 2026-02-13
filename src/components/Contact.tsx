@@ -6,6 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useNavigate } from 'react-router-dom';
 import whatsappIcon from '@/assets/whatsapp-icon.png';
 import phoneIcon from '@/assets/phone-icon.png';
+import { SectionDivider, MiniLantern, StarCluster } from './RamadanDecorations';
 
 const Contact = () => {
   const { t } = useLanguage();
@@ -69,10 +70,13 @@ const copyInstagram = async () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-background">
+    <section id="contact" className="relative py-20 bg-background overflow-hidden">
+      <MiniLantern className="absolute top-0 right-8 md:right-20" />
+      <StarCluster className="absolute bottom-16 left-4" />
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
+            <SectionDivider />
             <h2 className="text-4xl md:text-5xl font-bold text-foreground">
               {t('contactTitle')}
             </h2>

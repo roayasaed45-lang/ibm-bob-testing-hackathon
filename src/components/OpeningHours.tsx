@@ -1,6 +1,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock } from 'lucide-react';
+import { SectionDivider, SmallCrescent } from './RamadanDecorations';
 
 const OpeningHours = () => {
   const { t, language } = useLanguage();
@@ -16,9 +17,12 @@ const OpeningHours = () => {
   ];
 
   return (
-    <section className="py-16 bg-secondary/30">
+    <section className="relative py-16 bg-secondary/30 overflow-hidden">
+      <SmallCrescent className="absolute top-6 right-10 w-8 h-8" />
+      <SmallCrescent className="absolute bottom-8 left-8 w-6 h-6 opacity-10" />
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
+          <SectionDivider />
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             {t('openingHoursTitle')}
           </h2>
