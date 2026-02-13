@@ -1,4 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
+import { SectionDivider, StarCluster, MiniLantern } from './RamadanDecorations';
 import gallery1 from '@/assets/gallery-1.jpg';
 import gallery2 from '@/assets/gallery-2.jpg';
 import gallery3 from '@/assets/gallery-3.jpg';
@@ -19,10 +20,13 @@ const Gallery = () => {
   ];
 
   return (
-    <section id="gallery" className="py-20 bg-gradient-subtle">
+    <section id="gallery" className="relative py-20 bg-gradient-subtle overflow-hidden">
+      <StarCluster className="absolute top-10 right-8" />
+      <MiniLantern className="absolute top-0 left-6 md:left-14" />
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center space-y-4 mb-12">
+            <SectionDivider />
             <h2 className="text-4xl md:text-5xl font-bold text-foreground">
               {t('galleryTitle')}
             </h2>
