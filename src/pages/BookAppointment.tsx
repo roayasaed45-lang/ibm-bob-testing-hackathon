@@ -42,10 +42,11 @@ const [customerName, setCustomerName] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
 
-  // Generate time slots (10:00 - 20:00, every hour)
+  // Generate time slots (11:00 - 19:00, every hour, closed at 17:00)
   const generateTimeSlots = () => {
     const slots = [];
-    for (let hour = 10; hour <= 20; hour++) {
+    for (let hour = 11; hour <= 19; hour++) {
+      if (hour === 17) continue; // Closed at 17:00
       slots.push(`${hour.toString().padStart(2, '0')}:00`);
     }
     return slots;

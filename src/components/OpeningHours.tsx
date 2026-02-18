@@ -8,12 +8,12 @@ const OpeningHours = () => {
 
   const hours = [
     { day: t('sunday'), time: t('closed'), isOpen: false },
-    { day: t('monday'), time: '10:00 - 20:00', isOpen: true },
-    { day: t('tuesday'), time: '10:00 - 20:00', isOpen: true },
-    { day: t('wednesday'), time: '10:00 - 20:00', isOpen: true },
-    { day: t('thursday'), time: '10:00 - 20:00', isOpen: true },
-    { day: t('friday'), time: '10:00 - 20:00', isOpen: true },
-    { day: t('saturday'), time: '10:00 - 20:00', isOpen: true },
+    { day: t('monday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
+    { day: t('tuesday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
+    { day: t('wednesday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
+    { day: t('thursday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
+    { day: t('friday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
+    { day: t('saturday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
   ];
 
   return (
@@ -49,13 +49,18 @@ const OpeningHours = () => {
                   }`}
                 >
                   <span className="font-medium text-foreground">{item.day}</span>
-                  <span className={`font-semibold ${
-                    item.isOpen 
-                      ? 'text-primary' 
-                      : 'text-destructive'
-                  }`}>
-                    {item.time}
-                  </span>
+                  <div className="text-right">
+                    <span className={`font-semibold ${
+                      item.isOpen 
+                        ? 'text-primary' 
+                        : 'text-destructive'
+                    }`}>
+                      {item.time}
+                    </span>
+                    {item.note && (
+                      <div className="text-xs text-muted-foreground">{item.note}</div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
