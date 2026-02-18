@@ -83,6 +83,7 @@ const translations = {
     saturday: 'Saturday',
     sunday: 'Sunday',
     closed: 'Closed',
+    breakAt17: 'Break at 17:00',
     
     // Contact Details
     chatWithAli: 'Chat with Ali',
@@ -249,6 +250,7 @@ const translations = {
     saturday: 'יום שבת',
     sunday: 'יום ראשון',
     closed: 'סגור',
+    breakAt17: 'הפסקה ב-17:00',
     
     // Contact Details
     chatWithAli: 'שוחח עם עלי',
@@ -415,6 +417,7 @@ const translations = {
     saturday: 'السبت',
     sunday: 'الأحد',
     closed: 'مغلق',
+    breakAt17: 'استراحة الساعة 17:00',
     
     // Contact Details
     chatWithAli: 'دردش مع علي',
