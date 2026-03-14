@@ -42,16 +42,33 @@ const [customerName, setCustomerName] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
 
-  // Generate time slots (10:00 - 21:00, every 30 minutes)
-  const generateTimeSlots = () => {
+  // Special holiday dates with extended hours (10:00 - 01:00)
+  const holidayDates = ['2026-03-18', '2026-03-19'];
+
+  const isHolidayDate = (d: Date) => holidayDates.includes(format(d, 'yyyy-MM-dd'));
+
+  // Generate time slots based on date
+  const generateTimeSlots = (selectedDate?: Date) => {
     const slots = [];
-    for (let hour = 10; hour <= 20; hour++) {
-      slots.push(`${hour.toString().padStart(2, '0')}:00`);
-      if (hour < 20) {
+    if (selectedDate && isHolidayDate(selectedDate)) {
+      // Holiday hours: 10:00 - 01:00 (next day)
+      for (let hour = 10; hour <= 23; hour++) {
+        slots.push(`${hour.toString().padStart(2, '0')}:00`);
         slots.push(`${hour.toString().padStart(2, '0')}:30`);
       }
+      slots.push('00:00');
+      slots.push('00:30');
+      slots.push('01:00');
+    } else {
+      // Regular hours: 10:00 - 21:00
+      for (let hour = 10; hour <= 20; hour++) {
+        slots.push(`${hour.toString().padStart(2, '0')}:00`);
+        if (hour < 20) {
+          slots.push(`${hour.toString().padStart(2, '0')}:30`);
+        }
+      }
+      slots.push('21:00');
     }
-    slots.push('21:00');
     return slots;
   };
 
