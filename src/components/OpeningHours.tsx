@@ -57,9 +57,6 @@ const OpeningHours = () => {
                     }`}>
                       {item.time}
                     </span>
-                    {item.note && (
-                      <div className="text-xs text-muted-foreground">{item.note}</div>
-                    )}
                   </div>
                 </div>
               ))}
