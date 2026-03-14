@@ -72,7 +72,7 @@ const [customerName, setCustomerName] = useState('');
     return slots;
   };
 
-  const allTimeSlots = generateTimeSlots();
+  const allTimeSlots = generateTimeSlots(date || undefined);
 
   // Fetch booked slots when date changes and reset time selection
   useEffect(() => {
