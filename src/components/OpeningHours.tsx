@@ -8,12 +8,12 @@ const OpeningHours = () => {
 
   const hours = [
     { day: t('sunday'), time: t('closed'), isOpen: false },
-    { day: t('monday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
-    { day: t('tuesday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
-    { day: t('wednesday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
-    { day: t('thursday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
-    { day: t('friday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
-    { day: t('saturday'), time: '11:00 - 19:00', isOpen: true, note: t('breakAt17') },
+    { day: t('monday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('tuesday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('wednesday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('thursday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('friday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('saturday'), time: '10:00 - 21:00', isOpen: true },
   ];
 
   return (
