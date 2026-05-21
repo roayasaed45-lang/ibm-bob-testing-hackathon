@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Menu, X, Scissors, Sun, Moon, Calendar, Lock } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from 'next-themes';
@@ -7,16 +7,21 @@ import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { language, setLanguage, t } = useLanguage();
   const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsOpen(false);
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    setIsOpen(false);
   };
 
   const languages = [
@@ -25,209 +30,126 @@ const Header = () => {
     { code: 'ar', label: 'ع' },
   ];
 
+  const navItems = [
+    { id: 'home', label: t('home') },
+    { id: 'about', label: t('about') },
+    { id: 'services', label: t('services') },
+    { id: 'gallery', label: t('gallery') },
+    { id: 'contact', label: t('contact') },
+  ];
+
   return (
-    <header className="fixed top-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-b border-border z-50 shadow-sm">
-      <div className="container mx-auto px-4">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled ? 'glass shadow-card' : 'bg-transparent'
+      }`}
+    >
+      <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <button
             onClick={() => scrollToSection('home')}
-            className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+            className="font-bold text-base tracking-[0.18em] hover:opacity-70 transition-opacity"
           >
-            <Scissors className="w-6 h-6 text-primary" />
-            <span className="text-xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-              {t('shopName')}
-            </span>
+            ALE BARBER
           </button>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6">
-            <button
-              onClick={() => scrollToSection('home')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              {t('home')}
-            </button>
-            <button
-              onClick={() => scrollToSection('about')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              {t('about')}
-            </button>
-            <button
-              onClick={() => scrollToSection('services')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              {t('services')}
-            </button>
-            <button
-              onClick={() => scrollToSection('gallery')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              {t('gallery')}
-            </button>
-            <button
-              onClick={() => scrollToSection('contact')}
-              className="text-foreground hover:text-primary transition-colors"
-            >
-              {t('contact')}
-            </button>
+          <nav className="hidden lg:flex items-center gap-1">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollToSection(item.id)}
+                className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground rounded-full hover:bg-foreground/5 transition-colors"
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
 
-            {/* Book Appointment Button */}
-            <Button
-              onClick={() => navigate('/book')}
-              size="sm"
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
-            >
-              <Calendar className="w-4 h-4 me-1" />
-              {t('bookNow')}
-            </Button>
-
-            {/* Admin Login Button */}
-            <Button
-              onClick={() => navigate('/admin')}
-              variant="outline"
-              size="sm"
-            >
-              <Lock className="w-4 h-4 me-1" />
-              {t('adminLogin')}
-            </Button>
-
-            {/* Theme Toggle */}
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="rounded-lg"
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </Button>
-
-            {/* Language Switcher */}
-            <div className="flex items-center gap-1 border border-border rounded-lg p-1">
+          <div className="hidden lg:flex items-center gap-2">
+            <div className="flex items-center gap-0.5 rounded-full bg-secondary p-0.5">
               {languages.map((lang) => (
                 <button
                   key={lang.code}
                   onClick={() => setLanguage(lang.code as any)}
-                  className={`px-3 py-1 rounded text-sm transition-all ${
-                    language === lang.code
-                      ? 'bg-primary text-primary-foreground'
-                      : 'text-muted-foreground hover:text-foreground'
+                  className={`px-2.5 py-1 rounded-full text-xs font-medium transition-all ${
+                    language === lang.code ? 'bg-background shadow-sm' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {lang.label}
                 </button>
               ))}
             </div>
-          </nav>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="rounded-full"
+            >
+              {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </Button>
+            <Button
+              onClick={() => navigate('/book')}
+              size="sm"
+              className="rounded-full bg-primary text-primary-foreground hover:bg-primary/90 px-5"
+            >
+              {t('bookNow')}
+            </Button>
+          </div>
 
-          {/* Mobile Menu Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden text-foreground hover:text-primary transition-colors"
+            className="lg:hidden p-2 rounded-full hover:bg-foreground/5 transition-colors"
+            aria-label="Toggle menu"
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
-        {/* Mobile Navigation */}
         {isOpen && (
-          <nav className="md:hidden py-4 border-t border-border">
-            <div className="flex flex-col gap-4">
-              <button
-                onClick={() => scrollToSection('home')}
-                className="text-foreground hover:text-primary transition-colors text-left"
-              >
-                {t('home')}
-              </button>
-              <button
-                onClick={() => scrollToSection('about')}
-                className="text-foreground hover:text-primary transition-colors text-left"
-              >
-                {t('about')}
-              </button>
-              <button
-                onClick={() => scrollToSection('services')}
-                className="text-foreground hover:text-primary transition-colors text-left"
-              >
-                {t('services')}
-              </button>
-              <button
-                onClick={() => scrollToSection('gallery')}
-                className="text-foreground hover:text-primary transition-colors text-left"
-              >
-                {t('gallery')}
-              </button>
-              <button
-                onClick={() => scrollToSection('contact')}
-                className="text-foreground hover:text-primary transition-colors text-left"
-              >
-              {t('contact')}
-            </button>
-
-            {/* Mobile Action Buttons */}
-            <div className="flex gap-2 pt-2">
-              <Button
-                onClick={() => {
-                  navigate('/book');
-                  setIsOpen(false);
-                }}
-                size="sm"
-                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90"
-              >
-                <Calendar className="w-4 h-4 me-1" />
-                {t('bookNow')}
-              </Button>
-              <Button
-                onClick={() => {
-                  navigate('/admin');
-                  setIsOpen(false);
-                }}
-                variant="outline"
-                size="sm"
-                className="flex-1"
-              >
-                <Lock className="w-4 h-4 me-1" />
-                {t('adminLogin')}
-              </Button>
-            </div>
-
-            {/* Mobile Theme Toggle & Language Switcher */}
-            <div className="flex items-center justify-between gap-2 pt-2 border-t border-border">
-              <div className="flex items-center gap-2">
-                {languages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => setLanguage(lang.code as any)}
-                    className={`px-4 py-2 rounded text-sm transition-all ${
-                      language === lang.code
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground'
-                    }`}
-                  >
-                    {lang.label}
-                  </button>
-                ))}
+          <nav className="lg:hidden pb-6 pt-2 animate-fade-up">
+            <div className="flex flex-col gap-1">
+              {navItems.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => scrollToSection(item.id)}
+                  className="text-left px-4 py-3 rounded-2xl hover:bg-foreground/5 transition-colors"
+                >
+                  {item.label}
+                </button>
+              ))}
+              <div className="flex items-center gap-2 pt-4 mt-2 border-t border-border/60">
+                <div className="flex items-center gap-0.5 rounded-full bg-secondary p-0.5">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => setLanguage(lang.code as any)}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
+                        language === lang.code ? 'bg-background shadow-sm' : 'text-muted-foreground'
+                      }`}
+                    >
+                      {lang.label}
+                    </button>
+                  ))}
+                </div>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                  className="rounded-full"
+                >
+                  {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                </Button>
+                <Button
+                  onClick={() => { navigate('/book'); setIsOpen(false); }}
+                  size="sm"
+                  className="rounded-full bg-primary text-primary-foreground ms-auto px-5"
+                >
+                  {t('bookNow')}
+                </Button>
               </div>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              >
-                {theme === 'dark' ? (
-                  <Sun className="w-5 h-5" />
-                ) : (
-                  <Moon className="w-5 h-5" />
-                )}
-              </Button>
             </div>
-          </div>
-        </nav>
-      )}
+          </nav>
+        )}
       </div>
     </header>
   );
