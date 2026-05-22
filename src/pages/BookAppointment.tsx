@@ -42,42 +42,35 @@ const [customerName, setCustomerName] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
 
-  // Special date schedules: start hour (inclusive) and end hour (exclusive, in hours; can exceed 24 for after-midnight)
-  // e.g. { start: 10, end: 25 } => 10:00 to 01:00 next day
-  const specialSchedules: Record<string, { start: number; end: number }> = {
-    '2026-03-18': { start: 10, end: 25 }, // 10:00 - 01:00
-    '2026-03-19': { start: 10, end: 25 },
-    '2026-05-23': { start: 9, end: 21 },  // Sat: 09:00 - 21:00
-    '2026-05-24': { start: 17, end: 24 }, // Sun: 17:00 - 00:00 (midnight)
-    '2026-05-25': { start: 9, end: 24 },  // Mon: 09:00 - 00:00
-    '2026-05-26': { start: 8, end: 27 },  // Tue: 08:00 - 03:00 next day
+  // Eid Al-Adha weekly schedule (by day of week)
+  // Sun: 17:00-00:00, Mon: 08:00-00:00, Tue: 08:00-03:00 next day, Wed-Sat: Closed
+  // end can exceed 24 to indicate after-midnight (e.g. 27 = 03:00 next day)
+  const eidWeeklySchedule: Record<number, { start: number; end: number } | null> = {
+    0: { start: 17, end: 24 }, // Sunday
+    1: { start: 8, end: 24 },  // Monday
+    2: { start: 8, end: 27 },  // Tuesday
+    3: null, // Wednesday - Closed
+    4: null, // Thursday - Closed
+    5: null, // Friday - Closed
+    6: null, // Saturday - Closed
   };
 
   const getDateKey = (d: Date) => format(d, 'yyyy-MM-dd');
-  const isSpecialDate = (d: Date) => getDateKey(d) in specialSchedules;
+  const getScheduleForDate = (d: Date) => eidWeeklySchedule[d.getDay()];
+  const isClosedDate = (d: Date) => getScheduleForDate(d) === null;
 
   // Generate time slots based on date (every 30 minutes)
   const generateTimeSlots = (selectedDate?: Date) => {
     const slots: string[] = [];
-    let startHour = 10;
-    let endHour = 21; // inclusive last slot at 21:00
+    if (!selectedDate) return slots;
+    const sched = getScheduleForDate(selectedDate);
+    if (!sched) return slots;
 
-    if (selectedDate && isSpecialDate(selectedDate)) {
-      const sched = specialSchedules[getDateKey(selectedDate)];
-      startHour = sched.start;
-      endHour = sched.end;
-    }
-
-    // Generate slots at :00 and :30 from startHour to endHour (endHour exclusive for :00 except last)
-    for (let h = startHour * 2; h < endHour * 2; h++) {
+    // Generate slots at :00 and :30 from start to end (end exclusive)
+    for (let h = sched.start * 2; h < sched.end * 2; h++) {
       const hour = Math.floor(h / 2) % 24;
       const minute = h % 2 === 0 ? '00' : '30';
       slots.push(`${hour.toString().padStart(2, '0')}:${minute}`);
-    }
-    // Include the final on-the-hour slot for regular days (e.g. 21:00)
-    if (!(selectedDate && isSpecialDate(selectedDate))) {
-      const lastHour = endHour % 24;
-      slots.push(`${lastHour.toString().padStart(2, '0')}:00`);
     }
     return slots;
   };
