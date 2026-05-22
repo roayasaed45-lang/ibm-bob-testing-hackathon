@@ -1,48 +1,68 @@
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Card, CardContent } from '@/components/ui/card';
 import { Clock } from 'lucide-react';
+import { SectionDivider, SmallCrescent } from './RamadanDecorations';
 
 const OpeningHours = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const hours = [
     { day: t('sunday'), time: t('closed'), isOpen: false },
-    { day: t('monday'), time: '10:00 – 21:00', isOpen: true },
-    { day: t('tuesday'), time: '10:00 – 21:00', isOpen: true },
-    { day: t('wednesday'), time: '10:00 – 21:00', isOpen: true },
-    { day: t('thursday'), time: '10:00 – 21:00', isOpen: true },
-    { day: t('friday'), time: '10:00 – 21:00', isOpen: true },
-    { day: t('saturday'), time: '10:00 – 21:00', isOpen: true },
+    { day: t('monday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('tuesday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('wednesday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('thursday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('friday'), time: '10:00 - 21:00', isOpen: true },
+    { day: t('saturday'), time: '10:00 - 21:00', isOpen: true },
   ];
 
   return (
-    <section className="relative py-32 md:py-40 bg-background">
-      <div className="container mx-auto px-6">
-        <div className="max-w-3xl mx-auto">
-          <div className="text-center mb-16 space-y-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Hours</p>
-            <h2 className="text-4xl md:text-6xl text-gradient text-balance leading-[1.05]">
-              {t('openingHoursTitle')}
-            </h2>
-            <p className="text-lg text-muted-foreground font-light">{t('openingHoursSubtitle')}</p>
-          </div>
+    <section className="relative py-16 bg-secondary/30 overflow-hidden">
+      <SmallCrescent className="absolute top-6 right-10 w-8 h-8" />
+      <SmallCrescent className="absolute bottom-8 left-8 w-6 h-6 opacity-10" />
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-12">
+          <SectionDivider />
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            {t('openingHoursTitle')}
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            {t('openingHoursSubtitle')}
+          </p>
+        </div>
 
-          <div className="rounded-3xl glass shadow-card p-8 md:p-10">
-            <div className="flex items-center gap-3 mb-8 pb-6 border-b border-border/60">
-              <Clock className="w-5 h-5" strokeWidth={1.5} />
-              <span className="text-base font-semibold tracking-tight">{t('workingHours')}</span>
+        <Card className="max-w-md mx-auto bg-card border-primary/20">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-center gap-2 mb-6">
+              <Clock className="w-6 h-6 text-primary" />
+              <span className="text-xl font-semibold text-foreground">{t('workingHours')}</span>
             </div>
-            <div className="divide-y divide-border/60">
+            
+            <div className="space-y-3">
               {hours.map((item, index) => (
-                <div key={index} className="flex justify-between items-center py-4">
-                  <span className="font-medium">{item.day}</span>
-                  <span className={`text-sm font-medium tabular-nums ${item.isOpen ? 'text-foreground' : 'text-muted-foreground'}`}>
-                    {item.time}
-                  </span>
+                <div 
+                  key={index}
+                  className={`flex justify-between items-center py-2 px-4 rounded-lg ${
+                    item.isOpen 
+                      ? 'bg-primary/10' 
+                      : 'bg-destructive/10'
+                  }`}
+                >
+                  <span className="font-medium text-foreground">{item.day}</span>
+                  <div className="text-right">
+                    <span className={`font-semibold ${
+                      item.isOpen 
+                        ? 'text-primary' 
+                        : 'text-destructive'
+                    }`}>
+                      {item.time}
+                    </span>
+                  </div>
                 </div>
               ))}
             </div>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     </section>
   );

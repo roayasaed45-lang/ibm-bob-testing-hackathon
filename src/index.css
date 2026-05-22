@@ -2,101 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Apple-inspired minimal premium design system.
-   All colors are HSL. White / black / soft gray palette. */
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
 
 @layer base {
   :root {
-    /* Light — clean editorial whites */
+    /* Light Mode - Clean White Palette */
     --background: 0 0% 100%;
-    --foreground: 0 0% 7%;
+    --foreground: 222 47% 11%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 7%;
+    --card: 220 14% 96%;
+    --card-foreground: 222 47% 11%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 7%;
+    --popover-foreground: 222 47% 11%;
 
-    /* Primary = near-black for crisp Apple-like accents */
-    --primary: 0 0% 9%;
+    /* Gold - Brand Color */
+    --primary: 43 64% 42%;
     --primary-foreground: 0 0% 100%;
-    --primary-light: 0 0% 20%;
-    --primary-dark: 0 0% 0%;
+    --primary-light: 43 64% 52%;
+    --primary-dark: 40 74% 32%;
 
-    --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
-    --secondary-light: 0 0% 98%;
+    /* Secondary */
+    --secondary: 220 14% 92%;
+    --secondary-foreground: 222 47% 11%;
+    --secondary-light: 220 14% 88%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 40%;
+    --muted: 220 14% 92%;
+    --muted-foreground: 0 0% 10%;
 
-    --accent: 0 0% 92%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 43 64% 52%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 92%;
-    --input: 0 0% 92%;
-    --ring: 0 0% 9%;
+    --border: 220 13% 85%;
+    --input: 220 13% 85%;
+    --ring: 43 64% 52%;
 
-    --radius: 1.25rem;
+    --radius: 0.5rem;
 
-    /* Premium gradients */
-    --gradient-hero: linear-gradient(180deg, hsl(0 0% 100% / 0), hsl(0 0% 100% / 0.85));
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 97%));
-    --gradient-text: linear-gradient(180deg, hsl(0 0% 9%), hsl(0 0% 35%));
-    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.7), hsl(0 0% 100% / 0.4));
-
-    /* Soft shadows */
-    --shadow-elegant: 0 20px 60px -20px hsl(0 0% 0% / 0.15);
-    --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.04), 0 8px 24px -8px hsl(0 0% 0% / 0.08);
-    --shadow-glow: 0 0 0 1px hsl(0 0% 0% / 0.04), 0 30px 80px -30px hsl(0 0% 0% / 0.25);
-
-    /* Transitions */
-    --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(43 64% 52%), hsl(40 74% 42%));
+    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(220 14% 96%));
+    
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(43 64% 52% / 0.3);
+    --shadow-card: 0 4px 20px -4px hsl(0 0% 0% / 0.1);
   }
 
   .dark {
-    --background: 0 0% 4%;
-    --foreground: 0 0% 98%;
+    /* Dark Mode - Luxurious Dark Palette */
+    --background: 222 47% 11%;
+    --foreground: 210 40% 98%;
 
-    --card: 0 0% 7%;
-    --card-foreground: 0 0% 98%;
+    --card: 222 41% 12%;
+    --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 7%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 222 41% 12%;
+    --popover-foreground: 210 40% 98%;
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 7%;
-    --primary-light: 0 0% 90%;
-    --primary-dark: 0 0% 100%;
+    --primary: 43 64% 52%;
+    --primary-foreground: 222 47% 11%;
 
-    --secondary: 0 0% 11%;
-    --secondary-foreground: 0 0% 98%;
-    --secondary-light: 0 0% 14%;
+    --secondary: 222 41% 18%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 0 0% 11%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 222 35% 20%;
+    --muted-foreground: 215 25% 84%;
 
-    --accent: 0 0% 14%;
-    --accent-foreground: 0 0% 98%;
+    --accent: 43 64% 52%;
+    --accent-foreground: 222 47% 11%;
 
-    --destructive: 0 70% 55%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 0 0% 98%;
-
-    --gradient-hero: linear-gradient(180deg, hsl(0 0% 4% / 0), hsl(0 0% 4% / 0.9));
-    --gradient-subtle: linear-gradient(180deg, hsl(0 0% 4%), hsl(0 0% 6%));
-    --gradient-text: linear-gradient(180deg, hsl(0 0% 100%), hsl(0 0% 70%));
-    --gradient-glass: linear-gradient(135deg, hsl(0 0% 100% / 0.08), hsl(0 0% 100% / 0.02));
-
-    --shadow-elegant: 0 20px 60px -20px hsl(0 0% 0% / 0.6);
-    --shadow-card: 0 1px 2px hsl(0 0% 0% / 0.4), 0 8px 24px -8px hsl(0 0% 0% / 0.5);
-    --shadow-glow: 0 0 0 1px hsl(0 0% 100% / 0.06), 0 30px 80px -30px hsl(0 0% 0% / 0.8);
+    --border: 222 30% 22%;
+    --input: 222 30% 22%;
+    --ring: 43 64% 52%;
   }
 }
 
@@ -105,67 +90,7 @@
     @apply border-border;
   }
 
-  html {
-    scroll-behavior: smooth;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
-    font-feature-settings: 'ss01', 'cv11';
-    letter-spacing: -0.011em;
   }
-
-  h1, h2, h3, h4 {
-    font-family: 'Manrope', 'Inter', -apple-system, system-ui, sans-serif;
-    letter-spacing: -0.03em;
-    font-weight: 700;
-  }
-}
-
-@layer utilities {
-  .glass {
-    background: var(--gradient-glass);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid hsl(var(--border));
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
-
-  .text-gradient {
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .animate-fade-up {
-    animation: fade-up 0.8s var(--ease-smooth) both;
-  }
-
-  .animate-fade-in-slow {
-    animation: fade-in-slow 1.2s var(--ease-smooth) both;
-  }
-
-  .animate-blur-in {
-    animation: blur-in 1s var(--ease-smooth) both;
-  }
-}
-
-@keyframes fade-up {
-  0% { opacity: 0; transform: translateY(24px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-@keyframes fade-in-slow {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
-}
-@keyframes blur-in {
-  0% { opacity: 0; filter: blur(12px); transform: scale(1.02); }
-  100% { opacity: 1; filter: blur(0); transform: scale(1); }
 }

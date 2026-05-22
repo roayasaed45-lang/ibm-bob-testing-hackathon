@@ -1,61 +1,172 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Scissors, Sparkles, Wind, Home, Heart, Baby, ArrowUpRight } from 'lucide-react';
+import { Scissors, CheckCircle, Calendar } from 'lucide-react';
+import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { StarCluster, SectionDivider, MiniLantern } from './RamadanDecorations';
 import { useNavigate } from 'react-router-dom';
 
 const Services = () => {
   const { t } = useLanguage();
   const navigate = useNavigate();
 
-  const services = [
-    { icon: Scissors, name: t('haircut'), desc: t('haircutDesc'), price: t('haircutPrice') },
-    { icon: Baby, name: t('childHaircut'), desc: t('childHaircutDesc'), price: t('childHaircutPrice') },
-    { icon: Wind, name: t('straightening'), desc: t('straighteningDesc'), price: t('straighteningPrice') },
-    { icon: Sparkles, name: t('facialMask'), desc: t('facialMaskDesc'), price: t('facialMaskPrice') },
-    { icon: Home, name: t('barberAtHome'), desc: t('barberAtHomeDesc'), price: t('barberAtHomePrice') },
-    { icon: Heart, name: t('groomHaircut'), desc: t('groomHaircutDesc'), price: '—' },
-  ];
-
   return (
-    <section id="services" className="relative py-32 md:py-40 bg-secondary/40">
-      <div className="container mx-auto px-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-20 space-y-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">Services</p>
-            <h2 className="text-4xl md:text-6xl text-gradient text-balance leading-[1.05]">
+    <section id="services" className="relative py-20 bg-background overflow-hidden">
+      <MiniLantern className="absolute top-0 left-8 md:left-16" />
+      <StarCluster className="absolute bottom-12 right-4" />
+      <div className="container mx-auto px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center space-y-4 mb-12">
+            <SectionDivider />
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground">
               {t('servicesTitle')}
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-            {services.map((service, index) => (
-              <div
-                key={index}
-                onClick={() => navigate('/book')}
-                className="group relative p-8 rounded-3xl bg-card border border-border/60 hover:border-foreground/20 hover:shadow-glow transition-all duration-500 hover:-translate-y-1 cursor-pointer"
-              >
-                <div className="flex items-start justify-between mb-6">
-                  <div className="w-11 h-11 rounded-2xl bg-secondary flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-all duration-500">
-                    <service.icon className="w-5 h-5" strokeWidth={1.5} />
-                  </div>
-                  <ArrowUpRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-500" />
+          <div className="space-y-6">
+            <Card className="p-8 shadow-elegant hover:shadow-card transition-all">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
+                  <Scissors className="w-10 h-10 text-primary-foreground" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2 tracking-tight">{service.name}</h3>
-                <p className="text-sm text-muted-foreground font-light mb-6 min-h-[2.5rem]">{service.desc}</p>
-                <div className="pt-6 border-t border-border/60 flex items-baseline justify-between">
-                  <span className="text-xs uppercase tracking-widest text-muted-foreground">From</span>
-                  <span className="text-2xl font-semibold tracking-tight">{service.price}</span>
+                <div className="flex-1 text-center md:text-start space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-card-foreground">
+                    {t('haircut')}
+                  </h3>
+                  <p className="text-lg text-muted-foreground">
+                    {t('haircutDesc')}
+                  </p>
+                  <div className="flex flex-wrap gap-2 justify-center md:justify-start pt-2">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <CheckCircle className="w-4 h-4 text-primary" />
+                      <span>{t('washStyle')}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <CheckCircle className="w-4 h-4 text-primary" />
+                      <span>{t('professionalTools')}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <CheckCircle className="w-4 h-4 text-primary" />
+                      <span>{t('expertAdvice')}</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="text-center md:text-end">
+                  <div className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+                    {t('haircutPrice')}
+                  </div>
                 </div>
               </div>
-            ))}
+            </Card>
+
+            <Card className="p-8 shadow-elegant hover:shadow-card transition-all">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
+                  <Scissors className="w-10 h-10 text-primary-foreground" />
+                </div>
+                <div className="flex-1 text-center md:text-start space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-card-foreground">
+                    {t('childHaircut')}
+                  </h3>
+                  <p className="text-lg text-muted-foreground">
+                    {t('childHaircutDesc')}
+                  </p>
+                </div>
+                <div className="text-center md:text-end">
+                  <div className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+                    {t('childHaircutPrice')}
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-8 shadow-elegant hover:shadow-card transition-all">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
+                  <Scissors className="w-10 h-10 text-primary-foreground" />
+                </div>
+                <div className="flex-1 text-center md:text-start space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-card-foreground">
+                    {t('straightening')}
+                  </h3>
+                  <p className="text-lg text-muted-foreground">
+                    {t('straighteningDesc')}
+                  </p>
+                </div>
+                <div className="text-center md:text-end">
+                  <div className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+                    {t('straighteningPrice')}
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-8 shadow-elegant hover:shadow-card transition-all">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
+                  <Scissors className="w-10 h-10 text-primary-foreground" />
+                </div>
+                <div className="flex-1 text-center md:text-start space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-card-foreground">
+                    {t('facialMask')}
+                  </h3>
+                  <p className="text-lg text-muted-foreground">
+                    {t('facialMaskDesc')}
+                  </p>
+                </div>
+                <div className="text-center md:text-end">
+                  <div className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+                    {t('facialMaskPrice')}
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-8 shadow-elegant hover:shadow-card transition-all">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
+                  <Scissors className="w-10 h-10 text-primary-foreground" />
+                </div>
+                <div className="flex-1 text-center md:text-start space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-card-foreground">
+                    {t('barberAtHome')}
+                  </h3>
+                  <p className="text-lg text-muted-foreground">
+                    {t('barberAtHomeDesc')}
+                  </p>
+                </div>
+                <div className="text-center md:text-end">
+                  <div className="text-4xl font-bold bg-gradient-hero bg-clip-text text-transparent">
+                    {t('barberAtHomePrice')}
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-8 shadow-elegant hover:shadow-card transition-all">
+              <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-hero flex items-center justify-center flex-shrink-0">
+                  <Scissors className="w-10 h-10 text-primary-foreground" />
+                </div>
+                <div className="flex-1 text-center md:text-start space-y-3">
+                  <h3 className="text-2xl md:text-3xl font-bold text-card-foreground">
+                    {t('groomHaircut')}
+                  </h3>
+                  <p className="text-lg text-muted-foreground">
+                    {t('groomHaircutDesc')}
+                  </p>
+                </div>
+              </div>
+            </Card>
           </div>
 
-          <div className="mt-16 text-center">
+          {/* Book Now Button */}
+          <div className="mt-12 text-center">
             <Button
               onClick={() => navigate('/book')}
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full px-8 py-6 text-base font-medium shadow-glow"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6"
             >
+              <Calendar className="w-5 h-5 me-2" />
               {t('bookNow')}
             </Button>
           </div>
