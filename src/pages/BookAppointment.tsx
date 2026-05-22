@@ -53,7 +53,6 @@ const [customerName, setCustomerName] = useState('');
     '2026-05-28': null,
     '2026-05-29': null,
     '2026-05-30': null,
-    '2026-06-24': { start: 17, end: 24 },
   };
 
   // Regular weekly schedule (default for all non-override dates)
