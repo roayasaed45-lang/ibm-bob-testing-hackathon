@@ -42,32 +42,42 @@ const [customerName, setCustomerName] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
 
-  // Special holiday dates with extended hours (10:00 - 01:00)
-  const holidayDates = ['2026-03-18', '2026-03-19'];
+  // Special date schedules: start hour (inclusive) and end hour (exclusive, in hours; can exceed 24 for after-midnight)
+  // e.g. { start: 10, end: 25 } => 10:00 to 01:00 next day
+  const specialSchedules: Record<string, { start: number; end: number }> = {
+    '2026-03-18': { start: 10, end: 25 }, // 10:00 - 01:00
+    '2026-03-19': { start: 10, end: 25 },
+    '2026-05-23': { start: 9, end: 21 },  // Sat: 09:00 - 21:00
+    '2026-05-24': { start: 17, end: 24 }, // Sun: 17:00 - 00:00 (midnight)
+    '2026-05-25': { start: 9, end: 24 },  // Mon: 09:00 - 00:00
+    '2026-05-26': { start: 8, end: 27 },  // Tue: 08:00 - 03:00 next day
+  };
 
-  const isHolidayDate = (d: Date) => holidayDates.includes(format(d, 'yyyy-MM-dd'));
+  const getDateKey = (d: Date) => format(d, 'yyyy-MM-dd');
+  const isSpecialDate = (d: Date) => getDateKey(d) in specialSchedules;
 
-  // Generate time slots based on date
+  // Generate time slots based on date (every 30 minutes)
   const generateTimeSlots = (selectedDate?: Date) => {
-    const slots = [];
-    if (selectedDate && isHolidayDate(selectedDate)) {
-      // Holiday hours: 10:00 - 01:00 (next day)
-      for (let hour = 10; hour <= 23; hour++) {
-        slots.push(`${hour.toString().padStart(2, '0')}:00`);
-        slots.push(`${hour.toString().padStart(2, '0')}:30`);
-      }
-      slots.push('00:00');
-      slots.push('00:30');
-      slots.push('01:00');
-    } else {
-      // Regular hours: 10:00 - 21:00
-      for (let hour = 10; hour <= 20; hour++) {
-        slots.push(`${hour.toString().padStart(2, '0')}:00`);
-        if (hour < 20) {
-          slots.push(`${hour.toString().padStart(2, '0')}:30`);
-        }
-      }
-      slots.push('21:00');
+    const slots: string[] = [];
+    let startHour = 10;
+    let endHour = 21; // inclusive last slot at 21:00
+
+    if (selectedDate && isSpecialDate(selectedDate)) {
+      const sched = specialSchedules[getDateKey(selectedDate)];
+      startHour = sched.start;
+      endHour = sched.end;
+    }
+
+    // Generate slots at :00 and :30 from startHour to endHour (endHour exclusive for :00 except last)
+    for (let h = startHour * 2; h < endHour * 2; h++) {
+      const hour = Math.floor(h / 2) % 24;
+      const minute = h % 2 === 0 ? '00' : '30';
+      slots.push(`${hour.toString().padStart(2, '0')}:${minute}`);
+    }
+    // Include the final on-the-hour slot for regular days (e.g. 21:00)
+    if (!(selectedDate && isSpecialDate(selectedDate))) {
+      const lastHour = endHour % 24;
+      slots.push(`${lastHour.toString().padStart(2, '0')}:00`);
     }
     return slots;
   };
@@ -395,7 +405,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                           calDate.getMonth() === blocked.getMonth() &&
                           calDate.getDate() === blocked.getDate()
                         );
-                        return calDate < today || day === 0 || isBlocked; // Disable past dates, Sundays, and blocked dates
+                        // Special dates override the Sunday closure
+                        const isSpecial = isSpecialDate(calDate);
+                        return calDate < today || (day === 0 && !isSpecial) || isBlocked;
                       }}
                       initialFocus
                       className={cn("p-3 pointer-events-auto")}
