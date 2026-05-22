@@ -293,6 +293,13 @@ const handleSubmit = async (e: React.FormEvent) => {
             <p className="text-muted-foreground">{t('fillForm')}</p>
           </div>
 
+          <div className="mb-6 flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-foreground/80 backdrop-blur-sm">
+            <Sparkles className="w-4 h-4 text-primary shrink-0" />
+            <span>{t('eidHoursActiveNote')}</span>
+          </div>
+
+
+
           <Card className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
