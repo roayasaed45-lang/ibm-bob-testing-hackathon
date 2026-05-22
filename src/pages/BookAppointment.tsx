@@ -42,29 +42,42 @@ const [customerName, setCustomerName] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
 
-  // Eid Al-Adha weekly schedule (by day of week)
+  // Eid Al-Adha period: only May 24-30, 2026
+  const EID_START = '2026-05-24';
+  const EID_END = '2026-05-30';
+
+  // Eid Al-Adha weekly schedule (active only within EID period)
   // Sun: 17:00-00:00, Mon: 08:00-00:00, Tue: 08:00-03:00 next day, Wed-Sat: Closed
-  // end can exceed 24 to indicate after-midnight (e.g. 27 = 03:00 next day)
   const eidWeeklySchedule: Record<number, { start: number; end: number } | null> = {
-    0: { start: 17, end: 24 }, // Sunday
-    1: { start: 8, end: 24 },  // Monday
-    2: { start: 8, end: 27 },  // Tuesday
-    3: null, // Wednesday - Closed
-    4: null, // Thursday - Closed
-    5: null, // Friday - Closed
-    6: null, // Saturday - Closed
+    0: { start: 17, end: 24 },
+    1: { start: 8, end: 24 },
+    2: { start: 8, end: 27 },
+    3: null,
+    4: null,
+    5: null,
+    6: null,
   };
 
-  // Date-specific overrides (take priority over weekly schedule)
-  const eidDateOverrides: Record<string, { start: number; end: number } | null> = {
-    '2026-05-23': { start: 9, end: 21 }, // Saturday May 23 - special Eid opening
+  // Regular weekly schedule (default — used outside EID period)
+  // Sunday closed, Mon-Sat 10:00-21:00
+  const regularWeeklySchedule: Record<number, { start: number; end: number } | null> = {
+    0: null,
+    1: { start: 10, end: 21 },
+    2: { start: 10, end: 21 },
+    3: { start: 10, end: 21 },
+    4: { start: 10, end: 21 },
+    5: { start: 10, end: 21 },
+    6: { start: 10, end: 21 },
   };
 
   const getDateKey = (d: Date) => format(d, 'yyyy-MM-dd');
-  const getScheduleForDate = (d: Date) => {
+  const isEidPeriod = (d: Date) => {
     const key = getDateKey(d);
-    if (key in eidDateOverrides) return eidDateOverrides[key];
-    return eidWeeklySchedule[d.getDay()];
+    return key >= EID_START && key <= EID_END;
+  };
+  const getScheduleForDate = (d: Date) => {
+    const schedule = isEidPeriod(d) ? eidWeeklySchedule : regularWeeklySchedule;
+    return schedule[d.getDay()];
   };
   const isClosedDate = (d: Date) => getScheduleForDate(d) === null;
 
