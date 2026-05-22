@@ -17,6 +17,7 @@ const OpeningHours = () => {
   ];
 
   const eidHours = [
+    { day: '23/05', time: '09:00 - 21:00', isOpen: true, highlight: true },
     { day: t('sunday'), time: '17:00 - 00:00', isOpen: true },
     { day: t('monday'), time: '08:00 - 00:00', isOpen: true },
     { day: t('tuesday'), time: '08:00 - 03:00', isOpen: true },
@@ -82,8 +83,12 @@ const OpeningHours = () => {
                 {eidHours.map((item, index) => (
                   <div
                     key={index}
-                    className={`flex justify-between items-center py-2 px-4 rounded-lg ${
-                      item.isOpen ? 'bg-primary/10' : 'bg-destructive/10'
+                    className={`flex justify-between items-center py-2 px-4 rounded-lg transition-all ${
+                      item.isOpen
+                        ? (item as any).highlight
+                          ? 'bg-primary/15 ring-1 ring-primary/30'
+                          : 'bg-primary/10'
+                        : 'bg-destructive/10'
                     }`}
                   >
                     <span className="font-medium text-foreground">{item.day}</span>
