@@ -55,8 +55,17 @@ const [customerName, setCustomerName] = useState('');
     6: null, // Saturday - Closed
   };
 
+  // Date-specific overrides (take priority over weekly schedule)
+  const eidDateOverrides: Record<string, { start: number; end: number } | null> = {
+    '2026-05-23': { start: 9, end: 21 }, // Saturday May 23 - special Eid opening
+  };
+
   const getDateKey = (d: Date) => format(d, 'yyyy-MM-dd');
-  const getScheduleForDate = (d: Date) => eidWeeklySchedule[d.getDay()];
+  const getScheduleForDate = (d: Date) => {
+    const key = getDateKey(d);
+    if (key in eidDateOverrides) return eidDateOverrides[key];
+    return eidWeeklySchedule[d.getDay()];
+  };
   const isClosedDate = (d: Date) => getScheduleForDate(d) === null;
 
   // Generate time slots based on date (every 30 minutes)
