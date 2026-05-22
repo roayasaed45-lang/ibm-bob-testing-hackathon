@@ -23,6 +23,8 @@ const translations = {
     heroSubtitle: 'Professional Men\'s Grooming',
     heroDescription: 'Experience the art of traditional barbering with modern style',
     bookNow: 'Book Now',
+    eidGreeting: 'Eid Al-Adha Mubarak',
+    eidSubtitle: 'Wishing you a blessed celebration filled with joy & elegance',
     
     // About
     aboutTitle: 'About Us',
