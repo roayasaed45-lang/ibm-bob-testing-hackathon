@@ -411,8 +411,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                       disabled={(calDate) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
-                        // Only block past dates — all future dates remain selectable
-                        return calDate < today;
+                        if (calDate < today) return true;
+                        // Block closed dates (e.g. Eid closures 27-30/05)
+                        return isClosedDate(calDate);
                       }}
                       initialFocus
                       className={cn("p-3 pointer-events-auto")}
