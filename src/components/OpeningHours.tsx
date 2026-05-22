@@ -17,6 +17,7 @@ const OpeningHours = () => {
   ];
 
   const eidHours = [
+    { day: '23/05', time: '09:00 - 21:00', isOpen: true, highlight: true },
     { day: t('sunday'), time: '17:00 - 00:00', isOpen: true },
     { day: t('monday'), time: '08:00 - 00:00', isOpen: true },
     { day: t('tuesday'), time: '08:00 - 03:00', isOpen: true },
