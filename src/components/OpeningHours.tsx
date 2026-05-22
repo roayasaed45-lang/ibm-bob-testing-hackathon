@@ -1,10 +1,10 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent } from '@/components/ui/card';
-import { Clock } from 'lucide-react';
+import { Clock, Sparkles } from 'lucide-react';
 import { SectionDivider, SmallCrescent } from './RamadanDecorations';
 
 const OpeningHours = () => {
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
 
   const hours = [
     { day: t('sunday'), time: t('closed'), isOpen: false },
@@ -14,6 +14,13 @@ const OpeningHours = () => {
     { day: t('thursday'), time: '10:00 - 21:00', isOpen: true },
     { day: t('friday'), time: '10:00 - 21:00', isOpen: true },
     { day: t('saturday'), time: '10:00 - 21:00', isOpen: true },
+  ];
+
+  const eidHours = [
+    { day: '23/05', time: '09:00 - 21:00' },
+    { day: '24/05', time: '17:00 - 00:00' },
+    { day: '25/05', time: '09:00 - 00:00' },
+    { day: '26/05', time: '08:00 - 03:00' },
   ];
 
   return (
@@ -31,38 +38,57 @@ const OpeningHours = () => {
           </p>
         </div>
 
-        <Card className="max-w-md mx-auto bg-card border-primary/20">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-center gap-2 mb-6">
-              <Clock className="w-6 h-6 text-primary" />
-              <span className="text-xl font-semibold text-foreground">{t('workingHours')}</span>
-            </div>
-            
-            <div className="space-y-3">
-              {hours.map((item, index) => (
-                <div 
-                  key={index}
-                  className={`flex justify-between items-center py-2 px-4 rounded-lg ${
-                    item.isOpen 
-                      ? 'bg-primary/10' 
-                      : 'bg-destructive/10'
-                  }`}
-                >
-                  <span className="font-medium text-foreground">{item.day}</span>
-                  <div className="text-right">
-                    <span className={`font-semibold ${
-                      item.isOpen 
-                        ? 'text-primary' 
-                        : 'text-destructive'
-                    }`}>
-                      {item.time}
-                    </span>
+        <div className="max-w-md mx-auto space-y-6">
+          <Card className="bg-card border-primary/20">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-center gap-2 mb-6">
+                <Clock className="w-6 h-6 text-primary" />
+                <span className="text-xl font-semibold text-foreground">{t('workingHours')}</span>
+              </div>
+
+              <div className="space-y-3">
+                {hours.map((item, index) => (
+                  <div
+                    key={index}
+                    className={`flex justify-between items-center py-2 px-4 rounded-lg ${
+                      item.isOpen ? 'bg-primary/10' : 'bg-destructive/10'
+                    }`}
+                  >
+                    <span className="font-medium text-foreground">{item.day}</span>
+                    <div className="text-right">
+                      <span className={`font-semibold ${item.isOpen ? 'text-primary' : 'text-destructive'}`}>
+                        {item.time}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-card border-primary/40 shadow-lg">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-center gap-2 mb-6">
+                <Sparkles className="w-6 h-6 text-primary" />
+                <span className="text-lg font-semibold text-foreground text-center">
+                  {t('eidSpecialHours')}
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                {eidHours.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center py-2 px-4 rounded-lg bg-primary/10"
+                  >
+                    <span className="font-medium text-foreground">{item.day}</span>
+                    <span className="font-semibold text-primary">{item.time}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </section>
   );
