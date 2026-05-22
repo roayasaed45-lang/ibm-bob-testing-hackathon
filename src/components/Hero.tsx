@@ -1,50 +1,21 @@
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { SoftGlow, StarCluster, MiniLantern } from '@/components/RamadanDecorations';
 import heroImage from '@/assets/hero-barber-alt.jpg';
 
-const CrescentMoon = () => (
+const ElegantCrescent = () => (
   <svg
-    className="absolute top-24 right-8 md:top-28 md:right-16 w-10 h-10 md:w-14 md:h-14 opacity-30 animate-pulse"
+    className="w-12 h-12 md:w-14 md:h-14 mx-auto opacity-90 animate-fade-in"
     viewBox="0 0 64 64"
     fill="none"
-    style={{ filter: 'drop-shadow(0 0 8px hsl(43 64% 52% / 0.4))' }}
+    style={{ filter: 'drop-shadow(0 0 16px hsl(43 80% 65% / 0.55))' }}
   >
     <path
       d="M40 8C28 8 18 18 18 30s10 22 22 22c4 0 7.5-1 10.5-2.5C45 54 38 48 38 38c0-12 7-20 14-24C48.5 10 44.5 8 40 8z"
-      fill="hsl(43 64% 52%)"
+      fill="hsl(43 75% 62%)"
     />
-    <circle cx="48" cy="12" r="1.5" fill="hsl(43 64% 52%)" opacity="0.6" />
-    <circle cx="52" cy="18" r="1" fill="hsl(43 64% 52%)" opacity="0.4" />
-  </svg>
-);
-
-const Lantern = ({ side }: { side: 'left' | 'right' }) => (
-  <svg
-    className={`absolute top-16 ${side === 'left' ? 'left-4 md:left-12' : 'right-20 md:right-36'} w-8 h-20 md:w-10 md:h-28 opacity-20`}
-    viewBox="0 0 40 100"
-    fill="none"
-    style={{ filter: 'drop-shadow(0 0 6px hsl(43 64% 52% / 0.3))' }}
-  >
-    {/* Chain */}
-    <line x1="20" y1="0" x2="20" y2="25" stroke="hsl(43 64% 52%)" strokeWidth="1" opacity="0.5" />
-    {/* Top cap */}
-    <path d="M14 25h12l2 5H12l2-5z" fill="hsl(43 64% 52%)" opacity="0.7" />
-    {/* Body */}
-    <path
-      d="M12 30C12 30 8 42 8 55c0 8 5 15 12 15s12-7 12-15c0-13-4-25-4-25H12z"
-      fill="hsl(43 64% 52%)"
-      opacity="0.15"
-      stroke="hsl(43 64% 52%)"
-      strokeWidth="0.8"
-      strokeOpacity="0.4"
-    />
-    {/* Inner glow */}
-    <ellipse cx="20" cy="50" rx="5" ry="8" fill="hsl(43 64% 52%)" opacity="0.2" />
-    {/* Bottom cap */}
-    <path d="M14 70h12l-2 5H16l-2-5z" fill="hsl(43 64% 52%)" opacity="0.7" />
-    {/* Tassel */}
-    <line x1="20" y1="75" x2="20" y2="85" stroke="hsl(43 64% 52%)" strokeWidth="1" opacity="0.4" />
-    <circle cx="20" cy="87" r="2" fill="hsl(43 64% 52%)" opacity="0.4" />
+    <circle cx="50" cy="14" r="1.2" fill="hsl(43 75% 70%)" opacity="0.8" />
+    <circle cx="54" cy="20" r="0.8" fill="hsl(43 75% 70%)" opacity="0.6" />
   </svg>
 );
 
@@ -52,14 +23,14 @@ const Hero = () => {
   const { t } = useLanguage();
 
   const scrollToContact = () => {
-    const element = document.getElementById('contact');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16"
+    >
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
@@ -67,31 +38,58 @@ const Hero = () => {
           alt="Ale Barber Shop"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/70 to-background/95" />
+        {/* Minimal soft overlay — clean white aesthetic */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/85 via-background/65 to-background/95" />
       </div>
 
-      {/* Ramadan Decorations */}
-      <Lantern side="left" />
-      <Lantern side="right" />
-      <CrescentMoon />
+      {/* Soft floating glow ambient lights */}
+      <SoftGlow className="top-20 left-[10%] animate-pulse" size={260} />
+      <SoftGlow
+        className="bottom-32 right-[8%] animate-pulse"
+        size={320}
+      />
+      <SoftGlow className="top-1/2 left-1/2 -translate-x-1/2" size={420} />
+
+      {/* Subtle geometric accents */}
+      <StarCluster className="absolute top-24 left-6 md:left-16 animate-fade-in" />
+      <StarCluster className="absolute bottom-32 right-6 md:right-16 animate-fade-in" />
+
+      {/* Hanging lanterns — minimal */}
+      <MiniLantern className="absolute top-20 right-12 md:right-24 animate-pulse" />
+      <MiniLantern className="absolute top-24 left-1/3 hidden md:block" />
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
-        <div className="max-w-4xl mx-auto space-y-6">
-          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-hero bg-clip-text text-transparent animate-fade-in">
+        <div className="max-w-4xl mx-auto space-y-6 animate-fade-in">
+          {/* Elegant Eid greeting badge */}
+          <div className="flex flex-col items-center gap-3">
+            <ElegantCrescent />
+            <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full border border-primary/25 bg-background/40 backdrop-blur-md shadow-[0_0_30px_-8px_hsl(43_80%_65%/0.4)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              <span className="text-sm md:text-base font-medium tracking-wide bg-gradient-hero bg-clip-text text-transparent">
+                {t('eidGreeting')}
+              </span>
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+            </div>
+            <p className="text-xs md:text-sm text-muted-foreground/90 max-w-md font-light tracking-wide">
+              {t('eidSubtitle')}
+            </p>
+          </div>
+
+          <h1 className="text-5xl md:text-7xl font-bold bg-gradient-hero bg-clip-text text-transparent leading-tight">
             {t('heroTitle')}
           </h1>
           <p className="text-2xl md:text-3xl font-semibold text-foreground">
             {t('heroSubtitle')}
           </p>
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-light">
             {t('heroDescription')}
           </p>
           <div className="pt-4">
             <Button
               onClick={scrollToContact}
               size="lg"
-              className="bg-gradient-hero text-primary-foreground hover:opacity-90 transition-all shadow-elegant text-lg px-8 py-6"
+              className="bg-gradient-hero text-primary-foreground hover:opacity-90 hover:scale-[1.03] active:scale-[0.98] transition-all duration-300 shadow-elegant text-lg px-10 py-6 rounded-full"
             >
               {t('bookNow')}
             </Button>
