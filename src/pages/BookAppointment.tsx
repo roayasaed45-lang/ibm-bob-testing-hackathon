@@ -10,7 +10,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { CalendarIcon, Clock, Scissors, Check, MessageCircle } from 'lucide-react';
+import { CalendarIcon, Clock, Scissors, Check, MessageCircle, Sparkles } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -42,42 +42,35 @@ const [customerName, setCustomerName] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
 
-  // Special date schedules: start hour (inclusive) and end hour (exclusive, in hours; can exceed 24 for after-midnight)
-  // e.g. { start: 10, end: 25 } => 10:00 to 01:00 next day
-  const specialSchedules: Record<string, { start: number; end: number }> = {
-    '2026-03-18': { start: 10, end: 25 }, // 10:00 - 01:00
-    '2026-03-19': { start: 10, end: 25 },
-    '2026-05-23': { start: 9, end: 21 },  // Sat: 09:00 - 21:00
-    '2026-05-24': { start: 17, end: 24 }, // Sun: 17:00 - 00:00 (midnight)
-    '2026-05-25': { start: 9, end: 24 },  // Mon: 09:00 - 00:00
-    '2026-05-26': { start: 8, end: 27 },  // Tue: 08:00 - 03:00 next day
+  // Eid Al-Adha weekly schedule (by day of week)
+  // Sun: 17:00-00:00, Mon: 08:00-00:00, Tue: 08:00-03:00 next day, Wed-Sat: Closed
+  // end can exceed 24 to indicate after-midnight (e.g. 27 = 03:00 next day)
+  const eidWeeklySchedule: Record<number, { start: number; end: number } | null> = {
+    0: { start: 17, end: 24 }, // Sunday
+    1: { start: 8, end: 24 },  // Monday
+    2: { start: 8, end: 27 },  // Tuesday
+    3: null, // Wednesday - Closed
+    4: null, // Thursday - Closed
+    5: null, // Friday - Closed
+    6: null, // Saturday - Closed
   };
 
   const getDateKey = (d: Date) => format(d, 'yyyy-MM-dd');
-  const isSpecialDate = (d: Date) => getDateKey(d) in specialSchedules;
+  const getScheduleForDate = (d: Date) => eidWeeklySchedule[d.getDay()];
+  const isClosedDate = (d: Date) => getScheduleForDate(d) === null;
 
   // Generate time slots based on date (every 30 minutes)
   const generateTimeSlots = (selectedDate?: Date) => {
     const slots: string[] = [];
-    let startHour = 10;
-    let endHour = 21; // inclusive last slot at 21:00
+    if (!selectedDate) return slots;
+    const sched = getScheduleForDate(selectedDate);
+    if (!sched) return slots;
 
-    if (selectedDate && isSpecialDate(selectedDate)) {
-      const sched = specialSchedules[getDateKey(selectedDate)];
-      startHour = sched.start;
-      endHour = sched.end;
-    }
-
-    // Generate slots at :00 and :30 from startHour to endHour (endHour exclusive for :00 except last)
-    for (let h = startHour * 2; h < endHour * 2; h++) {
+    // Generate slots at :00 and :30 from start to end (end exclusive)
+    for (let h = sched.start * 2; h < sched.end * 2; h++) {
       const hour = Math.floor(h / 2) % 24;
       const minute = h % 2 === 0 ? '00' : '30';
       slots.push(`${hour.toString().padStart(2, '0')}:${minute}`);
-    }
-    // Include the final on-the-hour slot for regular days (e.g. 21:00)
-    if (!(selectedDate && isSpecialDate(selectedDate))) {
-      const lastHour = endHour % 24;
-      slots.push(`${lastHour.toString().padStart(2, '0')}:00`);
     }
     return slots;
   };
@@ -300,6 +293,13 @@ const handleSubmit = async (e: React.FormEvent) => {
             <p className="text-muted-foreground">{t('fillForm')}</p>
           </div>
 
+          <div className="mb-6 flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-foreground/80 backdrop-blur-sm">
+            <Sparkles className="w-4 h-4 text-primary shrink-0" />
+            <span>{t('eidHoursActiveNote')}</span>
+          </div>
+
+
+
           <Card className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
@@ -395,19 +395,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                       disabled={(calDate) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
-                        const day = calDate.getDay();
-                        // Blocked dates (closed days)
-                        const blockedDates = [
-                          new Date(2026, 0, 28), // January 28, 2026
-                        ];
-                        const isBlocked = blockedDates.some(blocked => 
-                          calDate.getFullYear() === blocked.getFullYear() &&
-                          calDate.getMonth() === blocked.getMonth() &&
-                          calDate.getDate() === blocked.getDate()
-                        );
-                        // Special dates override the Sunday closure
-                        const isSpecial = isSpecialDate(calDate);
-                        return calDate < today || (day === 0 && !isSpecial) || isBlocked;
+                        // Block past dates and any closed day (Wed-Sat during Eid hours)
+                        return calDate < today || isClosedDate(calDate);
                       }}
                       initialFocus
                       className={cn("p-3 pointer-events-auto")}
