@@ -405,7 +405,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                           calDate.getMonth() === blocked.getMonth() &&
                           calDate.getDate() === blocked.getDate()
                         );
-                        return calDate < today || day === 0 || isBlocked; // Disable past dates, Sundays, and blocked dates
+                        // Special dates override the Sunday closure
+                        const isSpecial = isSpecialDate(calDate);
+                        return calDate < today || (day === 0 && !isSpecial) || isBlocked;
                       }}
                       initialFocus
                       className={cn("p-3 pointer-events-auto")}
