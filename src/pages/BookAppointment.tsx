@@ -388,19 +388,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                       disabled={(calDate) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
-                        const day = calDate.getDay();
-                        // Blocked dates (closed days)
-                        const blockedDates = [
-                          new Date(2026, 0, 28), // January 28, 2026
-                        ];
-                        const isBlocked = blockedDates.some(blocked => 
-                          calDate.getFullYear() === blocked.getFullYear() &&
-                          calDate.getMonth() === blocked.getMonth() &&
-                          calDate.getDate() === blocked.getDate()
-                        );
-                        // Special dates override the Sunday closure
-                        const isSpecial = isSpecialDate(calDate);
-                        return calDate < today || (day === 0 && !isSpecial) || isBlocked;
+                        // Block past dates and any closed day (Wed-Sat during Eid hours)
+                        return calDate < today || isClosedDate(calDate);
                       }}
                       initialFocus
                       className={cn("p-3 pointer-events-auto")}
