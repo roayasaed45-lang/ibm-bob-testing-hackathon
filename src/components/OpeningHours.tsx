@@ -82,10 +82,14 @@ const OpeningHours = () => {
                 {eidHours.map((item, index) => (
                   <div
                     key={index}
-                    className="flex justify-between items-center py-2 px-4 rounded-lg bg-primary/10"
+                    className={`flex justify-between items-center py-2 px-4 rounded-lg ${
+                      item.isOpen ? 'bg-primary/10' : 'bg-destructive/10'
+                    }`}
                   >
                     <span className="font-medium text-foreground">{item.day}</span>
-                    <span className="font-semibold text-primary">{item.time}</span>
+                    <span className={`font-semibold ${item.isOpen ? 'text-primary' : 'text-destructive'}`}>
+                      {item.time}
+                    </span>
                   </div>
                 ))}
               </div>
