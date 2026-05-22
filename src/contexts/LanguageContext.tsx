@@ -78,6 +78,7 @@ const translations = {
     openingHoursSubtitle: 'When you can visit us',
     workingHours: 'Working Hours',
     eidSpecialHours: 'Special Eid Al-Adha Hours',
+    eidHoursActiveNote: 'Eid holiday working hours are temporarily active.',
     monday: 'Monday',
     tuesday: 'Tuesday',
     wednesday: 'Wednesday',
