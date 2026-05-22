@@ -17,13 +17,14 @@ const OpeningHours = () => {
   ];
 
   const eidHours = [
-    { day: t('sunday'), time: '17:00 - 00:00', isOpen: true },
-    { day: t('monday'), time: '08:00 - 00:00', isOpen: true },
-    { day: t('tuesday'), time: '08:00 - 03:00', isOpen: true },
-    { day: t('wednesday'), time: t('closed'), isOpen: false },
-    { day: t('thursday'), time: t('closed'), isOpen: false },
-    { day: t('friday'), time: t('closed'), isOpen: false },
-    { day: t('saturday'), time: t('closed'), isOpen: false },
+    { day: '23/05', time: '09:00 - 21:00', isOpen: true, highlight: true },
+    { day: '24/05', time: '17:00 - 00:00', isOpen: true },
+    { day: '25/05', time: '08:00 - 00:00', isOpen: true },
+    { day: '26/05', time: '08:00 - 03:00', isOpen: true },
+    { day: '27/05', time: t('closed'), isOpen: false },
+    { day: '28/05', time: t('closed'), isOpen: false },
+    { day: '29/05', time: t('closed'), isOpen: false },
+    { day: '30/05', time: t('closed'), isOpen: false },
   ];
 
   return (
