@@ -249,6 +249,7 @@ const translations = {
     openingHoursSubtitle: 'מתי אפשר לבקר אותנו',
     workingHours: 'שעות עבודה',
     eidSpecialHours: 'שעות מיוחדות לעיד אל-אדחא',
+    eidHoursActiveNote: 'שעות העבודה לחג העיד פעילות באופן זמני.',
     monday: 'יום שני',
     tuesday: 'יום שלישי',
     wednesday: 'יום רביעי',
