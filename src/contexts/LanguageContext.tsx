@@ -192,6 +192,8 @@ const translations = {
     heroSubtitle: 'טיפוח מקצועי לגברים',
     heroDescription: 'חווה את אמנות הספרות המסורתית עם סטייל מודרני',
     bookNow: 'קבע תור',
+    eidGreeting: 'عيد الأضحى مبارك',
+    eidSubtitle: 'מאחלים לכם חג שמח ומבורך',
     
     // About
     aboutTitle: 'אודותינו',
@@ -359,6 +361,8 @@ const translations = {
     heroSubtitle: 'العناية الاحترافية بالرجال',
     heroDescription: 'اختبر فن الحلاقة التقليدية بأسلوب عصري',
     bookNow: 'احجز الآن',
+    eidGreeting: 'عيد الأضحى مبارك',
+    eidSubtitle: 'نتمنى لكم عيداً مباركاً مليئاً بالفرح والأناقة',
     
     // About
     aboutTitle: 'من نحن',
