@@ -417,6 +417,7 @@ const translations = {
     openingHoursTitle: 'ساعات العمل',
     openingHoursSubtitle: 'متى يمكنك زيارتنا',
     workingHours: 'أوقات العمل',
+    eidSpecialHours: 'ساعات خاصة لعيد الأضحى',
     monday: 'الإثنين',
     tuesday: 'الثلاثاء',
     wednesday: 'الأربعاء',
