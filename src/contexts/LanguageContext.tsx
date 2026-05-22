@@ -247,6 +247,7 @@ const translations = {
     openingHoursTitle: 'שעות פתיחה',
     openingHoursSubtitle: 'מתי אפשר לבקר אותנו',
     workingHours: 'שעות עבודה',
+    eidSpecialHours: 'שעות מיוחדות לעיד אל-אדחא',
     monday: 'יום שני',
     tuesday: 'יום שלישי',
     wednesday: 'יום רביעי',
