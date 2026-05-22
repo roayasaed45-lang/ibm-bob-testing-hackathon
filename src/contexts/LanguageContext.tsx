@@ -77,6 +77,7 @@ const translations = {
     openingHoursTitle: 'Opening Hours',
     openingHoursSubtitle: 'When you can visit us',
     workingHours: 'Working Hours',
+    eidSpecialHours: 'Special Eid Al-Adha Hours',
     monday: 'Monday',
     tuesday: 'Tuesday',
     wednesday: 'Wednesday',
