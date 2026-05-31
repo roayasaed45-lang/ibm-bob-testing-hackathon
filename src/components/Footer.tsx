@@ -1,7 +1,7 @@
 import { Scissors, Lock } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'react-router-dom';
-import { SmallCrescent } from './RamadanDecorations';
+
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -9,8 +9,6 @@ const Footer = () => {
 
   return (
     <footer className="relative bg-muted py-8 border-t border-border overflow-hidden">
-      <SmallCrescent className="absolute top-3 left-6 w-4 h-4 opacity-15" />
-      <SmallCrescent className="absolute bottom-3 right-8 w-3 h-3 opacity-10" />
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center gap-4 text-center">
           <div className="flex items-center gap-2">
