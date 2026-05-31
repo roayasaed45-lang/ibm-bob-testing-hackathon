@@ -1,6 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Scissors, Award, Users } from 'lucide-react';
-import { StarCluster, SectionDivider, MiniLantern } from './RamadanDecorations';
+
 const About = () => {
   const {
     t
@@ -19,11 +19,8 @@ const About = () => {
     description: t('customerFocusDesc')
   }];
   return <section id="about" className="relative py-20 bg-gradient-subtle overflow-hidden">
-      <StarCluster className="absolute top-8 left-6" />
-      <MiniLantern className="absolute top-0 right-10 md:right-20" />
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto text-center space-y-8">
-          <SectionDivider />
           <h2 className="text-4xl md:text-5xl font-bold text-secondary-foreground">
             {t('aboutTitle')}
           </h2>

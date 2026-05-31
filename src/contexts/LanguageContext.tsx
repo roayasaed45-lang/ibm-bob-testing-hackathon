@@ -23,8 +23,6 @@ const translations = {
     heroSubtitle: 'Professional Men\'s Grooming',
     heroDescription: 'Experience the art of traditional barbering with modern style',
     bookNow: 'Book Now',
-    eidGreeting: 'Eid Al-Adha Mubarak',
-    eidSubtitle: 'Wishing you a blessed celebration filled with joy & elegance',
     
     // About
     aboutTitle: 'About Us',
@@ -77,8 +75,6 @@ const translations = {
     openingHoursTitle: 'Opening Hours',
     openingHoursSubtitle: 'When you can visit us',
     workingHours: 'Working Hours',
-    eidSpecialHours: 'Special Eid Al-Adha Hours',
-    eidHoursActiveNote: 'Eid holiday working hours are temporarily active.',
     monday: 'Monday',
     tuesday: 'Tuesday',
     wednesday: 'Wednesday',
@@ -194,8 +190,6 @@ const translations = {
     heroSubtitle: 'טיפוח מקצועי לגברים',
     heroDescription: 'חווה את אמנות הספרות המסורתית עם סטייל מודרני',
     bookNow: 'קבע תור',
-    eidGreeting: 'عيد الأضحى مبارك',
-    eidSubtitle: 'מאחלים לכם חג שמח ומבורך',
     
     // About
     aboutTitle: 'אודותינו',
@@ -248,8 +242,6 @@ const translations = {
     openingHoursTitle: 'שעות פתיחה',
     openingHoursSubtitle: 'מתי אפשר לבקר אותנו',
     workingHours: 'שעות עבודה',
-    eidSpecialHours: 'שעות מיוחדות לעיד אל-אדחא',
-    eidHoursActiveNote: 'שעות העבודה לחג העיד פעילות באופן זמני.',
     monday: 'יום שני',
     tuesday: 'יום שלישי',
     wednesday: 'יום רביעי',
@@ -365,8 +357,6 @@ const translations = {
     heroSubtitle: 'العناية الاحترافية بالرجال',
     heroDescription: 'اختبر فن الحلاقة التقليدية بأسلوب عصري',
     bookNow: 'احجز الآن',
-    eidGreeting: 'عيد الأضحى مبارك',
-    eidSubtitle: 'نتمنى لكم عيداً مباركاً مليئاً بالفرح والأناقة',
     
     // About
     aboutTitle: 'من نحن',
@@ -419,8 +409,6 @@ const translations = {
     openingHoursTitle: 'ساعات العمل',
     openingHoursSubtitle: 'متى يمكنك زيارتنا',
     workingHours: 'أوقات العمل',
-    eidSpecialHours: 'ساعات خاصة لعيد الأضحى',
-    eidHoursActiveNote: 'ساعات عمل عيد الأضحى مفعّلة مؤقتًا.',
     monday: 'الإثنين',
     tuesday: 'الثلاثاء',
     wednesday: 'الأربعاء',

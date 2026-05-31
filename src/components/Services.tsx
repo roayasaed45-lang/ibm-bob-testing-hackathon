@@ -2,7 +2,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Scissors, CheckCircle, Calendar } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { StarCluster, SectionDivider, MiniLantern } from './RamadanDecorations';
+
 import { useNavigate } from 'react-router-dom';
 
 const Services = () => {
@@ -11,12 +11,9 @@ const Services = () => {
 
   return (
     <section id="services" className="relative py-20 bg-background overflow-hidden">
-      <MiniLantern className="absolute top-0 left-8 md:left-16" />
-      <StarCluster className="absolute bottom-12 right-4" />
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="text-center space-y-4 mb-12">
-            <SectionDivider />
             <h2 className="text-4xl md:text-5xl font-bold text-foreground">
               {t('servicesTitle')}
             </h2>

@@ -10,7 +10,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { CalendarIcon, Clock, Scissors, Check, MessageCircle, Sparkles } from 'lucide-react';
+import { CalendarIcon, Clock, Scissors, Check, MessageCircle } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -42,21 +42,7 @@ const [customerName, setCustomerName] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
 
-  // Eid Al-Adha date-based overrides (applies ONLY to these exact dates)
-  // After 30/05/2026 the regular weekly schedule resumes automatically.
-  const eidDateOverrides: Record<string, { start: number; end: number } | null> = {
-    '2026-05-23': { start: 9, end: 21 },
-    '2026-05-24': { start: 17, end: 24 },
-    '2026-05-25': { start: 8, end: 24 },
-    '2026-05-26': { start: 8, end: 27 },
-    '2026-05-27': null,
-    '2026-05-28': null,
-    '2026-05-29': null,
-    '2026-05-30': null,
-  };
-
-  // Regular weekly schedule (default for all non-override dates)
-  // Sunday closed, Mon-Sat 10:00-21:00
+  // Regular weekly schedule — Sunday closed, Mon-Sat 10:00-21:00
   const regularWeeklySchedule: Record<number, { start: number; end: number } | null> = {
     0: null,
     1: { start: 10, end: 21 },
@@ -67,12 +53,7 @@ const [customerName, setCustomerName] = useState('');
     6: { start: 10, end: 21 },
   };
 
-  const getDateKey = (d: Date) => format(d, 'yyyy-MM-dd');
-  const getScheduleForDate = (d: Date) => {
-    const key = getDateKey(d);
-    if (key in eidDateOverrides) return eidDateOverrides[key];
-    return regularWeeklySchedule[d.getDay()];
-  };
+  const getScheduleForDate = (d: Date) => regularWeeklySchedule[d.getDay()];
   const isClosedDate = (d: Date) => getScheduleForDate(d) === null;
 
   // Generate time slots based on date (every 30 minutes)
@@ -309,10 +290,8 @@ const handleSubmit = async (e: React.FormEvent) => {
             <p className="text-muted-foreground">{t('fillForm')}</p>
           </div>
 
-          <div className="mb-6 flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm text-foreground/80 backdrop-blur-sm">
-            <Sparkles className="w-4 h-4 text-primary shrink-0" />
-            <span>{t('eidHoursActiveNote')}</span>
-          </div>
+
+
 
 
 
@@ -412,7 +391,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
                         if (calDate < today) return true;
-                        // Block closed dates (e.g. Eid closures 27-30/05)
+                        // Hide closed days (e.g. Sundays)
                         return isClosedDate(calDate);
                       }}
                       initialFocus
