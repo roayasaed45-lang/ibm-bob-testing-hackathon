@@ -391,7 +391,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                         const today = new Date();
                         today.setHours(0, 0, 0, 0);
                         if (calDate < today) return true;
-                        // Block closed dates (e.g. Eid closures 27-30/05)
+                        // Hide closed days (e.g. Sundays)
                         return isClosedDate(calDate);
                       }}
                       initialFocus
