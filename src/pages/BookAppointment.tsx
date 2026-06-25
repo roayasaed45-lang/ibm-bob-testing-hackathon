@@ -42,15 +42,15 @@ const [customerName, setCustomerName] = useState('');
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
 
-  // Regular weekly schedule — Sunday closed, Mon-Sat 10:00-21:00
+  // Regular weekly schedule — Sunday closed, Mon-Sat 10:00-20:00
   const regularWeeklySchedule: Record<number, { start: number; end: number } | null> = {
     0: null,
-    1: { start: 10, end: 21 },
-    2: { start: 10, end: 21 },
-    3: { start: 10, end: 21 },
-    4: { start: 10, end: 21 },
-    5: { start: 10, end: 21 },
-    6: { start: 10, end: 21 },
+    1: { start: 10, end: 20 },
+    2: { start: 10, end: 20 },
+    3: { start: 10, end: 20 },
+    4: { start: 10, end: 20 },
+    5: { start: 10, end: 20 },
+    6: { start: 10, end: 20 },
   };
 
   const getScheduleForDate = (d: Date) => regularWeeklySchedule[d.getDay()];
