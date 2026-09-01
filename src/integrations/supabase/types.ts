@@ -96,6 +96,16 @@ export type Database = {
       }
     }
     Functions: {
+      get_appointments_by_phone: {
+        Args: { p_phone: string }
+        Returns: {
+          appointment_date: string
+          appointment_time: string
+          id: string
+          service_type: string
+          status: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
