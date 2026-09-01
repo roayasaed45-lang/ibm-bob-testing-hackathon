@@ -101,7 +101,9 @@ const ChartTooltipContent = React.forwardRef<
     labelFormatter?: (label: any, payload: any[]) => React.ReactNode;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     formatter?: (...args: any[]) => React.ReactNode;
+    labelClassName?: string;
     color?: string;
+
     hideLabel?: boolean;
     hideIndicator?: boolean;
     indicator?: "line" | "dot" | "dashed";
