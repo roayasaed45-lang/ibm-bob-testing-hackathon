@@ -59,16 +59,15 @@ const CustomerAppointments = () => {
     setErrorMessage("");
     setAppointments([]);
 
-    const { local, international } = normalizePhoneNumbers(phone);
+    const { local } = normalizePhoneNumbers(phone);
 
-    const { data, error } = await supabase
-      .from("appointments")
-      .select(
-        "id, service_type, appointment_date, appointment_time, status"
-      )
-      .in("customer_phone", [local, international])
-      .order("appointment_date", { ascending: true })
-      .order("appointment_time", { ascending: true });
+    const { data, error } = await supabase.rpc(
+  "get_appointments_by_phone",
+  {
+    p_phone: local,
+  }
+);
+    
 
     if (error) {
       console.error("Appointments lookup error:", error);
