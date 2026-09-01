@@ -1,251 +1,211 @@
 import { useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Phone, KeyRound, CheckCircle2 } from "lucide-react";
+import MobilePageHeader from "@/components/MobilePageHeader";
+import {
+  Phone,
+  CalendarDays,
+  Clock,
+  Scissors,
+  Search,
+} from "lucide-react";
+
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+
+interface Appointment {
+  id: string;
+  service_type: string;
+  appointment_date: string;
+  appointment_time: string;
+  status: string;
+}
 
 const CustomerAppointments = () => {
   const navigate = useNavigate();
 
   const [phone, setPhone] = useState("");
-  const [formattedPhone, setFormattedPhone] = useState("");
-  const [code, setCode] = useState("");
-  const [step, setStep] = useState<"phone" | "code" | "success">("phone");
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(false);
+  const [searched, setSearched] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  // Convert Israeli phone number:
-  // 0522691339 -> +972522691339
-  const normalizePhone = (value: string) => {
+  // Support both:
+  // 0522691339
+  // +972522691339
+  const normalizePhoneNumbers = (value: string) => {
     const cleaned = value.replace(/\D/g, "");
 
+    let local = cleaned;
+    let international = cleaned;
+
     if (cleaned.startsWith("972")) {
-      return `+${cleaned}`;
+      local = `0${cleaned.substring(3)}`;
+      international = `+${cleaned}`;
+    } else if (cleaned.startsWith("0")) {
+      local = cleaned;
+      international = `+972${cleaned.substring(1)}`;
     }
 
-    if (cleaned.startsWith("0")) {
-      return `+972${cleaned.substring(1)}`;
-    }
-
-    return `+${cleaned}`;
+    return { local, international };
   };
 
-  // Send SMS code
-  const sendSmsCode = async () => {
+  const searchAppointments = async () => {
     if (!phone.trim()) return;
 
-    try {
-      setLoading(true);
+    setLoading(true);
+    setSearched(false);
+    setErrorMessage("");
+    setAppointments([]);
 
-      const normalizedPhone = normalizePhone(phone);
+    const { local, international } = normalizePhoneNumbers(phone);
 
-      alert(`Phone sent: ${normalizedPhone}`);
+    const { data, error } = await supabase
+      .from("appointments")
+      .select(
+        "id, service_type, appointment_date, appointment_time, status"
+      )
+      .in("customer_phone", [local, international])
+      .order("appointment_date", { ascending: true })
+      .order("appointment_time", { ascending: true });
 
-      const { error } = await supabase.auth.signInWithOtp({
-        phone: normalizedPhone,
-      });
+    if (error) {
+      console.error("Appointments lookup error:", error);
+      setErrorMessage("לא ניתן לטעון את התורים כרגע.");
+    } else {
+      setAppointments(data || []);
+    }
 
-      if (error) {
-        console.error("SMS error:", error);
-        alert(`לא ניתן לשלוח קוד SMS: ${error.message}`);
-        return;
-      }
+    setSearched(true);
+    setLoading(false);
+  };
 
-      setFormattedPhone(normalizedPhone);
-      setStep("code");
-    } catch (error) {
-      console.error(error);
-      alert("אירעה שגיאה בשליחת קוד SMS");
-    } finally {
-      setLoading(false);
+  const statusLabel = (status: string) => {
+    switch (status) {
+      case "confirmed":
+        return "מאושר";
+      case "pending":
+        return "ממתין לאישור";
+      case "completed":
+        return "הושלם";
+      case "cancelled":
+        return "בוטל";
+      default:
+        return status;
     }
   };
 
-
-  // Verify SMS code
-const verifySmsCode = async () => {
-  const cleanCode = code.trim();
-  const phoneToVerify = formattedPhone || normalizePhone(phone);
-
-  if (cleanCode.length !== 6) {
-    alert("יש להזין קוד בן 6 ספרות");
-    return;
-  }
-
-  try {
-    setLoading(true);
-
-    const { data, error } = await supabase.auth.verifyOtp({
-      phone: phoneToVerify,
-      token: cleanCode,
-      type: "sms",
-    });
-
-    if (error) {
-      console.error("Verification error:", error);
-      alert(`שגיאה באימות: ${error.message}`);
-      return;
-    }
-
-    if (!data.session) {
-      alert("האימות הסתיים אבל לא נוצרה התחברות");
-      return;
-    }
-
-    alert("האימות הצליח ✅");
-    setStep("success");
-  } catch (error) {
-    console.error("Unexpected verification error:", error);
-    alert("אירעה שגיאה באימות הקוד");
-  } finally {
-    setLoading(false);
-  }
-};
-
   return (
-    <div className="min-h-screen bg-background pb-8">
+    <div className="min-h-screen bg-background pb-10">
       {/* Header */}
-      <header
-        className="border-b border-border bg-background"
-        style={{ paddingTop: "env(safe-area-inset-top)" }}
-      >
-        <div className="h-16 px-5 flex items-center gap-4">
-          <button
-            onClick={() => navigate("/")}
-            className="w-10 h-10 rounded-full flex items-center justify-center hover:bg-muted"
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
+      <MobilePageHeader title="התורים שלי" />
 
-          <div>
-            <h1 className="font-bold text-xl">התורים שלי</h1>
-            <p className="text-xs text-muted-foreground">Ale Barber</p>
-          </div>
-        </div>
-      </header>
-
-      <main className="px-5 pt-8">
+      <main className="px-5 py-8">
         <div className="max-w-md mx-auto">
 
-          {/* STEP 1 - Phone */}
-          {step === "phone" && (
-            <>
-              <div className="mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                  <Phone className="w-7 h-7 text-primary" />
-                </div>
+          {/* Search */}
+          <div className="mb-8">
+            <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
+              <Phone className="w-7 h-7 text-primary" />
+            </div>
 
-                <h2 className="text-2xl font-bold mb-2">
-                  כניסה לתורים שלי
-                </h2>
+            <h2 className="text-2xl font-bold mb-2">
+              מציאת התורים שלך
+            </h2>
 
-                <p className="text-muted-foreground">
-                  הכנס את מספר הטלפון שלך ונשלח אליך קוד אימות ב-SMS.
-                </p>
-              </div>
+            <p className="text-muted-foreground mb-5">
+              הכנס את מספר הטלפון שאיתו בוצעה ההזמנה.
+            </p>
 
-              <label className="text-sm font-medium">
-                מספר טלפון
-              </label>
+            <Input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="05X-XXXXXXX"
+              className="h-12"
+              dir="ltr"
+            />
 
-              <Input
-                type="tel"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                placeholder="05X-XXXXXXX"
-                className="mt-2 h-12"
-                dir="ltr"
-              />
+            <Button
+              onClick={searchAppointments}
+              disabled={!phone.trim() || loading}
+              className="w-full h-12 mt-4"
+            >
+              <Search className="w-4 h-4 me-2" />
+              {loading ? "מחפש..." : "הצגת התורים שלי"}
+            </Button>
+          </div>
 
-              <Button
-                className="w-full mt-5 h-12"
-                disabled={!phone.trim() || loading}
-                onClick={sendSmsCode}
-              >
-                {loading ? "שולח..." : "שליחת קוד SMS"}
-              </Button>
-            </>
-          )}
-
-          {/* STEP 2 - SMS code */}
-          {step === "code" && (
-            <>
-              <div className="mb-8">
-                <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-                  <KeyRound className="w-7 h-7 text-primary" />
-                </div>
-
-                <h2 className="text-2xl font-bold mb-2">
-                  קוד אימות
-                </h2>
-
-                <p className="text-muted-foreground">
-                  הזן את הקוד שנשלח למספר {phone}
-                </p>
-              </div>
-
-              <Input
-                value={code}
-                onChange={(e) =>
-                  setCode(e.target.value.replace(/\D/g, ""))
-                }
-                placeholder="000000"
-                inputMode="numeric"
-                maxLength={6}
-                className="h-12 text-center text-xl tracking-widest"
-                dir="ltr"
-              />
-
-              <Button
-                className="w-full mt-5 h-12"
-                disabled={code.length < 6 || loading}
-                onClick={verifySmsCode}
-              >
-                {loading ? "מאמת..." : "כניסה לתורים שלי"}
-              </Button>
-
-              <button
-                onClick={() => {
-                  setStep("phone");
-                  setCode("");
-                  setFormattedPhone("");
-                }}
-                className="w-full mt-4 text-sm text-muted-foreground"
-              >
-                שינוי מספר טלפון
-              </button>
-
-              <button
-                onClick={sendSmsCode}
-                disabled={loading}
-                className="w-full mt-3 text-sm text-primary"
-              >
-                שליחת קוד מחדש
-              </button>
-            </>
-          )}
-
-          {/* STEP 3 - Verified */}
-          {step === "success" && (
-            <div className="text-center pt-10">
-              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5">
-                <CheckCircle2 className="w-8 h-8 text-primary" />
-              </div>
-
-              <h2 className="text-2xl font-bold mb-2">
-                התחברת בהצלחה
-              </h2>
-
-              <p className="text-muted-foreground mb-6">
-                מספר הטלפון שלך אומת בהצלחה.
+          {/* Error */}
+          {errorMessage && (
+            <Card className="p-5 text-center">
+              <p className="text-destructive">
+                {errorMessage}
               </p>
+            </Card>
+          )}
 
-              <Button
-                className="w-full h-12"
-                onClick={() => navigate("/")}
-              >
-                חזרה לדף הבית
-              </Button>
+          {/* No appointments */}
+          {!errorMessage &&
+            searched &&
+            appointments.length === 0 && (
+              <Card className="p-6 text-center rounded-2xl">
+                <CalendarDays className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
+
+                <h3 className="font-semibold text-lg mb-1">
+                  לא קיימים תורים
+                </h3>
+
+                <p className="text-sm text-muted-foreground mb-4">
+                  לא נמצא תור עבור מספר הטלפון הזה.
+                </p>
+
+                <Button onClick={() => navigate("/book")}>
+                  הזמנת תור חדש
+                </Button>
+              </Card>
+            )}
+
+          {/* Appointments */}
+          {!errorMessage && appointments.length > 0 && (
+            <div className="space-y-3">
+              <h3 className="font-semibold text-lg">
+                התורים שלך
+              </h3>
+
+              {appointments.map((appointment) => (
+                <Card
+                  key={appointment.id}
+                  className="p-4 rounded-2xl"
+                >
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-2">
+                      <Scissors className="w-5 h-5 text-primary" />
+
+                      <span className="font-semibold">
+                        {appointment.service_type}
+                      </span>
+                    </div>
+
+                    <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full">
+                      {statusLabel(appointment.status)}
+                    </span>
+                  </div>
+
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <CalendarDays className="w-4 h-4" />
+                      <span>{appointment.appointment_date}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Clock className="w-4 h-4" />
+                      <span>{appointment.appointment_time}</span>
+                    </div>
+                  </div>
+                </Card>
+              ))}
             </div>
           )}
         </div>

@@ -16,6 +16,8 @@ import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
+import MobilePageHeader from "@/components/MobilePageHeader";
+
 
 interface BookedAppointment {
   customerName: string;
@@ -41,6 +43,17 @@ const [customerName, setCustomerName] = useState('');
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [bookedAppointment, setBookedAppointment] = useState<BookedAppointment | null>(null);
+  const normalizeCustomerPhone = (value: string) => {
+  const cleaned = value.replace(/\D/g, "");
+
+  // +97252... / 97252... -> 052...
+  if (cleaned.startsWith("972")) {
+    return `0${cleaned.substring(3)}`;
+  }
+
+  return cleaned;
+};
+
 
   // Regular weekly schedule — Sunday closed, Mon-Sat 10:00-20:00
   const regularWeeklySchedule: Record<number, { start: number; end: number } | null> = {
@@ -152,12 +165,12 @@ const handleSubmit = async (e: React.FormEvent) => {
       setLoading(false);
       return;
     }
-
+    const normalizedPhone = normalizeCustomerPhone(customerPhone);
     // Check if this phone number already has an appointment on this date
     const { data: existingAppointment, error: checkError } = await supabase
       .from('appointments')
       .select('id')
-      .eq('customer_phone', customerPhone)
+      .eq('customer_phone', normalizedPhone)
       .eq('appointment_date', format(date, 'yyyy-MM-dd'))
       .neq('status', 'cancelled')
       .maybeSingle();
@@ -184,7 +197,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     const { error } = await supabase.from('appointments').insert({
       customer_name: customerName,
-      customer_phone: customerPhone,
+      customer_phone: normalizedPhone,
       service_type: selectedServices.join(', '),
       appointment_date: format(date, 'yyyy-MM-dd'),
       appointment_time: time,
@@ -279,8 +292,12 @@ const handleSubmit = async (e: React.FormEvent) => {
   };
 
   return (
-    <div className="min-h-screen bg-background py-20">
-      <div className="container mx-auto px-4">
+  <div className="min-h-screen bg-background pb-20">
+
+    <MobilePageHeader title="קביעת תור" />
+
+    <div className="container mx-auto px-4 py-8">
+
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-2">

@@ -1,5 +1,10 @@
 import { CalendarDays, Clock3, Home, MoreHorizontal } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import MobileServices from "@/components/MobileServices";
+import OpeningHours from "@/components/OpeningHours";
+import Contact from "@/components/Contact";
+
+
 
 const MobileHome = () => {
   const navigate = useNavigate();
@@ -47,22 +52,16 @@ const MobileHome = () => {
           </div>
         </section>
 
-        {/* Opening hours */}
-        <section>
-          <h2 className="font-semibold text-lg mb-3">המספרה</h2>
+{/* Services & Prices */}
+<MobileServices />
 
-          <div className="border border-border rounded-2xl p-4 flex items-center gap-3">
-            <Clock3 className="w-5 h-5 text-primary" />
-
-            <div>
-              <p className="font-medium">שעות פעילות</p>
-              <p className="text-sm text-muted-foreground">
-                הצג שעות פתיחה ופרטי העסק
-              </p>
-            </div>
-          </div>
-        </section>
+        
+        {/* Opening Hours */}
+<OpeningHours />
       </main>
+
+        {/* Contact, Location & Social Media */}
+<Contact />
 
       {/* Bottom Navigation */}
       <nav
