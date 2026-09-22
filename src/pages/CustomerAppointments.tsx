@@ -1,5 +1,5 @@
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MobilePageHeader from "@/components/MobilePageHeader";
 import {
@@ -14,6 +14,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { Capacitor } from "@capacitor/core";
+import { useCustomerAuth } from "@/contexts/CustomerAuthContext";
 
 interface Appointment {
   id: string;
@@ -26,6 +28,11 @@ interface Appointment {
 const CustomerAppointments = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { user, profile } = useCustomerAuth();
+  const isNativeApp = Capacitor.isNativePlatform();
+  // Native = authenticated customer, identified by user_id only, never phone.
+  // Web = existing guest phone-lookup flow, unchanged.
+  const isNativeCustomer = isNativeApp && !!user && !!profile;
 
   const [phone, setPhone] = useState("");
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -83,6 +90,53 @@ const CustomerAppointments = () => {
     setLoading(false);
   };
 
+  // Native authenticated customers: load directly by user_id. RLS is the
+  // real security boundary (customers can only SELECT their own rows) —
+  // phone is never used for authorization here.
+  const fetchNativeAppointments = async () => {
+    if (!user) return;
+
+    setLoading(true);
+    setSearched(false);
+    setErrorMessage("");
+    setAppointments([]);
+
+    // Cast needed until types.ts is regenerated with appointments.user_id.
+    const { data, error } = await supabase
+      .from("appointments" as any)
+      .select("id, service_type, appointment_date, appointment_time, status")
+      .eq("user_id", user.id)
+      .order("appointment_date", { ascending: true })
+      .order("appointment_time", { ascending: true });
+
+    if (error) {
+      console.error("Native appointments lookup error:", error);
+      setErrorMessage(t("appointmentsLoadError"));
+    } else {
+      setAppointments((data as unknown as Appointment[]) || []);
+    }
+
+    setSearched(true);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (!isNativeApp) return;
+
+    if (isNativeCustomer) {
+      fetchNativeAppointments();
+    } else {
+      // Native but no authenticated customer somehow (shouldn't happen —
+      // RequireCustomerAuth already gates this route). Never fall back to
+      // phone lookup, never expose data; just show a safe empty state.
+      setAppointments([]);
+      setErrorMessage("");
+      setSearched(true);
+      setLoading(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isNativeApp, isNativeCustomer, user?.id]);
+
   const statusLabel = (status: string) => {
   switch (status) {
     case "confirmed":
@@ -110,38 +164,47 @@ const CustomerAppointments = () => {
       <main className="px-5 py-8">
         <div className="max-w-md mx-auto">
 
-          {/* Search */}
-          <div className="mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
-              <Phone className="w-7 h-7 text-primary" />
+          {/* Search — web guest lookup only, never rendered on native */}
+          {!isNativeApp && (
+            <div className="mb-8">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mb-4">
+                <Phone className="w-7 h-7 text-primary" />
+              </div>
+
+              <h2 className="text-2xl font-bold mb-2">
+    {t("findAppointments")}
+  </h2>
+
+              <p className="text-muted-foreground mb-5">
+    {t("enterBookingPhone")}
+  </p>
+
+              <Input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                placeholder="05X-XXXXXXX"
+                className="h-12"
+                dir="ltr"
+              />
+
+              <Button
+                onClick={searchAppointments}
+                disabled={!phone.trim() || loading}
+                className="w-full h-12 mt-4"
+              >
+                <Search className="w-4 h-4 me-2" />
+                {loading ? t("loading") : t("showMyAppointments")}
+              </Button>
             </div>
+          )}
 
-            <h2 className="text-2xl font-bold mb-2">
-  {t("findAppointments")}
-</h2>
-
-            <p className="text-muted-foreground mb-5">
-  {t("enterBookingPhone")}
-</p>
-
-            <Input
-              type="tel"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="05X-XXXXXXX"
-              className="h-12"
-              dir="ltr"
-            />
-
-            <Button
-              onClick={searchAppointments}
-              disabled={!phone.trim() || loading}
-              className="w-full h-12 mt-4"
-            >
-              <Search className="w-4 h-4 me-2" />
-              {loading ? t("loading") : t("showMyAppointments")}
-            </Button>
-          </div>
+          {/* Native loading state while the authenticated customer's appointments load */}
+          {isNativeApp && loading && (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            </div>
+          )}
 
           {/* Error */}
           {errorMessage && (
@@ -164,7 +227,7 @@ const CustomerAppointments = () => {
                 </h3>
 
                 <p className="text-sm text-muted-foreground mb-4">
-                 {t("noAppointmentForPhone")}
+                 {isNativeApp ? t("noAppointmentForCustomer") : t("noAppointmentForPhone")}
                 </p>
 
                 <Button onClick={() => navigate("/book")}>

@@ -159,6 +159,7 @@ const translations = {
     completed: 'Completed',
     cancelled: 'Cancelled',
     noAppointmentForPhone: 'No appointment was found for this phone number.',
+    noAppointmentForCustomer: 'You have no appointments yet.',
     totalPrice: 'Total Price',
     appointmentConfirmed: 'Appointment Confirmed!',
     sendWhatsAppConfirmation: 'Send WhatsApp Confirmation',
@@ -231,6 +232,7 @@ showMyAppointments: 'הצגת התורים שלי',
     bookNow: 'קבע תור',
     findAppointments: 'מציאת התורים שלך',
     noAppointmentForPhone: 'לא נמצא תור עבור מספר הטלפון הזה.',
+    noAppointmentForCustomer: 'עדיין אין לך תורים.',
     
     // About
     aboutTitle: 'אודותינו',
@@ -467,6 +469,7 @@ ar: {
   customerFocus: 'راحة العميل',
   customerFocusDesc: 'رضاك هو أولويتنا',
   noAppointmentForPhone: 'لم يتم العثور على موعد لهذا الرقم.',
+  noAppointmentForCustomer: 'ليس لديك أي مواعيد بعد.',
 
   // Opening Hours
   openingHoursTitle: 'ساعات العمل',
