@@ -5,8 +5,19 @@ import OpeningHours from "@/components/OpeningHours";
 import Contact from "@/components/Contact";
 import logo from "@/assets/ale-barber-logo.png";
 import heroBarber from "@/assets/hero-barber-alt.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useCustomerAuth } from "@/contexts/CustomerAuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { format } from "date-fns";
+
+interface UpcomingAppointment {
+  id: string;
+  service_type: string;
+  appointment_date: string;
+  appointment_time: string;
+  status: string;
+}
 
 
 
@@ -16,6 +27,59 @@ const MobileHome = () => {
   const navigate = useNavigate();
   const { language, setLanguage, t } = useLanguage();
 const [showLanguages, setShowLanguages] = useState(false);
+  const { user } = useCustomerAuth();
+  const [upcomingAppointment, setUpcomingAppointment] = useState<UpcomingAppointment | null>(null);
+
+  // Nearest upcoming appointment for the authenticated customer, by user_id
+  // only — never by phone. RLS already restricts this to the caller's own rows.
+  useEffect(() => {
+    if (!user) {
+      setUpcomingAppointment(null);
+      return;
+    }
+
+    let isCancelled = false;
+
+    const fetchUpcomingAppointment = async () => {
+      const todayDate = format(new Date(), "yyyy-MM-dd");
+
+      // Cast needed until types.ts is regenerated with appointments.user_id.
+      const { data, error } = await supabase
+        .from("appointments" as any)
+        .select("id, service_type, appointment_date, appointment_time, status")
+        .eq("user_id", user.id)
+        .neq("status", "cancelled")
+        .gte("appointment_date", todayDate)
+        .order("appointment_date", { ascending: true })
+        .order("appointment_time", { ascending: true })
+        .limit(5);
+
+      if (isCancelled) return;
+
+      if (error) {
+        console.error("Upcoming appointment lookup error:", error);
+        setUpcomingAppointment(null);
+        return;
+      }
+
+      // gte(today) can still include today's already-passed appointments —
+      // find the first one that hasn't actually passed yet.
+      const now = new Date();
+      const rows = (data as unknown as UpcomingAppointment[]) || [];
+      const nextAppointment = rows.find((appt) => {
+        const apptDateTime = new Date(`${appt.appointment_date}T${appt.appointment_time}`);
+        return apptDateTime.getTime() >= now.getTime();
+      });
+
+      setUpcomingAppointment(nextAppointment ?? null);
+    };
+
+    fetchUpcomingAppointment();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [user?.id]);
 
   return (
     <div className="min-h-screen bg-background pb-24">
@@ -127,9 +191,23 @@ const [showLanguages, setShowLanguages] = useState(false);
 </h2>
 
           <div className="border border-border rounded-2xl p-4">
-            <p className="text-muted-foreground text-sm">
-             {t("noUpcomingAppointment")}
-            </p>
+            {upcomingAppointment ? (
+              <>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="font-semibold">{upcomingAppointment.service_type}</span>
+                  <span className="text-xs bg-primary/10 text-primary px-3 py-1 rounded-full">
+                    {t(upcomingAppointment.status)}
+                  </span>
+                </div>
+                <p className="text-muted-foreground text-sm mt-2">
+                  {format(new Date(upcomingAppointment.appointment_date), "dd/MM/yyyy")} · {upcomingAppointment.appointment_time.substring(0, 5)}
+                </p>
+              </>
+            ) : (
+              <p className="text-muted-foreground text-sm">
+               {t("noUpcomingAppointment")}
+              </p>
+            )}
 
             <button
   onClick={() => navigate("/my-appointments")}
