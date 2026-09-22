@@ -1,3 +1,4 @@
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MobilePageHeader from "@/components/MobilePageHeader";
@@ -24,6 +25,7 @@ interface Appointment {
 
 const CustomerAppointments = () => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const [phone, setPhone] = useState("");
   const [appointments, setAppointments] = useState<Appointment[]>([]);
@@ -71,7 +73,8 @@ const CustomerAppointments = () => {
 
     if (error) {
       console.error("Appointments lookup error:", error);
-      setErrorMessage("לא ניתן לטעון את התורים כרגע.");
+      setErrorMessage(t("appointmentsLoadError"));
+     
     } else {
       setAppointments(data || []);
     }
@@ -81,24 +84,28 @@ const CustomerAppointments = () => {
   };
 
   const statusLabel = (status: string) => {
-    switch (status) {
-      case "confirmed":
-        return "מאושר";
-      case "pending":
-        return "ממתין לאישור";
-      case "completed":
-        return "הושלם";
-      case "cancelled":
-        return "בוטל";
-      default:
-        return status;
-    }
-  };
+  switch (status) {
+    case "confirmed":
+      return t("confirmed");
+
+    case "pending":
+      return t("pending");
+
+    case "completed":
+      return t("completed");
+
+    case "cancelled":
+      return t("cancelled");
+
+    default:
+      return status;
+  }
+};
 
   return (
     <div className="min-h-screen bg-background pb-10">
       {/* Header */}
-      <MobilePageHeader title="התורים שלי" />
+      <MobilePageHeader title={t("myAppointments")} />
 
       <main className="px-5 py-8">
         <div className="max-w-md mx-auto">
@@ -110,12 +117,12 @@ const CustomerAppointments = () => {
             </div>
 
             <h2 className="text-2xl font-bold mb-2">
-              מציאת התורים שלך
-            </h2>
+  {t("findAppointments")}
+</h2>
 
             <p className="text-muted-foreground mb-5">
-              הכנס את מספר הטלפון שאיתו בוצעה ההזמנה.
-            </p>
+  {t("enterBookingPhone")}
+</p>
 
             <Input
               type="tel"
@@ -132,7 +139,7 @@ const CustomerAppointments = () => {
               className="w-full h-12 mt-4"
             >
               <Search className="w-4 h-4 me-2" />
-              {loading ? "מחפש..." : "הצגת התורים שלי"}
+              {loading ? t("loading") : t("showMyAppointments")}
             </Button>
           </div>
 
@@ -153,15 +160,15 @@ const CustomerAppointments = () => {
                 <CalendarDays className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
 
                 <h3 className="font-semibold text-lg mb-1">
-                  לא קיימים תורים
+                 {t("noAppointmentsFound")}
                 </h3>
 
                 <p className="text-sm text-muted-foreground mb-4">
-                  לא נמצא תור עבור מספר הטלפון הזה.
+                 {t("noAppointmentForPhone")}
                 </p>
 
                 <Button onClick={() => navigate("/book")}>
-                  הזמנת תור חדש
+                 {t("bookNewAppointment")}
                 </Button>
               </Card>
             )}
@@ -170,7 +177,7 @@ const CustomerAppointments = () => {
           {!errorMessage && appointments.length > 0 && (
             <div className="space-y-3">
               <h3 className="font-semibold text-lg">
-                התורים שלך
+               {t("yourAppointments")}
               </h3>
 
               {appointments.map((appointment) => (

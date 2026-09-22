@@ -294,7 +294,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   return (
   <div className="min-h-screen bg-background pb-20">
 
-    <MobilePageHeader title="קביעת תור" />
+    <MobilePageHeader title={t("bookAppointment")} />
 
     <div className="container mx-auto px-4 py-8">
 

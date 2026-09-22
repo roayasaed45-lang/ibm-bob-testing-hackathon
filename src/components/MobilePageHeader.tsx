@@ -1,4 +1,5 @@
 import { Home } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useNavigate } from "react-router-dom";
 
 interface MobilePageHeaderProps {
@@ -7,6 +8,7 @@ interface MobilePageHeaderProps {
 
 const MobilePageHeader = ({ title }: MobilePageHeaderProps) => {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <header
@@ -24,7 +26,7 @@ const MobilePageHeader = ({ title }: MobilePageHeaderProps) => {
           className="flex items-center gap-2 px-3 py-2 rounded-xl bg-muted hover:bg-muted/80"
         >
           <Home className="w-5 h-5" />
-          <span className="text-sm font-medium">בית</span>
+          <span className="text-sm font-medium">{t("home")}</span>
         </button>
       </div>
     </header>
