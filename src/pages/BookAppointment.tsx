@@ -17,6 +17,8 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import MobilePageHeader from "@/components/MobilePageHeader";
+import { Capacitor } from '@capacitor/core';
+import { useCustomerAuth } from '@/contexts/CustomerAuthContext';
 
 
 interface BookedAppointment {
@@ -31,6 +33,11 @@ const BookAppointment = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t } = useLanguage();
+  const { user, profile } = useCustomerAuth();
+  const isNativeApp = Capacitor.isNativePlatform();
+  // Native = authenticated customer booking only; identity fields are sourced
+  // from the profile and locked. Web keeps the existing guest flow untouched.
+  const isNativeCustomer = isNativeApp && !!user && !!profile;
 
 const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
@@ -54,6 +61,14 @@ const [customerName, setCustomerName] = useState('');
   return cleaned;
 };
 
+  // Native authenticated customers: identity comes from their profile, not
+  // free-text input. profile.phone is already in canonical normalized form.
+  useEffect(() => {
+    if (isNativeCustomer && profile) {
+      setCustomerName(profile.full_name);
+      setCustomerPhone(profile.phone);
+    }
+  }, [isNativeCustomer, profile]);
 
   // Regular weekly schedule — Sunday closed, Mon-Sat 10:00-20:00
   const regularWeeklySchedule: Record<number, { start: number; end: number } | null> = {
@@ -156,6 +171,18 @@ const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
+    // Defensive: native customer routes are already gated by
+    // RequireCustomerAuth, but never fall back to a guest insert on native.
+    if (isNativeApp && (!user || !profile)) {
+      toast({
+        variant: 'destructive',
+        title: t('error'),
+        description: t('bookingError') || 'לא ניתן לבצע את ההזמנה. נסה שוב.',
+      });
+      setLoading(false);
+      return;
+    }
+
     if (!customerName || !customerPhone || selectedServices.length === 0 || !date || !time) {
       toast({
         variant: 'destructive',
@@ -165,7 +192,10 @@ const handleSubmit = async (e: React.FormEvent) => {
       setLoading(false);
       return;
     }
-    const normalizedPhone = normalizeCustomerPhone(customerPhone);
+    // Native authenticated customers: use the profile's already-canonical
+    // phone as-is. Web guests: keep the existing normalization unchanged.
+    const normalizedPhone = isNativeCustomer ? profile!.phone : normalizeCustomerPhone(customerPhone);
+    const nameForBooking = isNativeCustomer ? profile!.full_name : customerName;
     // Check if this phone number already has an appointment on this date
     const { data: existingAppointment, error: checkError } = await supabase
       .from('appointments')
@@ -195,15 +225,24 @@ const handleSubmit = async (e: React.FormEvent) => {
       return;
     }
 
-    const { error } = await supabase.from('appointments').insert({
-      customer_name: customerName,
+    // user_id is never taken from form state — only ever the authenticated
+    // Supabase user's own id (native), or omitted entirely (web guest, same
+    // as today's behavior).
+    const insertPayload: Record<string, unknown> = {
+      customer_name: nameForBooking,
       customer_phone: normalizedPhone,
       service_type: selectedServices.join(', '),
       appointment_date: format(date, 'yyyy-MM-dd'),
       appointment_time: time,
       notes: notes || null,
       status: 'pending',
-    });
+    };
+    if (isNativeCustomer) {
+      insertPayload.user_id = user!.id;
+    }
+
+    // Cast needed until types.ts is regenerated with the appointments.user_id column.
+    const { error } = await supabase.from('appointments').insert(insertPayload as any);
 
     if (error) {
       // Map database errors to user-friendly messages
@@ -321,6 +360,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
                   placeholder={t('enterFullName')}
+                  readOnly={isNativeCustomer}
                   required
                 />
               </div>
@@ -333,6 +373,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
                   placeholder={t('enterPhone')}
+                  readOnly={isNativeCustomer}
                   required
                 />
               </div>
