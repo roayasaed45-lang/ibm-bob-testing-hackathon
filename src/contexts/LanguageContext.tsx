@@ -101,6 +101,7 @@ const translations = {
     // Auth
     login: 'Login',
     logout: 'Logout',
+    logoutFailed: 'Unable to log out. Please try again.',
     signup: 'Sign Up',
     password: 'Password',
     enterPassword: 'Enter your password',
@@ -312,6 +313,7 @@ showMyAppointments: 'הצגת התורים שלי',
     // Auth
     login: 'התחברות',
     logout: 'התנתקות',
+    logoutFailed: 'לא ניתן להתנתק. נסה שוב.',
     signup: 'הרשמה',
     password: 'סיסמה',
     enterPassword: 'הזן סיסמה',
@@ -504,6 +506,7 @@ ar: {
   // Auth
   login: 'تسجيل الدخول',
   logout: 'تسجيل الخروج',
+  logoutFailed: 'تعذر تسجيل الخروج. حاول مرة أخرى.',
   signup: 'إنشاء حساب',
   password: 'كلمة المرور',
   enterPassword: 'أدخل كلمة المرور',

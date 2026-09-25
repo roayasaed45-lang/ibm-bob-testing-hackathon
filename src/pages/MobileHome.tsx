@@ -1,4 +1,4 @@
-import { CalendarDays, Clock3, Home, Grid2X2, Languages } from "lucide-react";
+import { CalendarDays, Clock3, Home, Grid2X2, Languages, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import MobileServices from "@/components/MobileServices";
 import OpeningHours from "@/components/OpeningHours";
@@ -10,6 +10,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useCustomerAuth } from "@/contexts/CustomerAuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 
 interface UpcomingAppointment {
   id: string;
@@ -27,8 +28,30 @@ const MobileHome = () => {
   const navigate = useNavigate();
   const { language, setLanguage, t } = useLanguage();
 const [showLanguages, setShowLanguages] = useState(false);
-  const { user } = useCustomerAuth();
+  const { user, signOut } = useCustomerAuth();
+  const { toast } = useToast();
   const [upcomingAppointment, setUpcomingAppointment] = useState<UpcomingAppointment | null>(null);
+  const [loggingOut, setLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    if (loggingOut) return;
+    setLoggingOut(true);
+
+    const { error } = await signOut();
+
+    if (error) {
+      console.error("Customer logout error:", error);
+      toast({
+        variant: "destructive",
+        title: t("error"),
+        description: t("logoutFailed"),
+      });
+      setLoggingOut(false);
+      return;
+    }
+
+    navigate("/customer-login");
+  };
 
   // Nearest upcoming appointment for the authenticated customer, by user_id
   // only — never by phone. RLS already restricts this to the caller's own rows.
@@ -87,6 +110,8 @@ const [showLanguages, setShowLanguages] = useState(false);
       <header className="px-5 pt-4 pb-4 border-b border-border">
   <div className="flex items-center justify-between" dir="ltr">
 
+    {/* Left controls: language + logout */}
+    <div className="flex items-center gap-2">
     {/* Language */}
     <div className="relative">
       <button
@@ -129,6 +154,18 @@ const [showLanguages, setShowLanguages] = useState(false);
           </button>
         </div>
       )}
+    </div>
+
+    {/* Logout — native authenticated customer only */}
+    {user && (
+      <button
+        onClick={handleLogout}
+        disabled={loggingOut}
+        className="w-11 h-11 rounded-xl border border-border flex items-center justify-center bg-background"
+      >
+        <LogOut className="w-5 h-5 text-primary" />
+      </button>
+    )}
     </div>
 
     {/* Logo */}
