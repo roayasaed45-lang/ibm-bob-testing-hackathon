@@ -22,6 +22,7 @@ export default defineConfig(({ mode }) => ({
     coverage: {
       provider: "v8",
       include: [
+        "src/lib/phoneUtils.ts",
         "src/contexts/CustomerAuthContext.tsx",
         "src/pages/CustomerLogin.tsx",
       ],
